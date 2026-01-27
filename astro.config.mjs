@@ -315,7 +315,8 @@ export default defineConfig({
                         items: [
                               'docs/developers/mezo-nodes',
                               'docs/developers/mezo-nodes/validator-kit',
-                              'docs/developers/mezo-nodes/validators'
+                              'docs/developers/mezo-nodes/validators',
+                              'docs/developers/mezo-nodes/claiming-rewards'
                         ]
                   },
                   {
