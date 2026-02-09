@@ -10,7 +10,7 @@ veBTC is the tokenized (NFT) representation of BTC locked on Mezo Network. Locki
 
 When you lock BTC on Mezo, you receive a veBTC NFT that represents your locked position. This NFT gives you:
 
-- **Voting power** to direct mats emissions across the ecosystem
+- **Voting power** to direct emissions across the ecosystem
 - **Protocol fees** from chain activity and bridging
 - **Governance rights** to shape Mezo's economic future
 
@@ -61,7 +61,7 @@ Mezo Earn operates in **7-day cycles called epochs**. Each epoch begins on Thurs
 
 ### Why Epochs Matter
 
-- **Votes do not persist.** You must vote every epoch to earn fees and mats emissions. If you don't vote in an epoch, you forfeit active earnings for that period.
+- **Votes do not persist.** You must vote every epoch to earn fees and emissions. If you don't vote in an epoch, you forfeit active earnings for that period.
 - **Votes cast in epoch N** determine emission allocation for epoch N+1
 - **Fees generated in epoch N** are distributed based on votes cast in epoch N
 
