@@ -73,7 +73,7 @@ You can optionally stake your sMUSD receipt token in the MUSD Savings gauge to e
 - **Unstaked sMUSD:** You earn your proportional share of vault yield and MUSD interest/fee revenue directly
 - **Staked sMUSD:** Your portion of interest and fee revenue is redirected to veBTC voters on the gauge. In exchange, you earn emissions based on how many votes the gauge receives
 
-This mirrors how LP staking works in pools — stakers give up fee revenue in exchange for mats, while voters earn the redirected fees.
+This mirrors how LP staking works in pools — stakers give up fee revenue in exchange for emissions, while voters earn the redirected fees.
 
 The MUSD Savings Rate gauge competes for votes alongside LP pool gauges. These are collectively called "staking gauges" — a vote allocated to the savings rate gauge cannot also be allocated to an LP gauge.
 
