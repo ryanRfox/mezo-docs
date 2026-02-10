@@ -60,9 +60,9 @@ Get testnet funds with the Mezo faucet: [https://faucet.test.mezo.org/](https://
 
 ​[The Supernormal Foundation](https://www.supernormal.foundation/) is the dedicated organization tasked with building, governing, and growing the Mezo network and the MUSD economy. It operates with a community-powered ethos and is the primary source of formal support for builders.
 
-**Alpha Builder Program**
+**Mezo Founder Program**
 
-​[The Alpha Builder Program](https://mezo.org/blog/apply-to-mezos-alpha-builder-program/) is the flagship initiative for early-stage developers and projects (MVP must be live on testnet) looking to build on Mezo and integrate MUSD. The program is designed to catalyze innovation in the BitcoinFi space.
+​[The Mezo Founder Program](https://www.supernormal.foundation/initiative/mezo-founder-program) is the flagship initiative for early-stage developers and projects (MVP must be live on testnet) looking to build on Mezo and integrate MUSD. The program is designed to catalyze innovation in the BitcoinFi space.
 
 * **Benefits:** Qualified teams gain priority access to a comprehensive suite of resources, including:
   * **Grants:** Financial support to accelerate development.
@@ -70,7 +70,7 @@ Get testnet funds with the Mezo faucet: [https://faucet.test.mezo.org/](https://
   * **Networking:** Connections to other builders and leaders in the ecosystem.
   * **Hands-on Integration Support:** Direct technical assistance to ensure a smooth deployment on Mezo.
 
-​[**Apply Here**](https://2d0lnha7ee6.typeform.com/to/B9jzgjb6?ref=mezo.org\&typeform-source=mezo.org)​
+​[**Apply Now**](https://form.typeform.com/to/eMtcxecA?typeform-source=www.supernormal.foundation#form_name=xxxxx&form_type=xxxxx)​
 
 **​**[**BitcoinFi Accelerator**](https://bitcoinfi.network/)
 
@@ -80,10 +80,6 @@ For projects that are more mature or have ambitious growth plans, the Supernorma
 
 The central hub for all community and developer interaction within the Mezo ecosystem is the [official Discord server.](https://discord.com/invite/mezo)​
 
-#### How do I provide feedback or report an issue? <a href="#how-do-i-provide-feedback-or-report-an-issue" id="how-do-i-provide-feedback-or-report-an-issue"></a>
-
-Developers may leave feedback [here](https://2d0lnha7ee6.typeform.com/to/bP810Y2I).
-
 #### Who Are Your Partners and How Do I Integrate Them? <a href="#who-are-your-partners-and-how-do-i-integrate-them" id="who-are-your-partners-and-how-do-i-integrate-them"></a>
 
-See the up-to-date list in [Integrations & Partners](integrations-and-partners.md).
+See the up-to-date list in [Integrations & Partners](https://mezo.org/docs/developers/getting-started/integrations-and-partners).
