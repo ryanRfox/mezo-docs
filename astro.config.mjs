@@ -346,7 +346,10 @@ export default defineConfig({
                               'docs/developers/musd/musd-redemptions'
                         ]
                   },
-                  'docs/developers/chains',
+                  {
+                        slug: 'docs/developers/chains',
+                        label: 'Network & RPC'
+                  },
                   'docs/developers/subgraphs'
             ]
       }
