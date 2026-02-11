@@ -103,7 +103,10 @@ if (howToConfig) {
 }
 ---
 
-{/* Re-render all default Starlight head entries (title, meta, OG, canonical, etc.) */}
+{/*
+  Re-render all default Starlight head entries (title, meta, OG, canonical, etc.).
+  This includes the Organization and WebSite JSON-LD schemas configured in astro.config.mjs.
+*/}
 {head.map(({ tag: Tag, attrs, content }) => <Tag {...attrs} set:html={content} />)}
 
 {/* WebPage / TechArticle — every page */}

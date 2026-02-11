@@ -161,14 +161,6 @@ export default defineConfig({
                         ]
                   },
                   {
-                        label: 'mats',
-                        collapsed: true,
-                        items: [
-                              'docs/users/mats/mats-overview',
-                              'docs/users/mats/rewards-hub'
-                        ]
-                  },
-                  {
                         label: 'MUSD',
                         collapsed: true,
                         items: [
@@ -455,23 +447,23 @@ export default defineConfig({
 		},
 		'/docs/users/user-guides/mats': {
 			status: 301,
-			destination: '/docs/users/mats/mats-overview'
+			destination: '/docs/users/'
 		},
 		'/docs/users/user-guides/mats/mats-for-btc': {
 			status: 301,
-			destination: '/docs/users/mats/mats-overview'
+			destination: '/docs/users/'
 		},
 		'/docs/users/user-guides/mats/mats-for-stablecoins': {
 			status: 301,
-			destination: '/docs/users/mats/mats-overview'
+			destination: '/docs/users/'
 		},
 		'/docs/users/user-guides/mats/leaderboard-and-my-mats': {
 			status: 301,
-			destination: '/docs/users/mats/rewards-hub'
+			destination: '/docs/users/'
 		},
 		'/docs/users/user-guides/mats/invite-bonus': {
 			status: 301,
-			destination: '/docs/users/mats/mats-overview'
+			destination: '/docs/users/'
 		},
 		'/docs/users/official-links/mezo-community': {
 			status: 301,
@@ -495,23 +487,23 @@ export default defineConfig({
 		},
 		'/docs/users/concepts/mats': {
 			status: 301,
-			destination: '/docs/users/mats/mats-overview'
+			destination: '/docs/users/'
 		},
 		'/docs/users/concepts/mats/mats-for-btc': {
 			status: 301,
-			destination: '/docs/users/mats/mats-overview'
+			destination: '/docs/users/'
 		},
 		'/docs/users/concepts/mats/mats-for-stablecoins': {
 			status: 301,
-			destination: '/docs/users/mats/mats-overview'
+			destination: '/docs/users/'
 		},
 		'/docs/users/concepts/mats/leaderboard-and-my-mats': {
 			status: 301,
-			destination: '/docs/users/mats/rewards-hub'
+			destination: '/docs/users/'
 		},
 		'/docs/users/concepts/mats/invite-bonus': {
 			status: 301,
-			destination: '/docs/users/mats/mats-overview'
+			destination: '/docs/users/'
 		},
 		'/docs/users/concepts/stablecoins-and-erc-20': {
 			status: 301,
@@ -585,7 +577,7 @@ export default defineConfig({
 		},
 		'/docs/users/mainnet/mats': {
 			status: 301,
-			destination: '/docs/users/mats/mats-overview'
+			destination: '/docs/users/'
 		},
 		'/docs/users/introduction/what-is-mezo': {
 			status: 301,

@@ -48,7 +48,7 @@ Ready to become a liquidity provider? It's easy to get started. Visit the [Mezo 
    * Need MUSD? Mint it using your BTC on Mezo Borrow.
    * Need other assets or MUSD? Use [Mezo Pools](https://mezo.org/explore/pools) to trade for them.
 2. **Add Liquidity**: Navigate to the [Pools page on Mezo Explore](https://mezo.org/explore/pools). Select your desired pool, specify the amount you wish to deposit, and confirm the transaction. You will receive LP tokens in your wallet, representing your share of the pool.
-3. **Stake & Earn (Coming Soon)**: Once staking is live, simply return to the [Pools page](https://mezo.org/explore/pools), select your position, and stake your LP tokens to start earning more mats and more! Stay tuned.
+3. **Stake & Earn (Coming Soon)**: Once staking is live, simply return to the [Pools page](https://mezo.org/explore/pools), select your position, and stake your LP tokens to start earning more rewards. Stay tuned.
 
 ## Developer Resources
 

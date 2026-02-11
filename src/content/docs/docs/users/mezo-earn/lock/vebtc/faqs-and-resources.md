@@ -11,7 +11,7 @@ No. Locks are permanent until expiration. Choose your duration carefully.
 
 **What happens if I don't vote?**
 
-You won't earn any fees or mats emissions from gauges. However, you'll still receive bridging fees distributed to all veBTC holders.
+You won't earn any fees or emissions from gauges. However, you'll still receive bridging fees distributed to all veBTC holders.
 
 **Can I have multiple veBTC positions?**
 

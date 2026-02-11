@@ -50,18 +50,3 @@ Yes. Through Mezo's partnership with Bitrefill, you can purchase gift cards for 
 
 Bitcoin is held through Threshold Network's decentralized custody network, the largest decentralized Bitcoin bridge. All reserves are publicly verifiable 24/7 at tbtcscan.com. Smart contract audits have been completed. You maintain custody of your BTC—Mezo doesn't hold your keys.
 
-## What are mats?
-
-mats are Mezo's reward points system. You can earn mats on Mezo by interacting with the ecosystem, such as borrowing, spending MUSD at the Mezo Market, providing liquidity, and more. They have no current monetary value but unlock access to features and opportunities within the broader Bitcoin ecosystem. Think of mats as Bitcoin-friendly rewards points. With Lolli x Mezo partnership, alongside collecting mats on Mezo, Lolli users will be able to collect mats with their actions on Lolli. 
-
-## How can I earn mats on Lolli?
-
-On the web app, you can earn mats with the 3 Cups Game: It's a daily chance for you to play, have fun, and get extra rewards. mats rewards are coming to the mobile app soon! With the Lolli x Mezo partnership, you will earn mats whenever you earn sats: the daily stack and arcade.
-
-## How can I utilize my mats on Mezo?
-
-mats are Mezo's native rewards point. You can tip other community members, participate in games, complete community bounties, access exclusive features and leaderboards, and unlock exclusive features or financial opportunities in the Bitcoin ecosystem.
-
-## Can I convert mats to sats?
-
-No. mats and sats serve different purposes. Sats are real Bitcoin with monetary value that you earn and own immediately. mats are loyalty points that unlock ecosystem features and opportunities. You earn both simultaneously, but they don't convert to each other—sats build your Bitcoin wealth while mats unlock benefits.
