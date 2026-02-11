@@ -14,35 +14,44 @@ If Chainlist does not work, add the network manually using the network details b
 
 ## Mezo Mainnet
 
-* Public JSON RPC Endpoints:
-  * Boar:
-    * HTTPS: `https://rpc-http.mezo.boar.network`
-    * WSS: `wss://rpc-ws.mezo.boar.network`
-  * Imperator:
-    * HTTPS: `https://rpc_evm-mezo.imperator.co`
-    * WSS: `wss://ws_evm-mezo.imperator.co`
-  * Validation Cloud:
-    * HTTPS: `https://mainnet.mezo.public.validationcloud.io`
-    * WSS: `wss://mainnet.mezo.public.validationcloud.io`
-    * For higher rate limits and low-latency Mezo RPC, get your free API key at [validationcloud.io/mezo](https://www.validationcloud.io/mezo) or contact them at [validationcloud.io/contact](https://validationcloud.io/contact) for Enterprise plans.
-* Chain ID: `31612`
-* Native Currency:
-  * Name: Bitcoin
-  * Symbol: `BTC`
-  * Decimals: `18`
-* Block explorer: [https://explorer.mezo.org/](https://explorer.mezo.org/)
+### Public RPC Endpoints
+
+| Provider | HTTPS | WSS |
+|----------|-------|-----|
+| Boar | `https://rpc-http.mezo.boar.network` | `wss://rpc-ws.mezo.boar.network` |
+| Imperator | `https://rpc_evm-mezo.imperator.co` | `wss://ws_evm-mezo.imperator.co` |
+| Validation Cloud | `https://mainnet.mezo.public.validationcloud.io` | `wss://mainnet.mezo.public.validationcloud.io` |
+
+For higher rate limits and low-latency Mezo RPC, get your free Validation Cloud API key at [validationcloud.io/mezo](https://www.validationcloud.io/mezo) or contact them at [validationcloud.io/contact](https://validationcloud.io/contact) for Enterprise plans.
+
+### Network Details
+
+| Parameter | Value |
+|-----------|-------|
+| Chain ID | `31612` |
+| Currency | BTC (18 decimals) |
+| Block Explorer | [explorer.mezo.org](https://explorer.mezo.org/) |
 
 ## Mezo Testnet
 
-* Public JSON RPC Endpoint:
-  * HTTPS: `https://rpc.test.mezo.org`
-  * WSS: `wss://rpc-ws.test.mezo.org`
-* Chain ID: `31611`
-* Native Currency:
-  * Name: Bitcoin
-  * Symbol: `BTC`
-  * Decimals: `18`
-* Block explorer: [https://explorer.test.mezo.org/](https://explorer.test.mezo.org/)
+### Public RPC Endpoints
+
+| Protocol | URL |
+|----------|-----|
+| HTTPS | `https://rpc.test.mezo.org` |
+| WSS | `wss://rpc-ws.test.mezo.org` |
+
+### Network Details
+
+| Parameter | Value |
+|-----------|-------|
+| Chain ID | `31611` |
+| Currency | BTC (18 decimals) |
+| Block Explorer | [explorer.test.mezo.org](https://explorer.test.mezo.org/) |
+
+:::tip[Building on Mezo?]
+See the [Set Up Developer Environment](/docs/developers/getting-started/configure-environment) guide for Hardhat and Foundry configuration.
+:::
 
 ## Adding Mezo to your wallet manually
 

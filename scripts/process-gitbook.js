@@ -15,6 +15,11 @@ const CONFIG_FILE = path.join(__dirname, '../astro.config.mjs');
 const ASSETS_SOURCE = path.join(__dirname, '../public/docs/gitbook');
 const ASSETS_TARGET = path.join(__dirname, '../src/assets/gitbook');
 
+// Custom sidebar label overrides: slug → display label
+const SIDEBAR_LABEL_OVERRIDES = {
+  'docs/developers/chains': 'Network & RPC',
+};
+
 class GitbookProcessor {
   constructor() {
     this.summaryStructure = null;
@@ -168,7 +173,11 @@ class GitbookProcessor {
       } else if (!isHidden) {
         // Only include non-hidden pages
         if (typeof link === 'string' && link.length > prefix.length) {
-          items.push(link);
+          if (SIDEBAR_LABEL_OVERRIDES[link]) {
+            items.push({ slug: link, label: SIDEBAR_LABEL_OVERRIDES[link] });
+          } else {
+            items.push(link);
+          }
         }
       }
     }
