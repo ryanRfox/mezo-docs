@@ -40,7 +40,7 @@ These tokens represent your ownership of your assets in the pool and entitle you
 
 ## Gauges
 
-Gauges determine how emissions are distributed across pools. Each pool has an associated gauge, and every epoch (7 days), veBTC holders vote on which gauges should receive incentive emissions. Pools that receive more votes get a larger share of emissions for that epoch.
+Gauges determine how emissions are distributed across pools. Each pool has an associated gauge, and emissions are recalculated each epoch (7 days) based on veBTC holder votes. Votes persist between epochs unless voters change them, and pools with more votes receive a larger share of emissions. If a voter increases their voting power, they need to [poke their votes](/docs/users/mezo-earn/vote/how-to-vote/#how-to-poke) so the updated weight is applied.
 
 Pools with higher gauge votes receive more emissions, attracting more liquidity, which reduces slippage and increases trading volume. Higher volume generates more fees for LPs, creating a positive feedback loop across the ecosystem and aligning interests of LPs, voters, and traders.
 
@@ -75,7 +75,9 @@ You earn from two sources as an LP:
 
 ## Withdraw
 
- are returned to your wallet and stop earning emissions, but trading fees continue to accrue.**Unstaking:** Select "Unstake," enter the amount, and confirm. Your LP tokens
+ Your LP tokensare returned to your wallet and stop earning emissions, but trading fees continue to accrue.
+ 
+ **Unstaking:** Select "Unstake," enter the amount, and confirm. 
 
 **Removing liquidity:** Unstake your LP tokens first if needed, then click "Remove Liquidity" and confirm. Your LP tokens are burned and both underlying tokens are returned proportionally to your wallet.
 
