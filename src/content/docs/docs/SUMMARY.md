@@ -69,6 +69,7 @@ topic: users
     * [Brand Kit](users/resources/brand-kit.md)
     * [Contracts Reference](users/resources/contracts-reference.md)
     * [FAQs](users/resources/faqs.md)
+    * [Glossary](users/resources/glossary.md)
     * [Network Stats and Data](users/resources/network-stats.md)
     * [Release Notes](users/resources/release-notes.md)
     * [Support](users/resources/support.md)
