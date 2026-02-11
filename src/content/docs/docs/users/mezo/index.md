@@ -22,7 +22,7 @@ MEZO is used to:
 |  | MEZO | veMEZO |
 |---|---|---|
 | What it is | Liquid, transferable token | NFT representing locked MEZO |
-| How you get it | Purchase, earn, or receive via airdrop | Lock MEZO for 1 year to 4 years |
+| How you get it | Purchase, earn, or receive via airdrop | Lock MEZO for 1 week to 4 years |
 | What it does | Hold or trade | Boosts veBTC voting power, earns rebases |
 
 ## Key Properties

@@ -32,7 +32,7 @@ You can also auto-max lock your veMEZO, which will let you sustain the maximum 4
 
 | Parameter | Value |
 |---|---|
-| Minimum lock | 1 year |
+| Minimum lock | 1 week |
 | Maximum lock | 4 years (1,456 days) |
 | Lock decay | Linear — weight decreases continuously until reaching zero |
 
