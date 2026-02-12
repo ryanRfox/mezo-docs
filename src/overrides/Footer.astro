@@ -1,9 +1,15 @@
 ---
 import type { Props } from '@astrojs/starlight/props';
+import EditLink from 'virtual:starlight/components/EditLink';
+import LastUpdated from 'virtual:starlight/components/LastUpdated';
 import Pagination from 'virtual:starlight/components/Pagination';
 ---
 
 <footer class="sl-flex starlight-footer">
+  <div class="meta sl-flex">
+    <EditLink {...Astro.props} />
+    <LastUpdated {...Astro.props} />
+  </div>
   <Pagination {...Astro.props} />
 </footer>
 
@@ -11,6 +17,7 @@ import Pagination from 'virtual:starlight/components/Pagination';
   <div class="mezo-footer__bottom">
     <div>© 2025 Mezo</div>
     <div class="mezo-footer__links">
+      <a href="https://mezo.org" target="_blank" rel="noopener">mezo.org</a>
       <a href="https://mezo.org/terms" target="_blank" rel="noopener">Terms</a>
       <a href="https://mezo.org/privacy" target="_blank" rel="noopener">Privacy</a>
     </div>
@@ -22,6 +29,16 @@ import Pagination from 'virtual:starlight/components/Pagination';
     flex-direction: column;
     gap: 1.5rem;
     margin-top: 3rem;
+  }
+  .meta {
+    gap: 0.75rem 3rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+  }
+  .meta > :global(p:only-child) {
+    margin-inline-start: auto;
   }
 
   .mezo-footer {
