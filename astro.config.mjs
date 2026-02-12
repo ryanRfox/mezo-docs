@@ -118,7 +118,11 @@ export default defineConfig({
 				dark: './src/assets/mezo-logo-dark.svg',
 				replacesTitle: true,
 			},
-			pagination: true,
+			lastUpdated: true,
+		editLink: {
+			baseUrl: 'https://github.com/mezo-org/documentation/edit/main/',
+		},
+		pagination: true,
 			social: [
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/mezo-org' },
 				{ icon: 'discord', label: 'Discord', href: 'https://discord.mezo.org' },
@@ -272,6 +276,7 @@ export default defineConfig({
                               'docs/users/resources/brand-kit',
                               'docs/users/resources/contracts-reference',
                               'docs/users/resources/faqs',
+                              'docs/users/resources/glossary',
                               'docs/users/resources/network-stats',
                               'docs/users/resources/release-notes',
                               'docs/users/resources/support'
