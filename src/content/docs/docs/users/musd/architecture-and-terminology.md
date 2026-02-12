@@ -6,10 +6,12 @@ topic: users
 
 The [MUSD](https://mezo.org/feature/musd) system consists of four main contract groups:
 
-* Token (MUSD): The stablecoin at the heart of the system, designed to maintain a peg to USD.
-* Core Protocol: Handles the main operations like opening/closing positions, managing collateral, and maintaining system stability
-* Asset Pools: Manages the system’s various collateral and liquidity pools
-* Supporting Contracts: Provides essential services like price feeds, position sorting, and protocol-controlled value management
+| Contract Group | Purpose |
+| --- | --- |
+| **Token (MUSD)** | The stablecoin at the heart of the system, designed to maintain a peg to USD |
+| **Core Protocol** | Handles opening/closing positions, managing collateral, and maintaining system stability |
+| **Asset Pools** | Manages the system's various collateral and liquidity pools |
+| **Supporting Contracts** | Provides essential services like price feeds, position sorting, and protocol-controlled value management |
 
 ## Custody and collateral management
 
@@ -41,6 +43,10 @@ Liquidated positions are either paid for by the StabilityPool, in which case the
 
 * Global Interest Rate: A single global interest rate applies to all newly opened loans.
 * Maintaining Interest Rates: Once a loan is opened, it retains the interest rate at which it was created, even if the global rate changes. The interest rate on a loan can only be updated by the user through the refinance function.
+
+:::note
+Interest rates are **fixed for the life of the loan**. The rate you lock in at loan creation never changes unless you choose to refinance.
+:::
 * Refinance Function: The refinance function allows users to adjust their loan’s debt to the new global interest rate. This process incurs a refinancing fee, which is a configurable percentage of the issuance fee. Refinancing offers users the advantage of avoiding collateral movement while incurring lower fees compared to closing and reopening a loan at the updated rate. You can also refinance to extend your line of credit if BTC has appreciated in value.
 * Simple Interest: Interest is calculated using a simple interest model rather than a compounding one.
 * Interest Payments: Interest payments are directed to the PCV (Protocol Controlled Value). The allocation of these payments is governed and can be split between an arbitrary recipient and repayment of the bootstrap loan.
@@ -59,9 +65,13 @@ The Protocol Controlled Value (PCV) contract is a key component of the system, r
 * Governable Split: The allocation of fees between paying down the debt and the gauge system is governable. However, until the bootstrap loan is fully repaid, no more than 50% of the fees can be sent to the gauge system.
 * Post-Debt Repayment: Once the bootstrap loan is fully repaid, fees accrue as Protocol-Owned Liquidity in the StabilityPool.
 
+### Protocol Bootstrap Loan
+
+The Stability Pool is bootstrapped with a protocol loan against future fees and interest. The MUSD minted from this protocol loan is restricted to use in the Stability Pool. While the protocol loan is in place, a minimum of 50% of the interest and fees charged by the protocol are used to pay down the loan.
+
 ## Definitions
 
-loan : a collateralized debt position, bound to a single Ethereum address. Also referred to as a “CDP” in similar protocols.
+- **Loan:** a collateralized debt position, bound to a single Ethereum address. Also referred to as a "CDP" in similar protocols.
 
 - **Active collateral:** the amount of collateral recorded on a loan’s struct
 
@@ -75,7 +85,7 @@ loan : a collateralized debt position, bound to a single Ethereum address. Also 
 
 - **Entire debt:** the sum of a loan’s active debt plus its pending debt rewards accumulated from distributions
 
-- **Individual collateralization ratio (ICR):** a loan’s ICR is the ratio of the dollar value of its entire collateral at the current collateral:**USD price, to its entire debt
+- **Individual collateralization ratio (ICR):** a loan’s ICR is the ratio of the dollar value of its entire collateral at the current collateral:USD price, to its entire debt
 
 - **Nominal collateralization ratio (nominal ICR, NICR):** a loan’s nominal ICR is its entire collateral (in collateral) multiplied by 100e18 and divided by its entire debt.
 

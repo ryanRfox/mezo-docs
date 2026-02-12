@@ -22,8 +22,6 @@ topic: users
     * [Architecture and Terminology](users/musd/architecture-and-terminology.md)
     * [MUSD Liquidations & Redemptions](users/musd/liquidation-mechanics.md)
     * [MUSD Bridge](users/musd/musd-bridge.md)
-    * [Risks and Mitigations](users/musd/risks.md)
-    * [Concepts](users/musd/concepts.md)
   * [MEZO](users/mezo/index.md)
     * [MEZO Overview](users/mezo/index.md)
     * [Token Distribution](users/mezo/token-distribution.md)
