@@ -6,7 +6,7 @@ topic: users
 
 ## What is MUSD?
 
-Bitcoin holders have historically faced an impossible choice: sell your BTC to cover expenses, trust a centralized lender to hold custody of your bitcoins, or hold indefinitely and miss out on the liquidity you need to support your life.
+Bitcoin holders have historically faced an impossible choice: sell your BTC to cover expenses, trust a centralized lender to hold custody of your bitcoin, or hold indefinitely and miss out on the liquidity you need to support your life.
 
 MUSD changes that. It is a permissionless stablecoin, 100% backed by Bitcoin reserves, designed to maintain a 1:1 peg with the U.S. dollar. Mint MUSD by depositing BTC as collateral, spend it anywhere dollars are accepted, and keep your full Bitcoin exposure the entire time. When you're done, return the borrowed MUSD plus interest and get your BTC back.
 
