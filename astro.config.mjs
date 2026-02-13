@@ -173,9 +173,7 @@ export default defineConfig({
                               'docs/users/musd/fees',
                               'docs/users/musd/architecture-and-terminology',
                               'docs/users/musd/liquidation-mechanics',
-                              'docs/users/musd/musd-bridge',
-                              'docs/users/musd/risks',
-                              'docs/users/musd/concepts'
+                              'docs/users/musd/musd-bridge'
                         ]
                   },
                   {
@@ -276,7 +274,6 @@ export default defineConfig({
                               'docs/users/resources/brand-kit',
                               'docs/users/resources/contracts-reference',
                               'docs/users/resources/faqs',
-                              'docs/users/resources/glossary',
                               'docs/users/resources/network-stats',
                               'docs/users/resources/release-notes',
                               'docs/users/resources/support'
@@ -479,11 +476,19 @@ export default defineConfig({
 		},
 		'/docs/users/musd/architecture': {
 			status: 301,
-			destination: '/docs/users/musd/concepts'
+			destination: '/docs/users/musd/architecture-and-terminology'
 		},
 		'/docs/users/musd/concepts-and-terminology': {
 			status: 301,
-			destination: '/docs/users/musd/concepts'
+			destination: '/docs/users/musd/architecture-and-terminology'
+		},
+		'/docs/users/musd/concepts': {
+			status: 301,
+			destination: '/docs/users/musd/architecture-and-terminology'
+		},
+		'/docs/users/musd/risks': {
+			status: 301,
+			destination: '/docs/users/musd/fees'
 		},
 		'/docs/users/getting-started/mezo-matsnet-alpha-testnet/deploy-and-verify-contracts': {
 			status: 301,
@@ -659,7 +664,7 @@ export default defineConfig({
 		},
 		'/docs/docs/users/musd/risks': {
 			status: 301,
-			destination: '/docs/users/musd/risks'
+			destination: '/docs/users/musd/fees'
 		},
 		'/docs/docs/users/musd': {
 			status: 301,

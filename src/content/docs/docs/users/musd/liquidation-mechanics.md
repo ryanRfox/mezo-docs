@@ -20,7 +20,10 @@ When you [borrow MUSD](https://mezo.org/feature/musd) using your Bitcoin as coll
 A liquidation is a safety mechanism that automatically closes a loan when it becomes too risky. This protects the entire MUSD system from becoming unstable.
 
 ### When Does a Liquidation Happen?
+
+:::danger
 Your loan is at risk of liquidation if its collateral ratio falls below 110%. Think of this as the absolute minimum safety buffer required for your loan.
+:::
 
 ### What Happens During a Liquidation?
 There are two ways the system handles a liquidation:
@@ -94,7 +97,10 @@ Important Note: The current user interface may not show your available surplus. 
 ---
 
 ## What is Recovery Mode?
-Recovery Mode is a temporary safety state that activates if the entire MUSD system's total collateral ratio drops below 150%.
+
+:::note
+Recovery Mode is a temporary safety state that activates if the entire MUSD system's total collateral ratio drops below 150%. It is a special system state with stricter liquidation rules.
+:::
 
 During Recovery Mode:
 - The minimum collateral ratio for liquidations increases from 110% to 150%.
@@ -104,6 +110,10 @@ During Recovery Mode:
 ---
 
 ## How to Keep Your Loan Safe
+
+:::tip
+The best defense against both liquidation and redemption is maintaining a high collateral ratio — aim for well above 150%.
+:::
 
 ### To Avoid Liquidation:
 - Maintain a healthy buffer. Aim for a collateral ratio well above 150% to be safe from market volatility and Recovery Mode.
@@ -123,23 +133,4 @@ This tool allows you to:
 
 ---
 
-## Key Definitions
-
-- **Trove**: A collateralized debt position, bound to a single Ethereum address. Also referred to as a "CDP" in similar protocols.
-- **Active collateral**: The amount of collateral recorded on a Trove's struct.
-- **Active principal**: The amount of mUSD debt recorded on a Trove's struct, not including any interest.
-- **Active interest**: The amount of mUSD interest recorded on a Trove's struct.
-- **Active debt**: The amount of mUSD debt recorded on a Trove's struct (active principal plus active interest).
-- **Entire collateral**: The sum of a Trove's active collateral plus its pending collateral rewards accumulated from distributions.
-- **Entire debt**: The sum of a Trove's active debt plus its pending debt rewards accumulated from distributions.
-- **Individual collateralization ratio (ICR)**: A Trove's ICR is the ratio of the dollar value of its entire collateral at the current collateral:USD price, to its entire debt.
-- **Nominal collateralization ratio (nominal ICR, NICR)**: A Trove's nominal ICR is its entire collateral (in collateral) multiplied by 100e18 and divided by its entire debt.
-- **Entire system collateral**: The sum of the collateral in the ActivePool and DefaultPool.
-- **Entire system debt**: The sum of the debt in the ActivePool and DefaultPool.
-- **Total collateralization ratio (TCR)**: The ratio of the dollar value of the entire system collateral at the current collateral:USD price, to the entire system debt.
-- **Critical collateralization ratio (CCR)**: 150%. When the TCR is below the CCR, the system enters Recovery Mode.
-- **Redemption**: The act of swapping mUSD tokens with the system, in return for an equivalent value of collateral. Any account with an mUSD token balance may redeem them, regardless of whether they are a borrower.
-- **Liquidation**: The act of force-closing an undercollateralized Trove and redistributing its collateral and debt. When the Stability Pool is sufficiently large, the liquidated debt is offset with the Stability Pool, and the collateral distributed to depositors. If the liquidated debt cannot be offset with the Pool, the system redistributes the liquidated collateral and debt directly to the active Troves with >110% collateralization ratio. Liquidation functionality is permissionless and publicly available - anyone may liquidate an undercollateralized Trove, or batch liquidate Troves in ascending order of collateralization ratio.
-- **Collateral Surplus**: The difference between the dollar value of a Trove's collateral and the dollar value of its mUSD debt. In a full liquidation, this is the net gain earned by the recipients of the liquidation.
-- **Offset**: Cancellation of liquidated debt with mUSD in the Stability Pool, and assignment of liquidated collateral to Stability Pool depositors, in proportion to their deposit.
-- **Gas compensation**: A refund, in mUSD and collateral, automatically paid to the caller of a liquidation function, intended to at least cover the gas cost of the transaction. Designed to ensure that liquidators are not dissuaded by potentially high gas costs.
+For a complete list of MUSD terms and definitions, see [Architecture & Terminology](/docs/users/musd/architecture-and-terminology#definitions).
