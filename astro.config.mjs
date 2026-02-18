@@ -161,7 +161,8 @@ export default defineConfig({
                         label: 'Mainnet',
                         collapsed: true,
                         items: [
-                              'docs/users/mainnet/bridges'
+                              'docs/users/mainnet/bridges',
+                              'docs/users/mainnet/track-your-native-bitcoin-deposit'
                         ]
                   },
                   {
@@ -274,6 +275,7 @@ export default defineConfig({
                               'docs/users/resources/brand-kit',
                               'docs/users/resources/contracts-reference',
                               'docs/users/resources/faqs',
+                              'docs/users/resources/glossary',
                               'docs/users/resources/network-stats',
                               'docs/users/resources/release-notes',
                               'docs/users/resources/support'
@@ -409,6 +411,14 @@ export default defineConfig({
 		'/docs/users/resources/mezo-alpha-builders': {
 			status: 301,
 			destination: '/docs/users/'
+		},
+		'/docs/users/mainnet/monitoring-deposit-status': {
+			status: 301,
+			destination: '/docs/users/mainnet/track-your-native-bitcoin-deposit'
+		},
+		'/docs/users/resources/monitoring-deposit-status': {
+			status: 301,
+			destination: '/docs/users/mainnet/track-your-native-bitcoin-deposit'
 		},
 		'/docs/users/user-guides/bitcoin-on-mezo': {
 			status: 301,

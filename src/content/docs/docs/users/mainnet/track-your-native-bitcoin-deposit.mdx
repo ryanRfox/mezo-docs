@@ -1,0 +1,46 @@
+---
+title: Track Your Native Bitcoin Deposit
+description: >-
+  Learn how to check the status of your native Bitcoin deposit to Mezo using
+  tBTCScan.
+topic: users
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+After depositing native Bitcoin to Mezo, your funds typically appear within approximately 2–4 hours. However, during periods of high network activity or bridge congestion, deposits may take 18–24 hours to fully process and appear in your account.
+
+**Why deposits may take longer:** Bitcoin deposits must be verified on-chain and then bridged through tBTC to reach Mezo. While most deposits complete quickly, network confirmation times and bridge processing can occasionally extend the timeline.
+
+## How to Check Your Deposit Status
+
+If your deposit hasn't appeared after 30 minutes, you can verify its status using [tBTCScan](https://tbtcscan.com/), a third-party block explorer.
+
+![tBTCScan deposit search interface](/docs/images/tbtc/tbtc1.webp)
+
+<Steps>
+1. **Locate your transaction ID** – Find the Bitcoin transaction hash from your wallet or wallet history.
+
+2. **Visit the tBTCScan Deposits Tab** – This third-party tool shows real-time bridge deposit data.
+
+3. **Search for your transaction** – Enter your transaction hash in the search bar.
+
+4. **Check the status:**
+   - **No results** → The deposit hasn't been detected by the bridge yet. This can take up to 30 minutes.
+   - **MINTING IN PROGRESS** → Your deposit is being bridged.
+   - **MINTING FINALIZED** → Your deposit has crossed the bridge and should appear in your Mezo account within an hour.
+</Steps>
+
+:::tip
+The tBTCScan search requires a page refresh between consecutive searches to display new results.
+:::
+
+![tBTCScan deposit status results](/docs/images/tbtc/tbtc2.webp)
+
+## What If My Deposit Doesn't Appear?
+
+If your deposit shows **MINTING FINALIZED** on tBTCScan but still hasn't appeared in your Mezo account after 15 minutes, or if you see no results on tBTCScan after one hour, please contact support by opening a ticket in the [Mezo Discord](https://discord.gg/mezo) with:
+
+- Your transaction hash
+- Your Bitcoin wallet address
+- Your Mezo account ID
