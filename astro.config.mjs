@@ -412,14 +412,6 @@ export default defineConfig({
 			status: 301,
 			destination: '/docs/users/'
 		},
-		'/docs/users/mainnet/monitoring-deposit-status': {
-			status: 301,
-			destination: '/docs/users/mainnet/track-your-native-bitcoin-deposit'
-		},
-		'/docs/users/resources/monitoring-deposit-status': {
-			status: 301,
-			destination: '/docs/users/mainnet/track-your-native-bitcoin-deposit'
-		},
 		'/docs/users/user-guides/bitcoin-on-mezo': {
 			status: 301,
 			destination: '/docs/users/mainnet/bridges'
