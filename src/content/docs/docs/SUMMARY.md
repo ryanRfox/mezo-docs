@@ -15,6 +15,7 @@ topic: users
     * [Mezo: A Self-Service, Free-Banking Economy for Bitcoiners](users/introduction/mezo-self-service-banking.md)
   * [mainnet](users/mainnet/index.md)
     * [Bridges](users/mainnet/bridges.md)
+    * [Track Your Native Bitcoin Deposit](users/mainnet/track-your-native-bitcoin-deposit.md)
   * [musd](users/musd/README.md)
     * [Overview](users/musd/index.md)
     * [Borrow and Mint MUSD](users/musd/mint-musd.md)
