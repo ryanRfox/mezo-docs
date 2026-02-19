@@ -8,13 +8,18 @@ topic: users
 
 import { Steps } from '@astrojs/starlight/components';
 
-After depositing native Bitcoin to Mezo, your funds typically appear within approximately 2–4 hours. However, during periods of high network activity or bridge congestion, deposits may take 18–24 hours to fully process and appear in your account.
+After depositing native Bitcoin to Mezo, your funds typically appear within approximately 1.5 hours. Your deposit goes through several steps before it reaches your account:
 
-**Why deposits may take longer:** Bitcoin deposits must be verified on-chain and then bridged through tBTC to reach Mezo. While most deposits complete quickly, network confirmation times and bridge processing can occasionally extend the timeline.
+1. **On-chain confirmation** — Your Bitcoin transaction must be confirmed on the Bitcoin network (1–6 confirmations required, depending on the deposit amount).
+2. **Bridge reveal** — Once confirmed, the tBTC bot detects your deposit and reveals it to the tBTC bridge. This typically happens quickly, but in rare cases can take up to 5 hours.
+3. **Minting on Ethereum** — The tBTC bridge processes your deposit and mints tBTC on Ethereum. This usually takes about 1–1.5 hours.
+4. **Bridging to Mezo** — Once tBTC is minted, it is bridged to Mezo and BTC lands in your account. This takes approximately 15–20 minutes.
+
+In rare edge cases, the process may take longer.
 
 ## How to Check Your Deposit Status
 
-If your deposit hasn't appeared after 30 minutes, you can verify its status using [tBTCScan](https://tbtcscan.com/), a third-party block explorer.
+If your deposit hasn't appeared on Mezo after 1 hour and 30 minutes, you can verify its status using [tbtcscan](https://tbtcscan.com/), a third-party block explorer for tBTC bridge.
 
 ![tBTCScan deposit search interface](/docs/images/tbtc/tbtc1.webp)
 
@@ -26,9 +31,9 @@ If your deposit hasn't appeared after 30 minutes, you can verify its status usin
 3. **Search for your transaction** – Enter your transaction hash in the search bar.
 
 4. **Check the status:**
-   - **No results** → The deposit hasn't been detected by the bridge yet. This can take up to 30 minutes.
-   - **MINTING IN PROGRESS** → Your deposit is being bridged.
-   - **MINTING FINALIZED** → Your deposit has crossed the bridge and should appear in your Mezo account within an hour.
+   - **No results** → The deposit hasn't been revealed to the bridge yet. This usually happens within 20 minutes of on-chain confirmation, but in rare cases can take up to 5 hours.
+   - **MINTING IN PROGRESS** → Your deposit has been revealed and tBTC is being minted on Ethereum. This typically takes about 1–1.5 hours.
+   - **MINTING FINALIZED** → tBTC has been minted on Ethereum. Your deposit should appear in your Mezo account within 15–20 minutes.
 </Steps>
 
 :::tip
@@ -39,8 +44,7 @@ The tBTCScan search requires a page refresh between consecutive searches to disp
 
 ## What If My Deposit Doesn't Appear?
 
-If you see no results on tBTCScan after 9 hours since depositing, please contact support by opening a ticket in the [Mezo Discord](https://discord.gg/mezo) with:
+If your deposit shows MINTING FINALIZED on tbtcscan but still hasn't appeared in your Mezo account after 15 minutes, or if you see no results on tbtcscan after 5 hours, please contact support by opening a ticket in the [Mezo Discord](https://discord.gg/mezo) with:
 
 - Your transaction hash
-- Your Bitcoin wallet address
-- Your Mezo account ID
+- Address of account you use to log in to Mezo (or your Mezo account ID)
