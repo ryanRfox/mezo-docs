@@ -121,7 +121,7 @@ The best defense against both liquidation and redemption is maintaining a high c
 - Be proactive: Add more collateral or repay some of your MUSD debt if your ratio gets too low.
 
 ### To Reduce the Likelihood of Redemption:
-- Keep a high collateral ratio. The higher your ratio is compared to others, the less likely you are to be chosen first for redemptions. A ratio above 150% is a good target.
+- Keep a high collateral ratio. Unlike liquidations, which are triggered at a fixed threshold, redemptions are relative—the system selects troves with the lowest collateral ratios first. The higher your ratio is compared to other troves, the less likely yours is to be redeemed. While 150% is typically a good baseline target, optimal positioning depends on current market conditions and the collateral ratios of other open troves. It's worth monitoring outstanding troves periodically and adjusting your ratio accordingly to stay well above the bottom of the pack.
 
 ### Keep Tabs on your Loan with MUSD Monitor
 For advanced monitoring, you can use [mezotools.cc](https://mezotools.cc).
