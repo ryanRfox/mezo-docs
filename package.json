@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "npm run process-gitbook && astro dev",
     "start": "npm run process-gitbook && astro dev",
-    "build": "npm run process-gitbook && astro build && node scripts/postbuild-copy-sitemaps.js",
+    "build": "npm run process-gitbook && astro build && npx lunaria build && node scripts/postbuild-copy-sitemaps.js",
     "preview": "astro preview",
     "astro": "astro",
     "process-gitbook": "node scripts/process-gitbook.js",
@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@astro-community/astro-embed-link-preview": "^0.2.2",
+    "@lunariajs/core": "^0.1.1",
     "axios": "^1.8.4",
     "prettier": "^3.5.3",
     "puppeteer": "^24.6.0"
