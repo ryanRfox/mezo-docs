@@ -22,7 +22,7 @@
       "type": "universal"
     }
   ],
-  "outDir": "./dist/lunaria",
+  "outDir": "./dist/docs/lunaria",
   "dashboard": {
     "title": "Mezo Documentation Translation Status",
     "description": "Track the localization progress of Mezo documentation",
