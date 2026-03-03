@@ -25,6 +25,12 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'Mezo Documentation',
+			defaultLocale: 'root',
+			locales: {
+				root: { label: 'English', lang: 'en' },
+				es: { label: 'Español', lang: 'es' },
+				fr: { label: 'Français', lang: 'fr' },
+			},
 			components: {
 				Head: './src/overrides/Head.astro',
 				Header: './src/overrides/Header.astro',
