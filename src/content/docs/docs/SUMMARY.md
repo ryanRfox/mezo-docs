@@ -57,6 +57,7 @@ topic: users
       * [Mezo Swap](users/mezo-earn/pools/mezo-swap.md)
     * [Vaults](users/mezo-earn/vaults/index.md)
   * [integrations](users/integrations/README.md)
+    * [Safe on Mezo](users/integrations/safe.md)
     * [Lolli](users/integrations/lolli/README.md)
       * [Overview](users/integrations/lolli/index.md)
       * [Withdraw from Lolli](users/integrations/lolli/withdraw.md)
