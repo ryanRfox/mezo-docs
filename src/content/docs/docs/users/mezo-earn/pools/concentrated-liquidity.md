@@ -8,13 +8,11 @@ topic: users
 
 Concentrated liquidity (CL) pools let you deposit liquidity within a specific price range instead of across all possible prices. By focusing your capital where trading actually happens, you can earn significantly more fees per dollar deposited compared to [basic pools](/docs/users/mezo-earn/pools).
 
-Mezo's CL implementation is based on [Velodrome's Slipstream](https://velodrome.finance/docs/slipstream), the same model used by Aerodrome on Base.
-
 ## How concentrated liquidity differs from basic pools
 
 In a **basic pool**, your liquidity is spread evenly across the entire price curve from zero to infinity. This means most of your capital sits idle in price ranges where trading never occurs.
 
-In a **concentrated liquidity pool**, you choose a price range — for example, BTC between $80,000 and $120,000. All of your capital is active within that range, making it far more capital-efficient. The tradeoff is that if the price moves outside your range, your position stops earning fees until the price returns.
+In a **concentrated liquidity pool**, you choose a price range — for example, BTC between 80,000 and 120,000 MUSD. All of your capital is active within that range, making it far more capital-efficient. The tradeoff is that if the price moves outside your range, your position stops earning fees until the price returns.
 
 | | Basic Pools | CL Pools |
 |---|---|---|
@@ -94,4 +92,4 @@ If the market price moves outside your chosen range, your position converts enti
 
 ### Smart contract risk
 
-Mezo's CL contracts are based on Velodrome's audited Slipstream implementation. As with all smart contracts, inherent risk remains. Review audits at [mezo.org/audits](https://mezo.org/audits) and only deposit amounts you're comfortable with.
+As with all smart contracts, inherent risk remains. Review audits at [mezo.org/audits](https://mezo.org/audits) and only deposit amounts you're comfortable with.

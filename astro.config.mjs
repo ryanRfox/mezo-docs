@@ -241,11 +241,11 @@ export default defineConfig({
                                     collapsed: true,
                                     items: [
                                           'docs/users/mezo-earn/pools',
-                                          'docs/users/mezo-earn/pools/concentrated-liquidity',
                                           'docs/users/mezo-earn/pools/using-mezo-pools-guide',
                                           'docs/users/mezo-earn/pools/pools-fees',
-                                          'docs/users/mezo-earn/pools/pools-links-and-resources',
-                                          'docs/users/mezo-earn/pools/mezo-swap'
+                                          'docs/users/mezo-earn/pools/mezo-swap',
+                                          'docs/users/mezo-earn/pools/concentrated-liquidity',
+                                          'docs/users/mezo-earn/pools/pools-links-and-resources'
                                     ]
                               },
                               'docs/users/mezo-earn/vaults'
