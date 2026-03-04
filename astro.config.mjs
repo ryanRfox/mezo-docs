@@ -262,6 +262,7 @@ export default defineConfig({
                         label: 'Integrations',
                         collapsed: true,
                         items: [
+                              'docs/users/integrations/safe',
                               {
                                     label: 'Lolli',
                                     collapsed: true,

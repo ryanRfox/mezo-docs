@@ -59,6 +59,7 @@ topic: users
       * [Pools Links and Resources](users/mezo-earn/pools/pools-links-and-resources.md)
     * [Vaults](users/mezo-earn/vaults/index.md)
   * [integrations](users/integrations/README.md)
+    * [Safe](users/integrations/safe.md)
     * [Lolli](users/integrations/lolli/README.md)
       * [Overview](users/integrations/lolli/index.md)
       * [Withdraw from Lolli](users/integrations/lolli/withdraw.md)
