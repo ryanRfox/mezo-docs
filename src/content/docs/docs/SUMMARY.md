@@ -51,6 +51,7 @@ topic: users
       * [Claiming fees & emissions](users/mezo-earn/vote/claiming-fees-emissions.md)
     * [Pools](users/mezo-earn/pools/index.md)
       * [Mezo Pools Overview](users/mezo-earn/pools/index.md)
+      * [Concentrated Liquidity](users/mezo-earn/pools/concentrated-liquidity.md)
       * [Using Mezo Pools](users/mezo-earn/pools/using-mezo-pools-guide.md)
       * [Pools Fees](users/mezo-earn/pools/pools-fees.md)
       * [Pools Links and Resources](users/mezo-earn/pools/pools-links-and-resources.md)
