@@ -55,6 +55,7 @@ npm run linkcheck-local
 
 Tips:
 - Add or update docs under `src/content/docs/docs/…`.
+- When adding a new page, update **both** `astro.config.mjs` (sidebar items array) **and** `src/content/docs/docs/SUMMARY.md` (table of contents). The sidebar config controls navigation on the live site, and `SUMMARY.md` is parsed by `process-gitbook.js` during the build.
 - Place large assets in `public/docs/...` and reference via site-relative paths.
 - Run `npm run dev` to auto-process and preview changes.
 
