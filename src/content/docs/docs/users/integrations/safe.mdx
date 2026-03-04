@@ -1,12 +1,12 @@
 ---
-title: Safe on Mezo
+title: Safe
 description: >-
   Use Safe multisig wallets on Mezo to manage shared funds with multi-signature
   security.
 topic: users
 ---
 
-import { LinkButton } from '@astrojs/starlight/components';
+import { LinkButton, Steps } from '@astrojs/starlight/components';
 
 [Safe](https://safe.global/) (formerly Gnosis Safe) is the most widely used multisig wallet in crypto. Mezo has a native Safe deployment at [safe.mezo.org](https://safe.mezo.org), managed by [Den](https://www.onchainden.com/).
 
@@ -16,12 +16,21 @@ A multisig (multi-signature) wallet requires multiple people to approve a transa
 
 ## Getting started
 
+<Steps>
+
 1. Go to [safe.mezo.org](https://safe.mezo.org).
+
 2. Connect your wallet.
+
 3. Click **Create new Safe Account**.
+
 4. Add the wallet addresses of your co-signers.
+
 5. Set the confirmation threshold — the number of approvals required to execute a transaction (e.g., 2 out of 3).
+
 6. Review and deploy your Safe.
+
+</Steps>
 
 Once deployed, you can send and receive BTC and other tokens on Mezo through your Safe, with every transaction requiring the approval threshold you configured.
 
