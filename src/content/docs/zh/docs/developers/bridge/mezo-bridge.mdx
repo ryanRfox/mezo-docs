@@ -1,0 +1,106 @@
+---
+title: Mezo 跨链桥概览
+topic: developers
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+Mezo 跨链桥实现了比特币、以太坊和 Mezo 之间的原生资产转移。以下是主要流程及设计 RFC 的参考。
+
+### 桥入 Mezo
+
+从 Bitcoin 到 Mezo
+
+<Steps>
+1. 将 BTC 锁定到桥控制的地址，并附带标识 Mezo 接收者的元数据。
+
+2. 向 Mezo Bridge 合约提交证明和认证。
+
+3. 合约验证证明。
+
+4. 在 Mezo 上为接收者铸造相应资产。
+</Steps>
+
+从 Ethereum 到 Mezo
+
+<Steps>
+1. 通过 Mezo Bridge 合约在以太坊上锁定 ERC-20，触发包含 Mezo 接收者的 `AssetLocked` 事件。
+
+2. 桥验证者监听此类事件。
+
+3. 桥验证者验证事件包含和验证者法定人数。
+
+4. 在 Mezo 上为接收者铸造相应资产。
+</Steps>
+
+### 桥出 Mezo
+
+从 Mezo 到 Bitcoin
+
+<Steps>
+1. 在 Mezo 上销毁资产，指定比特币接收者地址。
+
+2. 向 Mezo Bridge 合约提交证明和认证。
+
+3. 合约验证证明。
+
+4. 验证通过后，BTC 被释放到接收者地址。
+</Steps>
+
+从 Mezo 到 Ethereum
+
+<Steps>
+1. 在 Mezo 上销毁资产，指定以太坊接收者。
+
+2. 桥验证者监听 `AssetsUnlocked` 事件。
+
+3. 桥验证者验证事件包含和验证者法定人数。
+
+4. 验证通过后，ERC-20 被释放给接收者。
+</Steps>
+
+### 架构
+
+- **在源链上锁定/销毁**：资产在比特币/以太坊上锁定（或在 Mezo 上销毁），附带标识预期接收者和目标链的数据。
+- **认证与中继**：链下客户端对源链事件生成认证，并将证明中继到目标链。
+- **在目标链上铸造/释放**：在有效认证和证明验证后，目标链合约铸造包装资产或释放锁定资金。
+
+### 核心流程
+
+<Steps>
+1. 用户发起桥转账，指定目标地址和金额。
+
+2. 锁定/销毁后触发源链合约/事件；事件包含唯一序列 ID 和参数。
+
+3. 链下客户端根据 RFC 阈值收集确认/最终性，并向目标链合约提交证明+认证。
+
+4. 目标链验证：
+   - 事件真实性
+   - 验证者法定人数/签名
+
+5. 成功后，目标链执行铸造/释放并记录完成。
+</Steps>
+
+### 合约
+
+主网：
+
+- Mezo Bridge: [0xF6680EA3b480cA2b72D96ea13cCAF2cFd8e6908c](https://etherscan.io/address/0xF6680EA3b480cA2b72D96ea13cCAF2cFd8e6908c)
+- 桥接代币[列表](https://mezo.org/docs/users/resources/contracts-reference#bridged-tokens)
+
+Sepolia：
+
+- Mezo Bridge: [0x3a3BaE133739f92a885070DbF3300d61B232497C](https://sepolia.etherscan.io/address/0x3a3BaE133739f92a885070DbF3300d61B232497C)
+- 桥接代币[列表](https://mezo.org/docs/users/resources/contracts-reference#bridged-tokens)
+
+### 审计
+
+请查看[审计](https://github.com/mezo-org/audits)页面了解最新审计。
+
+## 其他资源
+
+有关完整技术细节、消息格式和安全原理，请参阅以下 RFC：
+
+- [RFC-2: Mezo Bridge](https://github.com/mezo-org/mezod/blob/main/docs/rfc/rfc-2.md)
+- [RFC-4: Mezo Bridge](https://github.com/mezo-org/mezod/blob/main/docs/rfc/rfc-4.md)
+- [RFC-5: Mezo Bridge](https://github.com/mezo-org/mezod/blob/main/docs/rfc/rfc-5.md)

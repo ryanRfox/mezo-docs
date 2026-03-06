@@ -28,8 +28,17 @@ export default defineConfig({
 			defaultLocale: 'root',
 			locales: {
 				root: { label: 'English', lang: 'en' },
-				es: { label: 'Español', lang: 'es' },
+				zh: { label: '中文', lang: 'zh' },
+				in: { label: 'हिन्दी', lang: 'hi' },
+				ru: { label: 'Русский', lang: 'ru' },
+				ua: { label: 'Українська', lang: 'uk' },
 				fr: { label: 'Français', lang: 'fr' },
+				'pt-br': { label: 'Português (Brasil)', lang: 'pt-BR' },
+				kr: { label: '한국어', lang: 'ko' },
+				vn: { label: 'Tiếng Việt', lang: 'vi' },
+				de: { label: 'Deutsch', lang: 'de' },
+				nl: { label: 'Nederlands', lang: 'nl' },
+				es: { label: 'Español', lang: 'es' },
 			},
 			components: {
 				Head: './src/overrides/Head.astro',
