@@ -1,0 +1,53 @@
+---
+title: How To Claim Your Collateral After a Full Redemption
+description: Step-by-step guide for claiming remaining collateral after your MUSD loan (Trove) has been fully redeemed.
+topic: users
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+If your MUSD loan (Trove) has been fully redeemed, your debt is cleared but your remaining collateral is held in the MUSD smart contracts. If you do not see the "Loan redeemed" alert like in the image below when you visit the Borrow page, you can follow these steps to claim it manually through the Mezo Explorer.
+
+![Loan redeemed alert on the Borrow page](/docs/images/musd/loan-redeemed.webp)
+
+<Steps>
+
+1. **Navigate to the BorrowerOperations Contract**
+
+   Go to the [BorrowerOperations contract on the Mezo Explorer](https://explorer.mezo.org/address/0x44b1bac67dDA612a41a58AAf779143B181dEe031).
+
+2. **Click the "Contract" Tab**
+
+   In the tab bar alongside Transactions, Token transfers and Tokens, click **Contract**.
+
+   This will reveal four sub-tabs: **Code**, **Read proxy**, **Write contract**, and **Write proxy**.
+
+3. **Click "Write proxy"**
+
+   Click the **Write proxy** tab. This is the tab that exposes all the write functions of the underlying BorrowerOperations implementation contract.
+
+   :::caution
+   Make sure you select **Write proxy** (not "Write contract") — the proxy tab reflects the actual BorrowerOperations logic.
+   :::
+
+4. **Connect Your Wallet**
+
+   You will see a yellow/orange banner at the top of the contract functions area that says "Disconnected" with a **Connect wallet** button.
+
+   Click **Connect wallet** and approve the connection in your wallet (e.g. MetaMask). Make sure you connect with the same wallet address that held the redeemed Trove, as only that address can claim its collateral.
+
+5. **Find the claimCollateral Function**
+
+   Scroll down through the list of contract functions until you reach:
+
+   **7. claimCollateral**
+
+   Click on it to expand the function. It requires no input parameters — it simply claims all collateral that was set aside for your address after the full redemption.
+
+6. **Click "Write"**
+
+   With your wallet connected, click the **Write** button beneath the `claimCollateral` function.
+
+   Your wallet will prompt you to confirm the transaction. Review the gas fee and confirm. Once the transaction is complete, your collateral (BTC) will be sent directly to your wallet.
+
+</Steps>
