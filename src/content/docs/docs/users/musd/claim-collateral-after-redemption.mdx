@@ -6,9 +6,13 @@ topic: users
 
 import { Steps } from '@astrojs/starlight/components';
 
-If your MUSD loan (Trove) has been fully redeemed, your debt is cleared but your remaining collateral is held in the MUSD smart contracts. If you do not see the "Loan redeemed" alert like in the image below when you visit the Borrow page, you can follow these steps to claim it manually through the Mezo Explorer.
+When another user redeems MUSD against your loan (Trove) and it is fully paid off, your debt is cleared — but any remaining collateral stays in the MUSD smart contracts until you claim it. Your collateral is safe and can be reclaimed at any time.
+
+Normally, you will see a "Loan redeemed" alert on the Borrow page that lets you claim your collateral directly from the interface.
 
 ![Loan redeemed alert on the Borrow page](/docs/images/musd/loan-redeemed.webp)
+
+If you do not see this alert, you can claim your collateral manually by calling the `claimCollateral` function on the BorrowerOperations contract through the Mezo Explorer. Follow the steps below.
 
 <Steps>
 
