@@ -22,7 +22,9 @@ If Chainlist does not work, add the network manually using the network details b
 | Imperator | `https://rpc_evm-mezo.imperator.co` | `wss://ws_evm-mezo.imperator.co` |
 | Validation Cloud | `https://mainnet.mezo.public.validationcloud.io` | `wss://mainnet.mezo.public.validationcloud.io` |
 
-For higher rate limits and low-latency Mezo RPC, get your free Validation Cloud API key at [validationcloud.io/mezo](https://www.validationcloud.io/mezo) or contact them at [validationcloud.io/contact](https://validationcloud.io/contact) for Enterprise plans.
+For higher rate limits, Boar offers a free API key at [boar.network/mezo](https://boar.network/mezo). Enterprise plan available - go to [https://dashboard.boar.network/](https://dashboard.boar.network/) to get started.
+
+For higher rate limits get your free Validation Cloud API key at [validationcloud.io/mezo](https://www.validationcloud.io/mezo) or contact them at [validationcloud.io/contact](https://validationcloud.io/contact) for Enterprise plans.
 
 ### Network Details
 
