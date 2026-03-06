@@ -36,6 +36,8 @@ export default defineConfig({
 				'pt-br': { label: 'Português (Brasil)', lang: 'pt-BR' },
 				kr: { label: '한국어', lang: 'ko' },
 				vn: { label: 'Tiếng Việt', lang: 'vi' },
+				de: { label: 'Deutsch', lang: 'de' },
+				nl: { label: 'Nederlands', lang: 'nl' },
 				es: { label: 'Español', lang: 'es' },
 			},
 			components: {
