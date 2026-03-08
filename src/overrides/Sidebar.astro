@@ -1,23 +1,114 @@
 ---
-import type { Props } from '@astrojs/starlight/props';
-import Default from '@astrojs/starlight/components/Sidebar.astro';
+import type { StarlightRouteData } from '@astrojs/starlight/route-data';
+import MobileMenuFooter from 'virtual:starlight/components/MobileMenuFooter';
+import SidebarSublist from '@astrojs/starlight/components/SidebarSublist.astro';
 
 import StarlightSidebarTopicsSidebar from '../components/starlight/Sidebar.astro';
+import {
+  getActiveDocsLocale,
+  getLocaleNavigationLabels,
+  localizeDocsHref,
+  normalizeDocsPath,
+} from '../utils/localized-navigation';
 
-const currentBase = Astro.url.pathname.split('/').slice(0, 3).join('/');
-const sidebar = Array.isArray(Astro.props.sidebar) ? Astro.props.sidebar : [];
+type SidebarEntry = StarlightRouteData['sidebar'][number];
 
-const filteredSidebar = sidebar.filter(
-  (entry) =>
-    entry.type === 'group' &&
-    entry.entries.some((subEntry) => subEntry.type === 'link' && subEntry.href.startsWith(currentBase))
+const activeLocale = getActiveDocsLocale(Astro.url.pathname);
+const currentBase = activeLocale ? `/docs/${activeLocale}/docs/` : '/docs/';
+const sidebar = Array.isArray(Astro.locals.starlightRoute.sidebar)
+  ? Astro.locals.starlightRoute.sidebar
+  : [];
+const { groupLabels, pageLabels } = getLocaleNavigationLabels(activeLocale);
+
+function getCommonPathPrefix(paths: string[]): string | undefined {
+  const segments = paths
+    .filter(Boolean)
+    .map((path) => path.split('/').filter(Boolean));
+
+  const first = segments[0];
+  if (!first) return undefined;
+
+  let prefixLength = first.length;
+  for (const current of segments.slice(1)) {
+    let index = 0;
+    while (index < prefixLength && current[index] === first[index]) index++;
+    prefixLength = index;
+  }
+
+  return first.slice(0, prefixLength).join('/') || undefined;
+}
+
+function getParentPath(path: string | undefined): string | undefined {
+  if (!path || !path.includes('/')) return undefined;
+  return path.split('/').slice(0, -1).join('/') || undefined;
+}
+
+function inferGroupPath(entry: SidebarEntry): string | undefined {
+  if (entry.type !== 'group') return undefined;
+
+  const directLinkPaths = entry.entries
+    .flatMap((child) => (child.type === 'link' ? [normalizeDocsPath(child.href)] : []))
+    .filter(Boolean);
+
+  if (directLinkPaths.length > 0) {
+    return getCommonPathPrefix(directLinkPaths);
+  }
+
+  const childGroupPaths = entry.entries
+    .flatMap((child) => (child.type === 'group' ? [inferGroupPath(child)] : []))
+    .filter(Boolean);
+
+  if (childGroupPaths.length > 1) {
+    return getCommonPathPrefix(childGroupPaths);
+  }
+
+  if (childGroupPaths.length === 1) {
+    return getParentPath(childGroupPaths[0]);
+  }
+}
+
+function localizeSidebarEntry(entry: SidebarEntry): SidebarEntry {
+  if (entry.type === 'link') {
+    const pathKey = normalizeDocsPath(entry.href);
+    return {
+      ...entry,
+      href: localizeDocsHref(entry.href, activeLocale),
+      label: pageLabels.get(pathKey) ?? entry.label,
+    };
+  }
+
+  const entries = entry.entries.map(localizeSidebarEntry);
+  const localizedEntry: SidebarEntry = {
+    ...entry,
+    entries,
+  };
+  const groupPath = inferGroupPath(localizedEntry);
+
+  return {
+    ...localizedEntry,
+    label: (groupPath && (groupLabels.get(groupPath) ?? pageLabels.get(groupPath))) ?? entry.label,
+  };
+}
+
+const localizedSidebar = sidebar.map(localizeSidebarEntry);
+
+function entryContainsBasePath(entry: SidebarEntry, basePath: string): boolean {
+  if (entry.type === 'link') {
+    return entry.href.startsWith(basePath);
+  }
+
+  return entry.entries.some((child) => entryContainsBasePath(child, basePath));
+}
+
+const filteredSidebar = localizedSidebar.filter(
+  (entry) => entry.type === 'group' && entryContainsBasePath(entry, currentBase)
 );
-
-const sidebarProps: Props = {
-  ...Astro.props,
-  sidebar: filteredSidebar,
-};
+const sidebarToRender = filteredSidebar.length > 0 ? filteredSidebar : localizedSidebar;
 ---
 
 <StarlightSidebarTopicsSidebar />
-<Default {...sidebarProps}><slot /></Default>
+<SidebarSublist sublist={sidebarToRender} />
+
+<div class="md:sl-hidden">
+  <MobileMenuFooter />
+</div>

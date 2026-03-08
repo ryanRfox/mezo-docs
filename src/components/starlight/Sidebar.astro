@@ -1,44 +1,118 @@
 ---
+import { Badge, Icon } from '@astrojs/starlight/components';
+
+import {
+  getActiveDocsLocale,
+  getLocaleNavigationLabels,
+  localizeDocsHref,
+  normalizeDocsPath,
+} from '../../utils/localized-navigation';
+
 const { hasSidebar } = Astro.locals.starlightRoute;
 const isPageWithTopic = Astro.locals.starlightSidebarTopics?.isPageWithTopic ?? false;
-const Topics =
-  hasSidebar && isPageWithTopic
-    ? (await import('../../../node_modules/starlight-sidebar-topics/components/Topics.astro')).default
-    : null;
+const activeLocale = getActiveDocsLocale(Astro.url.pathname);
+const { topicLabels } = getLocaleNavigationLabels(activeLocale);
+
+const topics = (Astro.locals.starlightSidebarTopics?.topics ?? []).map((topic) => {
+  const topicPath = normalizeDocsPath(topic.link);
+
+  return {
+    ...topic,
+    label: topicLabels.get(topicPath) ?? topic.label,
+    link: localizeDocsHref(topic.link, activeLocale),
+  };
+});
 ---
 
-{hasSidebar && isPageWithTopic && <Topics />}
+{
+  hasSidebar &&
+    isPageWithTopic && (
+      <ul class="starlight-sidebar-topics">
+        {
+          topics.map((topic) => (
+            <li>
+              <a href={topic.link} class:list={{ 'starlight-sidebar-topics-current': topic.isCurrent }}>
+                {topic.icon && (
+                  <div class="starlight-sidebar-topics-icon">
+                    <Icon name={topic.icon} />
+                  </div>
+                )}
+                <div>
+                  {topic.label}
+                  {topic.badge && (
+                    <Badge
+                      class="starlight-sidebar-topics-badge"
+                      text={topic.badge.text}
+                      variant={topic.badge.variant}
+                    />
+                  )}
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    )
+}
 
-<script is:inline>
-  (() => {
-    const docsSectionPattern = /^\/docs\/(users|developers|admins)(\/.*)?$/;
-    const localePattern = /^\/docs\/([^/]+)\/docs\//;
+<style>
+  ul {
+    list-style: none;
+    padding: 0;
+  }
 
-    function rewriteSidebarLinks() {
-      const localeMatch = window.location.pathname.match(localePattern);
-      if (!localeMatch) return;
+  ul::after {
+    content: '';
+    display: block;
+    margin-top: 1rem;
+    height: 1px;
+    border-top: 1px solid var(--sl-color-hairline-light);
+  }
 
-      const locale = localeMatch[1];
-      const sidebarLinks = document.querySelectorAll('#starlight__sidebar a[href^="/docs/"]');
+  li {
+    overflow-wrap: anywhere;
+  }
 
-      for (const link of sidebarLinks) {
-        if (!(link instanceof HTMLAnchorElement)) continue;
+  li + li {
+    margin-top: 0.25rem;
+  }
 
-        const href = link.getAttribute('href');
-        if (!href || href.startsWith(`/docs/${locale}/`)) continue;
+  a {
+    align-items: center;
+    color: var(--sl-color-white);
+    display: flex;
+    font-size: var(--sl-text-base);
+    font-weight: 600;
+    gap: 0.5rem;
+    line-height: 1.5;
+    padding: 0.3em 0.5rem;
+    text-decoration: none;
+  }
 
-        const docsMatch = href.match(docsSectionPattern);
-        if (!docsMatch) continue;
+  a:is(.starlight-sidebar-topics-current, :hover, :focus-visible) {
+    color: var(--sl-color-accent-high);
+  }
 
-        const [, section, rest = ''] = docsMatch;
-        link.setAttribute('href', `/docs/${locale}/docs/${section}${rest}`);
-      }
-    }
+  :global([data-theme='light']) a.starlight-sidebar-topics-current {
+    color: var(--sl-color-accent);
+  }
 
-    rewriteSidebarLinks();
-    document.addEventListener('DOMContentLoaded', rewriteSidebarLinks, { once: true });
-    window.addEventListener('load', rewriteSidebarLinks, { once: true });
-    document.addEventListener('astro:page-load', rewriteSidebarLinks);
-    document.addEventListener('astro:after-swap', rewriteSidebarLinks);
-  })();
-</script>
+  .starlight-sidebar-topics-icon {
+    align-items: center;
+    border-radius: 0.25rem;
+    border: 1px solid var(--sl-color-gray-4);
+    display: flex;
+    justify-content: center;
+    padding: 0.25rem;
+  }
+
+  a:is(.starlight-sidebar-topics-current, :hover, :focus-visible) .starlight-sidebar-topics-icon {
+    background-color: var(--sl-color-text-accent);
+    border-color: var(--sl-color-text-accent);
+    color: var(--sl-color-text-invert);
+  }
+
+  .starlight-sidebar-topics-badge {
+    margin-inline-start: 0.25em;
+  }
+</style>
