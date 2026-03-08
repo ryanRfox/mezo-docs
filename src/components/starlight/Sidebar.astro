@@ -1,0 +1,44 @@
+---
+const { hasSidebar } = Astro.locals.starlightRoute;
+const isPageWithTopic = Astro.locals.starlightSidebarTopics?.isPageWithTopic ?? false;
+const Topics =
+  hasSidebar && isPageWithTopic
+    ? (await import('../../../node_modules/starlight-sidebar-topics/components/Topics.astro')).default
+    : null;
+---
+
+{hasSidebar && isPageWithTopic && <Topics />}
+
+<script is:inline>
+  (() => {
+    const docsSectionPattern = /^\/docs\/(users|developers|admins)(\/.*)?$/;
+    const localePattern = /^\/docs\/([^/]+)\/docs\//;
+
+    function rewriteSidebarLinks() {
+      const localeMatch = window.location.pathname.match(localePattern);
+      if (!localeMatch) return;
+
+      const locale = localeMatch[1];
+      const sidebarLinks = document.querySelectorAll('#starlight__sidebar a[href^="/docs/"]');
+
+      for (const link of sidebarLinks) {
+        if (!(link instanceof HTMLAnchorElement)) continue;
+
+        const href = link.getAttribute('href');
+        if (!href || href.startsWith(`/docs/${locale}/`)) continue;
+
+        const docsMatch = href.match(docsSectionPattern);
+        if (!docsMatch) continue;
+
+        const [, section, rest = ''] = docsMatch;
+        link.setAttribute('href', `/docs/${locale}/docs/${section}${rest}`);
+      }
+    }
+
+    rewriteSidebarLinks();
+    document.addEventListener('DOMContentLoaded', rewriteSidebarLinks, { once: true });
+    window.addEventListener('load', rewriteSidebarLinks, { once: true });
+    document.addEventListener('astro:page-load', rewriteSidebarLinks);
+    document.addEventListener('astro:after-swap', rewriteSidebarLinks);
+  })();
+</script>
