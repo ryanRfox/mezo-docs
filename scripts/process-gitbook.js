@@ -26,6 +26,30 @@ class GitbookProcessor {
     this.topicConfig = [];
   }
 
+  getRelativeAssetPath(filePath, assetFile) {
+    const assetPath = path.join(__dirname, '../src/assets', assetFile);
+    const relativeAssetPath = path.relative(path.dirname(filePath), assetPath);
+    return relativeAssetPath.split(path.sep).join('/');
+  }
+
+  getRelativeComponentPath(filePath, componentFile) {
+    const componentPath = path.join(__dirname, '../src/components', componentFile);
+    const relativeComponentPath = path.relative(path.dirname(filePath), componentPath);
+    return relativeComponentPath.split(path.sep).join('/');
+  }
+
+  updateSplashHeroImage(frontmatter, filePath) {
+    if (!frontmatter?.hero?.image?.file) {
+      return;
+    }
+
+    if (!frontmatter.hero.image.file.endsWith('Mezo-Mark-Red.svg')) {
+      return;
+    }
+
+    frontmatter.hero.image.file = this.getRelativeAssetPath(filePath, 'Mezo-Mark-Red.svg');
+  }
+
   async process() {
     console.log('🔄 Processing Gitbook content for Starlight...');
     
@@ -246,6 +270,11 @@ class GitbookProcessor {
       '![](~/assets/gitbook/$2)'
     );
 
+    transformed = transformed.replace(
+      /import RedirectScript from ["'][^"']*components\/RedirectScript\.astro["'];/g,
+      `import RedirectScript from "${this.getRelativeComponentPath(filePath, 'RedirectScript.astro')}";`
+    );
+
     // Handle frontmatter and topic assignment using gray-matter
     const parsed = matter(transformed);
     const topicId = this.inferTopicFromPath(relativePath);
@@ -261,6 +290,8 @@ class GitbookProcessor {
     if (topicId && !parsed.data.topic) {
       parsed.data.topic = topicId;
     }
+
+    this.updateSplashHeroImage(parsed.data, filePath);
     
     // Preserve hidden status - don't modify if it already exists
     // (This ensures Gitbook's hidden: true setting is maintained)
@@ -370,7 +401,7 @@ class GitbookProcessor {
       hero: {
         tagline: tagline,
         image: {
-          file: '../../../assets/Mezo-Mark-Red.svg'
+          file: this.getRelativeAssetPath(filePath, 'Mezo-Mark-Red.svg')
         },
         actions: actions
       }
