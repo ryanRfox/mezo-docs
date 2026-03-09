@@ -47,20 +47,20 @@ Pools are classified as **stable** (tick spacing below 100) or **volatile** (tic
 
 The BTC/MUSD-200 pool uses tick spacing of 200 with a 0.30% swap fee.
 
-## Getting started
+## Getting started (Coming Soon)
 
 1. Go to [Mezo Pools](https://mezo.org/explore/pools) and select the CL pool you want to provide liquidity for.
 2. Choose your price range — set the minimum and maximum prices where your liquidity will be active.
 3. Enter the amount of each token to deposit. The ratio depends on the current price relative to your chosen range.
 4. Review and confirm the transaction. You'll receive an NFT representing your position.
 
-### Choosing a price range
+### Choosing a price range (Coming Soon)
 
 - **Wider range** — Earns fees more consistently but with lower capital efficiency. Better for a hands-off approach.
 - **Narrower range** — Earns more fees when in range but requires active monitoring and rebalancing. Risk of going out of range is higher.
 - **Current price should be inside your range** — If the current price is outside your range, your position will be entirely in one token and will not earn fees until the price moves back into range.
 
-## Staking for emissions
+## Staking for emissions (Coming Soon)
 
 CL positions can be staked into gauges to earn MEZO emissions on top of trading fees. Staked positions earn a larger share of swap fees through the unstaked fee mechanism, which redirects a portion of fees from unstaked positions to staked ones.
 
