@@ -21,7 +21,7 @@ Each week, MEZO tokens are distributed to participants in Mezo Earn. Emissions s
 
 For a full week-by-week breakdown, download the following CSV.
 
-📄 **[Download MEZO Weekly Emissions (CSV)](/docs/MEZO%20Weekly%20Emissions.csv)**
+📄 **[Download MEZO Weekly Emissions (CSV)](/docs/mezo-weekly-emissions-schedule.csv)**
 
 The table below shows the weekly emission schedule for the first five years (260 weeks).
 
