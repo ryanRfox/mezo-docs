@@ -23,7 +23,7 @@ For a full week-by-week breakdown, download the following CSV.
 
 📄 **[Download MEZO Weekly Emissions (CSV)](/docs/mezo-weekly-emissions-schedule.csv)**
 
-The table below shows the weekly emission schedule for the first five years (260 weeks).
+The table below shows the weekly emission schedule for each quarter of the first five years (260 weeks).
 
 <div style="overflow-x:auto;">
 <table style="width:100%;border-collapse:collapse;font-size:14px;">
