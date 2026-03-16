@@ -27,14 +27,11 @@ The Mezo whitepaper is the source of truth for the mechanics and formulas behind
 At a high level:
 
 - Validators secure the Mezo chain and earn MEZO rewards routed through validator gauges in Mezo Earn.
-- veBTC holders are the governance anchor. They decide how MEZO emissions are rebalanced over time between:
-  - Validators (security)
-  - Liquidity providers and MUSD savers (liquidity & savings)
-  - Ecosystem programs (growth)
+- veBTC holders are the governance anchor. They vote on gauges to direct emissions within each branch of the splitter system.
 
 **Key Mechanics:**
 
-- **Emission Splits:** veBTC holders cannot change emission splits suddenly; changes occur slowly against a base split (e.g., a maximum movement of 1 percentage point per epoch).
+- **Emission Splits:** Splitter ratios (Chain Splitter and Ecosystem Splitter) are currently fixed and locked via governance. They may become adjustable through future governance mechanisms.
 - **veMEZO Role:** veMEZO acts as a boost on veBTC power (up to a capped multiplier) but never replaces BTC as the anchor.
 
 ---
@@ -73,7 +70,7 @@ For an initial period before validator voting is available, Mezo will use its ow
 
 ### How Validator Gauges Work
 
-The chain splitter sends a configurable share of reward emissions to the validator branch, starting at 20% of reward emissions with a maximum movement of 1 percentage point per epoch.
+The chain splitter sends a fixed share of reward emissions to the validator branch, currently set at 20% of reward emissions. This ratio is locked via governance.
 
 Within the validator branch:
 
@@ -142,7 +139,6 @@ Although not specific to validators, veBTC boost gauges and the matching market 
 Operators with veBTC positions can enhance their effective voting power by pairing with veMEZO, whether self-owned or attracted via incentives. This can be used to:
 
 - Increase their share of validator emissions by voting on their own gauge.
-- Increase influence over the chain versus liquidity/savings versus ecosystem split (by voting on splitters and other gauges).
 
 ---
 
@@ -173,14 +169,9 @@ LPs provide liquidity to DEX pools on Mezo and receive LP tokens representing th
 
 Through the splitter tree:
 
-- The **chain splitter** determines how much of the reward pot goes to validator vs. non-validator activities.
-- The **ecosystem splitter** determines how much of the non-validator pot goes to staking gauges (LP pools + MUSD savings) vs. ecosystem gauges.
+- The **chain splitter** determines how much of the reward pot goes to validator vs. non-validator activities. This ratio is currently fixed at 20% validators / 80% ecosystem and locked via governance.
+- The **ecosystem splitter** determines how much of the non-validator pot goes to staking gauges (LP pools + MUSD savings) vs. ecosystem gauges. This ratio is currently fixed at 90% staking / 10% ecosystem and locked via governance.
 - LP gauges then compete with the MUSD savings gauge, other LP gauges, and ecosystem gauges for emissions within their branch.
-
-**Consequences:**
-
-- If veBTC voters prioritize network security, they can upweight the validator branch over time by allocating more MEZO to validators versus LPs/savers.
-- If veBTC voters prioritize liquidity and MUSD savings, they can allocate more weight to staking gauges, increasing MEZO yields for LPs and MUSD savers.
 
 ---
 

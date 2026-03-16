@@ -8,15 +8,17 @@ import { LinkButton } from '@astrojs/starlight/components';
 
 Mezo Network governance allows veBTC holders to shape protocol parameters and emission flows. Governance is anchored in BTC—veMEZO amplifies voting power but cannot vote independently.
 
-## Governable Parameters
+## Protocol Parameters
 
-veBTC holders can adjust where MEZO emissions land, allowing them to modify the weekly emissions distribution with chain splitters. Governable parameters are:
+The following parameters define how MEZO emissions are distributed:
 
-| Parameter | Description | Constraint |
+| Parameter | Description | Status |
 |---|---|---|
-| Chain Splitter ratio | Share of emissions to validators vs ecosystem | ±1% per epoch max |
-| Ecosystem Splitter ratio | Share of emissions to staking vs ecosystem gauges | ±1% per epoch max |
+| Chain Splitter ratio | Share of emissions to validators (20%) vs ecosystem (80%) | Fixed, locked via governance |
+| Ecosystem Splitter ratio | Share of emissions to staking gauges (90%) vs ecosystem gauges (10%) | Fixed, locked via governance |
 | Max boost multiplier | Maximum veMEZO boost on veBTC | Currently 5x |
+
+Splitter ratios are currently fixed and cannot be changed through voting. These ratios may become adjustable through future governance mechanisms.
 
 ![Mezo Emissions Schedule](/docs/images/mezo-token/mezo-emissions.png)
 
@@ -24,9 +26,6 @@ veBTC holders can adjust where MEZO emissions land, allowing them to modify the 
 
 ## Governance Constraints
 
-Mezo governance includes safeguards to prevent sudden changes:
-
-- **Splitter inertia** — Splitter ratios can only move ±1% per epoch. Significant changes require sustained community support over multiple epochs.
 - **BTC-anchored voting** — Only veBTC holders can vote on governance proposals. veMEZO boosts voting power but grants no independent governance rights.
 
 ## Future Development
