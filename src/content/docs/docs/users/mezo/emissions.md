@@ -77,8 +77,8 @@ Weekly emissions flow through a splitter system:
 
 1. **Rebase vs. Rewards** — A portion goes to veMEZO holders as anti-dilution rebases; the remainder flows to the "Chain Splitter" as emission rewards.
 2. **Chain Splitter** — Rewards are split between validators (20%) and the ecosystem (80%). This ratio is currently fixed and locked via governance.
-3. **Ecosystem Splitter** — Ecosystem rewards are split between staking gauges (90%) and non-staking ecosystem gauges (10%). This ratio is currently fixed and locked via governance.
-4. **Gauge Voting** — Within each branch, veBTC holders vote to direct emissions to specific gauges.
+3. **Ecosystem Splitter** — Ecosystem rewards are directed to staking gauges. This ratio is currently fixed and locked via governance.
+4. **Gauge Voting** — veBTC holders vote to direct emissions to specific staking gauges.
 
 ![MEZO Emissions Flow](/docs/images/mezo-token/mezo-emissions-flow.png)
 
@@ -90,10 +90,8 @@ Weekly emissions flow through a splitter system:
 
 3. **Chain Splitter** determines how much goes to validators versus the rest of the ecosystem. The ratio is currently fixed at 20% to validators and 80% to the ecosystem, locked via governance.
 
-4. **Validators** operate Mezo chain nodes. They receive MEZO emissions based on delegated vote weight and may (but are not required to) share rewards with delegators or repost them as incentives.
+4. **Validators** operate Mezo chain nodes. They receive a fixed share of MEZO emissions (20%) via the Chain Splitter.
 
-5. **Ecosystem Splitter** divides the remaining 80% between staking gauges (90%) and non-staking ecosystem gauges (10%). Like the Chain Splitter, this ratio is currently fixed and locked via governance.
+5. **Ecosystem Splitter** directs the remaining 80% to staking gauges. This ratio is currently fixed and locked via governance.
 
-6. **Staking Gauges** receive the largest share of emissions (~72% net). LPs who stake their LP tokens and MUSD savers who stake their receipt tokens earn MEZO here. In exchange, they give up direct trading fees—those flow to veBTC voters instead.
-
-7. **Ecosystem Gauges** support grants, partner protocols, and ecosystem development (~8% net). These non-staking gauges allow governance to fund initiatives that grow Mezo without requiring recipients to provide liquidity.
+6. **Staking Gauges** receive the largest share of emissions. LPs who stake their LP tokens and MUSD savers who stake their receipt tokens earn MEZO here. In exchange, they give up direct trading fees—those flow to veBTC voters instead.
