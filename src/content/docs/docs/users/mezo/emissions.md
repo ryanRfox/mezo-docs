@@ -73,14 +73,12 @@ The table below shows the weekly emission schedule for each quarter of the first
 
 ## How Emissions Are Distributed
 
-Weekly emissions flow through a governed splitter system:
+Weekly emissions flow through a splitter system:
 
 1. **Rebase vs. Rewards** — A portion goes to veMEZO holders as anti-dilution rebases; the remainder flows to the "Chain Splitter" as emission rewards.
-2. **Chain Splitter** — Rewards are split between validators and the ecosystem.
-3. **Ecosystem Splitter** — Ecosystem rewards are split between staking gauges and non-staking ecosystem gauges.
-4. **Gauge Voting** — Within each branch, veBTC holders vote to direct emissions to specific gauges.
-
-Splitter ratios (Chain Splitter and Ecosystem Splitter) can shift by a maximum of 1% per epoch, ensuring gradual transitions.
+2. **Chain Splitter** — Rewards are split between validators (20%) and the ecosystem (80%). This ratio is currently fixed and locked via governance.
+3. **Ecosystem Splitter** — Ecosystem rewards are directed to staking gauges. This ratio is currently fixed and locked via governance.
+4. **Gauge Voting** — veBTC holders vote to direct emissions to specific staking gauges.
 
 ![MEZO Emissions Flow](/docs/images/mezo-token/mezo-emissions-flow.png)
 
@@ -90,12 +88,10 @@ Splitter ratios (Chain Splitter and Ecosystem Splitter) can shift by a maximum o
 
 2. **Rebase** protects veMEZO holders from dilution. The rebase share is dynamic—when few tokens are locked, rebase is high (up to 50% of emissions) to incentivize locking. As more MEZO is locked, the rebase share shrinks and more flows to rewards. This shifts the system from paying people to hold to paying people to participate by voting.
 
-3. **Chain Splitter** governs how much goes to validators versus the rest of the ecosystem. The default is 20% to validators, 80% to the ecosystem. veBTC holders can vote to adjust this ratio, but it can only move ±1% per epoch to prevent sudden shifts.
+3. **Chain Splitter** determines how much goes to validators versus the rest of the ecosystem. The ratio is currently fixed at 20% to validators and 80% to the ecosystem, locked via governance.
 
-4. **Validators** operate Mezo chain nodes. They receive MEZO emissions based on delegated vote weight and may (but are not required to) share rewards with delegators or repost them as incentives.
+4. **Validators** operate Mezo chain nodes. They receive a fixed share of MEZO emissions (20%) via the Chain Splitter.
 
-5. **Ecosystem Splitter** divides the remaining 80% between staking gauges (90%) and non-staking ecosystem gauges (10%). Like the Chain Splitter, this ratio is governable with ±1% movement per epoch.
+5. **Ecosystem Splitter** directs the remaining 80% to staking gauges. This ratio is currently fixed and locked via governance.
 
-6. **Staking Gauges** receive the largest share of emissions (~72% net). LPs who stake their LP tokens and MUSD savers who stake their receipt tokens earn MEZO here. In exchange, they give up direct trading fees—those flow to veBTC voters instead.
-
-7. **Ecosystem Gauges** support grants, partner protocols, and ecosystem development (~8% net). These non-staking gauges allow governance to fund initiatives that grow Mezo without requiring recipients to provide liquidity.
+6. **Staking Gauges** receive the largest share of emissions. LPs who stake their LP tokens and MUSD savers who stake their receipt tokens earn MEZO here. In exchange, they give up direct trading fees—those flow to veBTC voters instead.

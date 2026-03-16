@@ -14,7 +14,7 @@ No. Locks are permanent until expiration. Choose your duration carefully—veMEZ
 
 ### Can I vote on gauges with only veMEZO?
 
-No. veMEZO does not grant independent voting power. You need veBTC to vote on staking gauges, validator gauges, or ecosystem gauges. veMEZO only multiplies veBTC voting power.
+No. veMEZO does not grant independent voting power. You need veBTC to vote on staking gauges. veMEZO only multiplies veBTC voting power.
 
 ### What can I do with veMEZO if I don't have veBTC?
 

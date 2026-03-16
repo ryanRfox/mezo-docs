@@ -40,14 +40,6 @@ The act of committing BTC or MEZO for a set period to receive veBTC or veMEZO. L
 
 A gauge tied to a staking token (like LP tokens or MUSD savings receipts). Stakers earn MEZO emissions; voters earn trading fees.
 
-## Validator Gauge
-
-A gauge that directs MEZO emissions to network validators who secure the Mezo chain.
-
-## Ecosystem Gauge
-
-A gauge that routes MEZO emissions to partner protocols or ecosystem initiatives.
-
 ## veBTC Boost Gauge
 
 A gauge attached to a specific veBTC NFT. veMEZO holders vote on these gauges to provide boost to that veBTC position in exchange for incentives.
@@ -78,7 +70,7 @@ Anti-dilution distributions to veMEZO holders. When the lock ratio (veMEZO suppl
 
 ## Splitter
 
-A contract that divides emissions between two destinations (e.g., validators vs. ecosystem). Split ratios are governable but can only change by 1% per epoch to prevent sudden shifts.
+A contract that divides emissions between two destinations (e.g., validators vs. ecosystem). Split ratios are currently fixed and locked via governance.
 
 ## MUSD
 
@@ -90,7 +82,7 @@ A staking gauge for the MUSD savings vault. Users who deposit MUSD into the savi
 
 ## Emissions
 
-New MEZO tokens distributed each epoch to gauges, validators, and veMEZO holders (as rebases). Emissions follow a halving schedule: 25% annualized in years 0-2, declining to ~2% after year 8.
+New MEZO tokens distributed each epoch to staking gauges, validators, and veMEZO holders (as rebases). Emissions follow a halving schedule: 25% annualized in years 0-2, declining to ~2% after year 8.
 
 ## Chain Splitter
 
@@ -98,4 +90,4 @@ The first splitter in the emissions hierarchy. Controls what percentage of emiss
 
 ## Ecosystem Splitter
 
-The second splitter. Divides non-validator emissions between staking gauges (initially 90%) and non-staking ecosystem gauges (initially 10%).
+The second splitter. Directs non-validator emissions to staking gauges. This ratio is currently fixed and locked via governance.

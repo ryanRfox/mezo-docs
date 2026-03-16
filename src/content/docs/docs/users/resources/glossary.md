@@ -38,7 +38,7 @@ A numeric identifier for a blockchain network. Mezo Mainnet uses chain ID `31612
 
 ## Chain Splitter
 
-The first splitter in the emissions hierarchy. Controls what percentage of MEZO emissions go to validators (initially 20%) versus the rest of the ecosystem (80%). The ratio is governable but can only change by ±1% per epoch. See [Emissions Schedule](/docs/users/mezo/emissions).
+The first splitter in the emissions hierarchy. Controls what percentage of MEZO emissions go to validators (20%) versus the rest of the ecosystem (80%). This ratio is currently fixed and locked via governance. See [Emissions Schedule](/docs/users/mezo/emissions).
 
 ## Cliff
 
@@ -80,17 +80,13 @@ The gradual reduction in voting weight as a lock approaches expiration. veBTC an
 
 A participant who delegates their stake or voting power to a [validator](#validator). Validators may share rewards with delegators, though this is not required.
 
-## Ecosystem Gauge
-
-A [gauge](#gauge) that routes MEZO emissions to partner protocols or ecosystem initiatives. Ecosystem gauges receive approximately 8% of net emissions and are used to fund grants and ecosystem development. See [Emissions Schedule](/docs/users/mezo/emissions).
-
 ## Ecosystem Splitter
 
-The second splitter in the emissions hierarchy. Divides non-validator emissions between staking gauges (initially 90%) and non-staking ecosystem gauges (initially 10%). The ratio is governable with ±1% movement per epoch. See [Emissions Schedule](/docs/users/mezo/emissions).
+The second splitter in the emissions hierarchy. Directs non-validator emissions to staking gauges. This ratio is currently fixed and locked via governance. See [Emissions Schedule](/docs/users/mezo/emissions).
 
 ## Emissions
 
-New MEZO tokens distributed each epoch to gauges, validators, and veMEZO holders (as rebases). Emissions follow a Bitcoin-inspired halving schedule, starting at 25% annualized and declining to 2% after year 8. See [Emissions Schedule](/docs/users/mezo/emissions).
+New MEZO tokens distributed each epoch to staking gauges, validators, and veMEZO holders (as rebases). Emissions follow a Bitcoin-inspired halving schedule, starting at 25% annualized and declining to 2% after year 8. See [Emissions Schedule](/docs/users/mezo/emissions).
 
 ## Epoch
 
@@ -118,7 +114,7 @@ A 200 MUSD refund paid to the caller of a [liquidation](#liquidation) function, 
 
 ## Gauge
 
-A smart contract that receives and distributes rewards based on votes. The more voting weight a gauge receives, the larger its share of MEZO emissions for that epoch. Gauge types include [staking gauges](#staking-gauge), [validator gauges](#validator-gauge), [ecosystem gauges](#ecosystem-gauge), and [veBTC boost gauges](#vebtc-boost-gauge). See [Mezo Earn Glossary](/docs/users/mezo-earn/overview/glossary).
+A smart contract that receives and distributes rewards based on votes. The more voting weight a gauge receives, the larger its share of MEZO emissions for that epoch. Gauge types include [staking gauges](#staking-gauge) and [veBTC boost gauges](#vebtc-boost-gauge). See [Mezo Earn Glossary](/docs/users/mezo-earn/overview/glossary).
 
 ## Global Interest Rate
 
@@ -126,7 +122,7 @@ A single interest rate set by governance that applies to all newly opened MUSD l
 
 ## Governance
 
-The system through which veBTC holders shape protocol parameters and emissions. Governable parameters include splitter ratios and the max boost multiplier. veMEZO boosts voting power but has no independent governance rights. See [Governance](/docs/users/mezo/governance).
+The system through which veBTC holders shape protocol parameters and emissions. veMEZO boosts voting power but has no independent governance rights. See [Governance](/docs/users/mezo/governance).
 
 ## Halving Schedule
 
@@ -282,7 +278,7 @@ The difference between the expected price of a trade and the actual execution pr
 
 ## Splitter
 
-A contract that divides MEZO emissions between two destinations. Split ratios are governable but can only change by ±1% per epoch to prevent sudden shifts. See [Chain Splitter](#chain-splitter) and [Ecosystem Splitter](#ecosystem-splitter).
+A contract that divides MEZO emissions between two destinations. Split ratios are currently fixed and locked via governance. See [Chain Splitter](#chain-splitter) and [Ecosystem Splitter](#ecosystem-splitter).
 
 ## Stability Pool
 
@@ -338,11 +334,7 @@ A collateralized debt position on Mezo, bound to a single Ethereum address. User
 
 ## Validator
 
-A node operator that participates in consensus and block production on the Mezo network. Validators run the mezod client, secure the chain, and receive MEZO emissions based on delegated vote weight. See [Mezo Validators](/docs/developers/mezo-nodes/validators).
-
-## Validator Gauge
-
-A [gauge](#gauge) that directs MEZO emissions to network validators who secure the Mezo chain. Validator gauges receive approximately 20% of emissions via the [Chain Splitter](#chain-splitter). See [Mezo Earn Glossary](/docs/users/mezo-earn/overview/glossary).
+A node operator that participates in consensus and block production on the Mezo network. Validators run the mezod client, secure the chain, and receive MEZO emissions via the Chain Splitter. See [Mezo Validators](/docs/developers/mezo-nodes/validators).
 
 ## Validator Kit
 

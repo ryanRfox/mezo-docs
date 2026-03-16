@@ -20,7 +20,7 @@ Absolutely. You can allocate your voting power however you want—50% to BTC/MUS
 
 **What's the difference between voting with veBTC and veMEZO?**
 
-veBTC holders vote on staking gauges, validator gauges, and ecosystem gauges. They earn trading fees, incentives, and passive bridging fees.
+veBTC holders vote on staking gauges. They earn trading fees, incentives, and passive bridging fees.
 
 veMEZO holders vote on veBTC boost gauges. They earn incentives posted by veBTC holders seeking boost, plus rebase distributions.
 
