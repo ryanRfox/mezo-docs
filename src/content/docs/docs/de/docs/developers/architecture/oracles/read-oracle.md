@@ -1,6 +1,8 @@
 ---
 title: Marktdaten mit Orakeln lesen
-description: Wie man mit der Orakel-Infrastruktur von Mezo auf Marktdaten zugreift und sie interpretiert.
+description: >-
+  Wie man mit der Orakel-Infrastruktur von Mezo auf Marktdaten zugreift und sie
+  interpretiert.
 topic: developers
 ---
 

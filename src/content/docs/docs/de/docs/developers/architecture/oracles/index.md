@@ -1,7 +1,8 @@
 ---
 title: 'Entwicklerhandbuch: Orakel-Infrastruktur'
 description: >-
-  Erfahren Sie, wie Mezo-Orakel sichere, dezentrale Datenfeeds für Ihre Anwendungen bereitstellen.
+  Erfahren Sie, wie Mezo-Orakel sichere, dezentrale Datenfeeds für Ihre
+  Anwendungen bereitstellen.
 topic: developers
 ---
 

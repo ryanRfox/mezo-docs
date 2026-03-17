@@ -5,6 +5,7 @@ template: splash
 hero:
   tagline: Biến Bitcoin của bạn thành tài sản tạo lợi nhuận chủ động với BitcoinFi.
   image:
-    file: ../../../../assets/Mezo-Mark-Red.svg
+    file: ../../../../../assets/Mezo-Mark-Red.svg
   actions: []
 ---
+

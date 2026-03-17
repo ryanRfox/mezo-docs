@@ -1,8 +1,8 @@
 ---
-title: "Guide du développeur : Infrastructure d'oracles"
+title: 'Guide du développeur : Infrastructure d''oracles'
 description: >-
-  Découvrez comment les oracles Mezo fournissent des flux de données sécurisés et décentralisés pour vos
-  applications.
+  Découvrez comment les oracles Mezo fournissent des flux de données sécurisés
+  et décentralisés pour vos applications.
 topic: developers
 ---
 

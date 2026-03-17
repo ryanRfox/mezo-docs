@@ -1,7 +1,8 @@
 ---
 title: 'Ontwikkelaarsgids: Orakel-infrastructuur'
 description: >-
-  Leer hoe Mezo-orakels veilige, gedecentraliseerde datafeeds bieden voor uw applicaties.
+  Leer hoe Mezo-orakels veilige, gedecentraliseerde datafeeds bieden voor uw
+  applicaties.
 topic: developers
 ---
 

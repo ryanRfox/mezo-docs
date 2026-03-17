@@ -1,7 +1,8 @@
 ---
 title: 'Hướng dẫn Nhà phát triển: Hạ tầng Oracle'
 description: >-
-  Tìm hiểu cách các Oracle của Mezo cung cấp nguồn dữ liệu an toàn, phi tập trung cho ứng dụng của bạn.
+  Tìm hiểu cách các Oracle của Mezo cung cấp nguồn dữ liệu an toàn, phi tập
+  trung cho ứng dụng của bạn.
 topic: developers
 ---
 

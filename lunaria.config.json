@@ -12,52 +12,53 @@
   "locales": [
     {
       "label": "中文",
-      "lang": "zh"
+      "lang": "docs/zh"
     },
     {
       "label": "हिन्दी",
-      "lang": "hi"
+      "lang": "docs/in"
     },
     {
       "label": "Русский",
-      "lang": "ru"
+      "lang": "docs/ru"
     },
     {
       "label": "Українська",
-      "lang": "uk"
+      "lang": "docs/ua"
     },
     {
       "label": "Français",
-      "lang": "fr"
+      "lang": "docs/fr"
     },
     {
       "label": "Português (Brasil)",
-      "lang": "pt-BR"
+      "lang": "docs/pt-br"
     },
     {
       "label": "한국어",
-      "lang": "ko"
+      "lang": "docs/kr"
     },
     {
       "label": "Tiếng Việt",
-      "lang": "vi"
+      "lang": "docs/vn"
     },
     {
       "label": "Deutsch",
-      "lang": "de"
+      "lang": "docs/de"
     },
     {
       "label": "Nederlands",
-      "lang": "nl"
+      "lang": "docs/nl"
     },
     {
       "label": "Español",
-      "lang": "es"
+      "lang": "docs/es"
     }
   ],
   "files": [
     {
       "location": "src/content/docs/**/*.{md,mdx}",
+      "ignore": ["**/404/**"],
       "pattern": "src/content/docs/@lang/@path",
       "type": "universal"
     }

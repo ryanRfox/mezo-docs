@@ -1,6 +1,8 @@
 ---
 title: Marktgegevens lezen met orakels
-description: Hoe marktgegevens te raadplegen en interpreteren met de orakel-infrastructuur van Mezo.
+description: >-
+  Hoe marktgegevens te raadplegen en interpreteren met de orakel-infrastructuur
+  van Mezo.
 topic: developers
 ---
 
