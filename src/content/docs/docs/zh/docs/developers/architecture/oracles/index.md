@@ -1,7 +1,6 @@
 ---
-title: '开发者指南：预言机基础设施'
-description: >-
-  了解 Mezo 预言机如何为您的应用程序提供安全、去中心化的数据源。
+title: 开发者指南：预言机基础设施
+description: 了解 Mezo 预言机如何为您的应用程序提供安全、去中心化的数据源。
 topic: developers
 ---
 

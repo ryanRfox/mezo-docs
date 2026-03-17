@@ -191,7 +191,6 @@ export default defineConfig({
                               'docs/users/musd/fees',
                               'docs/users/musd/architecture-and-terminology',
                               'docs/users/musd/liquidation-mechanics',
-                              'docs/users/musd/claim-collateral-after-redemption',
                               'docs/users/musd/musd-bridge'
                         ]
                   },

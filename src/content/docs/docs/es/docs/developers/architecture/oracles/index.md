@@ -1,8 +1,8 @@
 ---
 title: 'Guía para Desarrolladores: Infraestructura de Oráculos'
 description: >-
-  Aprende cómo los Oráculos de Mezo proporcionan fuentes de datos seguras y descentralizadas para tus
-  aplicaciones.
+  Aprende cómo los Oráculos de Mezo proporcionan fuentes de datos seguras y
+  descentralizadas para tus aplicaciones.
 topic: developers
 ---
 

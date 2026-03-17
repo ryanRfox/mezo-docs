@@ -1,6 +1,8 @@
 ---
 title: Lendo Dados de Mercado com Oráculos
-description: Como acessar e interpretar dados de mercado usando a infraestrutura de oráculos do Mezo.
+description: >-
+  Como acessar e interpretar dados de mercado usando a infraestrutura de
+  oráculos do Mezo.
 topic: developers
 ---
 

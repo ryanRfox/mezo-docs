@@ -1,7 +1,8 @@
 ---
 title: 'Guia do Desenvolvedor: Infraestrutura de Oraculos'
 description: >-
-  Aprenda como os Oraculos do Mezo fornecem feeds de dados seguros, descentralizados para suas aplicacoes.
+  Aprenda como os Oraculos do Mezo fornecem feeds de dados seguros,
+  descentralizados para suas aplicacoes.
 topic: developers
 ---
 

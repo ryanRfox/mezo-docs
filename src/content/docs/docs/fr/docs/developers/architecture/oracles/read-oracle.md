@@ -1,6 +1,8 @@
 ---
 title: Lire les données de marché avec les oracles
-description: Comment accéder et interpréter les données de marché en utilisant l'infrastructure oracle de Mezo.
+description: >-
+  Comment accéder et interpréter les données de marché en utilisant
+  l'infrastructure oracle de Mezo.
 topic: developers
 ---
 
