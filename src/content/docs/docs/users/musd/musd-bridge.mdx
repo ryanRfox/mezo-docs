@@ -1,32 +1,52 @@
 ---
 title: MUSD Bridge
 description: >-
-  Learn how to bridge MUSD tokens between Ethereum and Mezo using Wormhole's
+  Learn how to bridge MUSD tokens between Ethereum, Base, and Mezo using Wormhole's
   Native Token Transfer protocol.
 topic: users
 ---
 
-import { Steps } from '@astrojs/starlight/components';
+import { Steps, LinkButton } from '@astrojs/starlight/components';
 
-The [MUSD](https://mezo.org/feature/musd) bridge enables transfers between Mezo and Ethereum networks using Wormhole's Native Token Transfer (NTT) protocol. This bridge maintains token fungibility while providing secure cross-chain functionality.
+The [MUSD](https://mezo.org/feature/musd) bridge enables transfers between Mezo, Ethereum, and Base networks using Wormhole's Native Token Transfer (NTT) protocol. This bridge maintains token fungibility while providing secure cross-chain functionality.
 
 ## How it Works
 
 The MUSD bridge uses Wormhole's Native Token Transfer protocol to facilitate cross-chain transfers:
 
-- **From Mezo to Ethereum**: MUSD tokens are locked on Mezo and the equivalent tokens are minted on Ethereum
-- **From Ethereum to Mezo**: MUSD tokens are burned on Ethereum and equivalent tokens are unlocked on Mezo
+- **From Mezo to Ethereum/Base**: MUSD tokens are locked on Mezo and the equivalent tokens are minted on the destination chain
+- **From Ethereum/Base to Mezo**: MUSD tokens are burned on the source chain and equivalent tokens are unlocked on Mezo
 
-This mechanism ensures that the total supply across both chains remains constant while allowing users to move their tokens freely between networks.
+This mechanism ensures that the total supply across all chains remains constant while allowing users to move their tokens freely between networks.
 
-## Using the Portal UI
+## Bridge Options
 
-The easiest way to bridge MUSD tokens is through the [Portal UI](https://portalbridge.com/):
+There are two user interfaces available for bridging MUSD tokens:
+
+### Mezo dApp
+
+The [Mezo dApp](https://mezo.org) provides a native bridging experience for transferring MUSD tokens between Mezo and Ethereum networks.
+
+<Steps>
+1. **Connect your wallet** to the Mezo dApp
+
+2. **Click "Withdraw"** to bridge from Mezo, or **"Deposit"** to bridge to Mezo
+
+3. **Select MUSD token** and enter the amount
+
+4. **Confirm the transaction** in your wallet
+
+5. **Wait for confirmation** on both chains
+</Steps>
+
+### Portal Bridge UI
+
+For bridging MUSD tokens to Base or Ethereum, you can also use the [Portal UI](https://portalbridge.com/):
 
 <Steps>
 1. **Connect your wallet** to the Portal interface
 
-2. **Select source and destination chains** (Mezo ↔ Ethereum)
+2. **Select source and destination chains** (Mezo ↔ Ethereum ↔ Base)
 
 3. **Choose MUSD** as the token to bridge
 
@@ -39,24 +59,14 @@ The easiest way to bridge MUSD tokens is through the [Portal UI](https://portalb
 7. **Wait for confirmation** on both chains
 </Steps>
 
-The Portal UI provides a user-friendly interface that handles all the complex interactions with the underlying NTT contracts.
+Both interfaces provide user-friendly experiences that handle all the complex interactions with the underlying NTT contracts.
 
 ## Smart Contracts
 
-The MUSD bridge is powered by the following smart contracts:
-
-### Mezo Network
-- **NTT Manager**: [0x7efb386675d75280D39Aae42964A6776DE0ee0bD](https://explorer.mezo.org/address/0x7efb386675d75280D39Aae42964A6776DE0ee0bD)
-- **Wormhole Transceiver**: [0x56E27f1A8425515FFD4BD76A254Ac1a5c0B66D71](https://explorer.mezo.org/address/0x56E27f1A8425515FFD4BD76A254Ac1a5c0B66D71)
-- **MUSD Token**: [0xdD468A1DDc392dcdbEf6db6e34E89AA338F9F186](https://explorer.mezo.org/token/0xdD468A1DDc392dcdbEf6db6e34E89AA338F9F186)
-
-### Ethereum Network
-- **NTT Manager**: [0x5293158bf7a81ED05418DA497a80F7e6Dbf4477E](https://etherscan.io/address/0x5293158bf7a81ED05418DA497a80F7e6Dbf4477E)
-- **Wormhole Transceiver**: [0x76ddB3f1dDe02391Ef0A28664499B74C29d18d3E](https://etherscan.io/address/0x76ddB3f1dDe02391Ef0A28664499B74C29d18d3E)
-- **MUSD Token**: [0xdD468A1DDc392dcdbEf6db6e34E89AA338F9F186](https://etherscan.io/address/0xdD468A1DDc392dcdbEf6db6e34E89AA338F9F186)
+For all MUSD bridge and token contract addresses, see the [Contracts and Token Addresses](../../resources/contracts-reference) reference page.
 
 ## Additional Resources
 
-- [Wormhole NTT Documentation](https://wormhole.com/docs/products/native-token-transfers/overview/) - Learn more about the Native Token Transfer protocol
-- [Portal Bridge](https://portalbridge.com/) - The official UI for bridging tokens
-- [Contracts Reference](../../resources/contracts-reference.md) - Complete list of all protocol contracts
+<LinkButton href="https://wormhole.com/docs/products/native-token-transfers/overview/">Wormhole NTT Documentation</LinkButton>
+<LinkButton href="https://portalbridge.com/">Portal Bridge</LinkButton>
+<LinkButton href="../../resources/contracts-reference">Contracts Reference</LinkButton>
