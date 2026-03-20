@@ -33,34 +33,26 @@ aMUSD is the receipt token users get for depositing in the Morpho Alpha MUSD Cor
 
 
 
-### MUSD tokens
-
-**Mezo:**
-- Mainnet MUSD: [0xdD468A1DDc392dcdbEf6db6e34E89AA338F9F186](https://explorer.mezo.org/token/0xdD468A1DDc392dcdbEf6db6e34E89AA338F9F186)
-- Testnet MUSD: [0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503](https://explorer.test.mezo.org/token/0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503)
-
-**Ethereum:**
-- Mainnet MUSD: [0xdD468A1DDc392dcdbEf6db6e34E89AA338F9F186](https://etherscan.io/token/0xdD468A1DDc392dcdbEf6db6e34E89AA338F9F186)
-
-**Base:**
-- Mainnet MUSD: [0xdD468A1DDc392dcdbEf6db6e34E89AA338F9F186](https://basescan.org/token/0xdD468A1DDc392dcdbEf6db6e34E89AA338F9F186)
-
-### MUSD bridge
+### MUSD token and bridge
 
 The MUSD bridge is powered by Wormhole's Native Token Transfer (NTT) protocol, which enables secure cross-chain transfers while maintaining token fungibility. NTT allows tokens to be locked on the source chain and minted on the destination chain, or burned and unlocked when bridging back. Use the [Portal UI](https://portalbridge.com/) to bridge tokens.
 
 For more information about NTT, see the [official Wormhole documentation](https://wormhole.com/docs/products/native-token-transfers/overview/).
 
-**Mezo:**
-- Ntt manager: [0x7efb386675d75280D39Aae42964A6776DE0ee0bD](https://explorer.mezo.org/address/0x7efb386675d75280D39Aae42964A6776DE0ee0bD)
+#### Mezo
+- Mainnet MUSD: [0xdD468A1DDc392dcdbEf6db6e34E89AA338F9F186](https://explorer.mezo.org/token/0xdD468A1DDc392dcdbEf6db6e34E89AA338F9F186)
+- Testnet MUSD: [0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503](https://explorer.test.mezo.org/token/0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503)
+- NTT Manager: [0x7efb386675d75280D39Aae42964A6776DE0ee0bD](https://explorer.mezo.org/address/0x7efb386675d75280D39Aae42964A6776DE0ee0bD)
 - Wormhole Transceiver: [0x56E27f1A8425515FFD4BD76A254Ac1a5c0B66D71](https://explorer.mezo.org/address/0x56E27f1A8425515FFD4BD76A254Ac1a5c0B66D71)
 
-**Ethereum:**
-- Ntt manager: [0x5293158bf7a81ED05418DA497a80F7e6Dbf4477E](https://etherscan.io/address/0x5293158bf7a81ED05418DA497a80F7e6Dbf4477E)
+#### Ethereum
+- Mainnet MUSD: [0xdD468A1DDc392dcdbEf6db6e34E89AA338F9F186](https://etherscan.io/token/0xdD468A1DDc392dcdbEf6db6e34E89AA338F9F186)
+- NTT Manager: [0x5293158bf7a81ED05418DA497a80F7e6Dbf4477E](https://etherscan.io/address/0x5293158bf7a81ED05418DA497a80F7e6Dbf4477E)
 - Wormhole Transceiver: [0x76ddB3f1dDe02391Ef0A28664499B74C29d18d3E](https://etherscan.io/address/0x76ddB3f1dDe02391Ef0A28664499B74C29d18d3E)
 
-**Base:**
-- Ntt manager: [0x3EB418BdBE95b4b9cf465ecfBD8424685ACD1Bc1](https://basescan.org/address/0x3EB418BdBE95b4b9cf465ecfBD8424685ACD1Bc1)
+#### Base
+- Mainnet MUSD: [0xdD468A1DDc392dcdbEf6db6e34E89AA338F9F186](https://basescan.org/token/0xdD468A1DDc392dcdbEf6db6e34E89AA338F9F186)
+- NTT Manager: [0x3EB418BdBE95b4b9cf465ecfBD8424685ACD1Bc1](https://basescan.org/address/0x3EB418BdBE95b4b9cf465ecfBD8424685ACD1Bc1)
 - Wormhole Transceiver: [0x15C465E7dF34f8cA06FDCae0569206cEDf3f4467](https://basescan.org/address/0x15C465E7dF34f8cA06FDCae0569206cEDf3f4467)
 
 
@@ -70,27 +62,27 @@ The MEZO bridge is powered by Wormhole's Native Token Transfer (NTT) protocol, w
 
 For more information about NTT, see the [official Wormhole documentation](https://wormhole.com/docs/products/native-token-transfers/overview/).
 
-**Mezo:**
+#### Mezo
 - MEZO Token: [0x7B7c000000000000000000000000000000000001](https://explorer.mezo.org/token/0x7B7c000000000000000000000000000000000001)
 - NTT Manager: [0x5E668D912F69db0762CD0fE00647dA9fa6b29591](https://explorer.mezo.org/address/0x5E668D912F69db0762CD0fE00647dA9fa6b29591)
 - Wormhole Transceiver: [0x528edf2dBbC6Ae6978c88E54B260AB86B682D18c](https://explorer.mezo.org/address/0x528edf2dBbC6Ae6978c88E54B260AB86B682D18c)
 
-**Ethereum:**
+#### Ethereum
 - MEZO Token: [0x8e4cbBcc33dB6c0a18561fDE1F6bA35906d4848b](https://etherscan.io/address/0x8e4cbBcc33dB6c0a18561fDE1F6bA35906d4848b)
 - NTT Manager: [0x13916D0daB357DCBAa1600b594d62C641840686A](https://etherscan.io/address/0x13916D0daB357DCBAa1600b594d62C641840686A)
 - Wormhole Transceiver: [0x920871aF2D4106E76d204fEA7122fA129C9283b1](https://etherscan.io/address/0x920871aF2D4106E76d204fEA7122fA129C9283b1)
 
-**Base:**
+#### Base
 - MEZO Token: [0x8e4cbBcc33dB6c0a18561fDE1F6bA35906d4848b](https://basescan.org/address/0x8e4cbBcc33dB6c0a18561fDE1F6bA35906d4848b)
 - NTT Manager: [0x0c46f496C410465975a427e34a976fc15a2edE4f](https://basescan.org/address/0x0c46f496C410465975a427e34a976fc15a2edE4f)
 - Wormhole Transceiver: [0x27321f84704a599aB740281E285cc4463d89A3D5](https://basescan.org/address/0x27321f84704a599aB740281E285cc4463d89A3D5)
 
-**BSC:**
+#### BSC
 - MEZO Token: [0x8e4cbBcc33dB6c0a18561fDE1F6bA35906d4848b](https://bscscan.com/address/0x8e4cbBcc33dB6c0a18561fDE1F6bA35906d4848b)
 - NTT Manager: [0x09959798B95d00a3183d20FaC298E4594E599eab](https://bscscan.com/address/0x09959798B95d00a3183d20FaC298E4594E599eab)
 - Wormhole Transceiver: [0xa10aD2570ea7b93d19fDae6Bd7189fF4929Bc747](https://bscscan.com/address/0xa10aD2570ea7b93d19fDae6Bd7189fF4929Bc747)
 
-**Solana:**
+#### Solana
 - MEZO Token: [8niMFW4yuv3vLoqTtBaC6rchyasmUhgvpgSyPEeeCrw6](https://solscan.io/address/8niMFW4yuv3vLoqTtBaC6rchyasmUhgvpgSyPEeeCrw6)
 - NTT Manager: [Ntt4AnEASZ9oLw25PTmXFrwSFD473ufd3rCLWoX5Gg7](https://solscan.io/address/Ntt4AnEASZ9oLw25PTmXFrwSFD473ufd3rCLWoX5Gg7)
 - Wormhole Transceiver: [6aVRLvdjgrovCiZa5q5kifUtvD6p2ogaQ2J248MpfCa3](https://solscan.io/address/6aVRLvdjgrovCiZa5q5kifUtvD6p2ogaQ2J248MpfCa3)
