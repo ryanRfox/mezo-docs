@@ -50,12 +50,14 @@ This guide explains how to bridge your assets out of Mezo back to the Ethereum o
 | **BTC** | Bitcoin | Native BTC | Real Bitcoin sent to your Bitcoin wallet |
 | **mERC-20 tokens** | Ethereum | Original ERC-20 token | Get back the same tokens you originally bridged in (like USDC, USDT, etc.) |
 | **MUSD** | Ethereum | MUSD | Bridge as little as 1 MUSD from Mezo to Ethereum. Bridge powered by Wormhole. |
+| **MEZO** | Ethereum, Base, BSC, Solana | MEZO | Bridge powered by Wormhole NTT. See the [MEZO Bridge guide](/docs/users/mezo/mezo-bridge) for details. |
 | **mERC-20 tokens** | Bitcoin | Not available | ERC-20 tokens can't be sent to Bitcoin |
 
 :::note[Key Points]
 - You can only bridge to Ethereum or Bitcoin mainnet.
 - BTC can go to Ethereum (as tBTC) or to Bitcoin (as native BTC).
 - Tokens like USDC or T (represented as m-tokens on Mezo) can only go back to Ethereum.
+- MEZO tokens can be bridged to Ethereum, Base, BSC, and Solana via [Wormhole NTT](/docs/users/mezo/mezo-bridge).
 - Bitcoin Taproot addresses (starting with `bc1p`) aren't supported yet.
 - Layer 2 networks and other chains aren't available as destinations.
 :::
@@ -106,7 +108,7 @@ This guide explains how to bridge your assets out of Mezo back to the Ethereum o
 When withdrawing assets from Mezo, the system automatically determines which bridge to use. This information appears on the "Bridge" line in your withdrawal modal.
 
 -   **Mezo Native Bridge:** Used for all standard withdrawals of assets like BTC and mERC-20 tokens.
--   **Wormhole Bridge:** A third-party bridge used for MUSD withdrawals to Ethereum.
+-   **Wormhole Bridge:** A third-party bridge used for MUSD withdrawals to Ethereum and [MEZO token transfers](/docs/users/mezo/mezo-bridge) to Ethereum, Base, BSC, and Solana.
 -   **Super Bridge (Coming Soon):** A Mezo native bridge that will support deposits and withdrawals for smaller denominations of assets.
 
 Fees will be accurately displayed in the app depending on the bridge route used for your specific transaction.
