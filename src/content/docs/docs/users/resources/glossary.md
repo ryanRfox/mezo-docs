@@ -286,7 +286,7 @@ A reserve of MUSD that serves as the first line of defense against [liquidations
 
 ## Stable Pool
 
-A [liquidity pool](#liquidity-pool) optimized for trading between assets with highly correlated values, such as MUSD and USDC. Stable pools use a specialized formula to provide much lower [slippage](#slippage) and charge a 0.05% trading fee. See [Pools Fees](/docs/users/mezo-earn/pools/pools-fees).
+A [liquidity pool](#liquidity-pool) optimized for trading between assets with highly correlated values, such as MUSD and USDC. Stable pools use a specialized formula to provide much lower [slippage](#slippage) and charge a 0.02% trading fee. See [Pools Fees](/docs/users/mezo-earn/pools/pools-fees).
 
 ## Staking Gauge
 
@@ -298,7 +298,7 @@ An indexed, queryable data layer for blockchain data, accessed via GraphQL APIs.
 
 ## Swap Fees
 
-Fees charged on each token swap in a [liquidity pool](#liquidity-pool). Volatile pools charge 0.30% and stable pools charge 0.05%. Fees are collected in the input token and held in a separate PoolFees contract for liquidity providers to claim. See [Pools Fees](/docs/users/mezo-earn/pools/pools-fees).
+Fees charged on each token swap in a [liquidity pool](#liquidity-pool). Volatile pools charge 0.30% and stable pools charge 0.02%. Fees are collected in the input token and held in a separate PoolFees contract for liquidity providers to claim. See [Pools Fees](/docs/users/mezo-earn/pools/pools-fees).
 
 ## tBTC
 

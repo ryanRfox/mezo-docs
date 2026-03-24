@@ -11,7 +11,7 @@ topic: users
 ### Standard Fee Rates
 
 - **Volatile Pools**: 0.30%
-- **Stable Pools**: 0.05%
+- **Stable Pools**: 0.02%
 
 ### Custom Pool Fees
 
@@ -26,7 +26,7 @@ Some pools may have custom fee rates set by governance. These special rates are 
 When a trader executes a swap through a Mezo Pool:
 
 1. **Fee Deduction**: The fee is automatically deducted from the input token amount.
-   - Example: Swapping 1,000 MUSD in a stable pool deducts 0.5 MUSD as a fee.
+   - Example: Swapping 1,000 MUSD in a stable pool deducts 0.2 MUSD as a fee.
 2. **Immediate Segregation**: Collected fees are instantly transferred to a dedicated PoolFees contract.
    - Fees never mix with the pool's core liquidity reserves
 
@@ -64,10 +64,10 @@ Example: In a MUSD/tBTC pool:
 #### Example 2: Stable Pool (MUSD/USDC)
 
 - **Daily volume**: $5,000,000
-- **Fee rate**: 0.05%
-- **Daily fees generated**: $2,500
+- **Fee rate**: 0.02%
+- **Daily fees generated**: $1,000
 - **Your share**: 2% of the pool
-- **Your daily fees**: ~$50
+- **Your daily fees**: ~$20
 
 ### FAQ
 

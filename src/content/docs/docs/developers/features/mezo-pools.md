@@ -9,7 +9,7 @@ Mezo Pools enable users to swap tokens and provide liquidity using optimized poo
 Basic pools use an Aerodrome-style AMM with either constant-product (volatile) or stable-curve (stable) pricing.
 
 - **Pool Factory:** `0x83FE469C636C4081b87bA5b3Ae9991c6Ed104248`
-- **Swap Fees:** 0.30% for volatile pools, 0.05% for stable pools
+- **Swap Fees:** 0.30% for volatile pools, 0.02% for stable pools
 - **Position Type:** Fungible LP tokens (ERC-20)
 
 ### Supported Basic Pools
