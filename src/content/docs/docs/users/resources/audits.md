@@ -22,6 +22,11 @@ topic: users
 
 - [Cantina MUSD Audit](/docs/audits/2025-04-15%20-%20Cantina%20-%20MUSD.pdf)
 
+## Mezo Earn
+
+- [Thesis Defense Mezo Earn Audit](/docs/audits/2026-01-30%20-%20Thesis%20Defense%20-%20Mezo%20Earn.pdf)
+- [Halborn Mezo Earn Audit](/docs/audits/2026-01-08%20-%20Halborn%20-%20Mezo%20Earn.pdf)
+
 ## Bridge
 - [Thesis Defense Bridge Audit](/docs/audits/2025-09-10%20-%20Thesis%20Defense%20-%20MezoBridge%20contract.pdf)
 - [Halborn Bridge Audit](/docs/audits/2025-09-18%20-%20Halborn%20-%20Mezo%20Native%20Bridge.pdf)
