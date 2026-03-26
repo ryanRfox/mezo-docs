@@ -158,20 +158,20 @@ export default defineConfig({
             icon: 'star',
             items: [
                   {
+                        label: 'Introduction',
+                        collapsed: true,
+                        items: [
+                              'docs/users/introduction/why-bitcoin-needs-banking',
+                              'docs/users/introduction/mezo-self-service-banking'
+                        ]
+                  },
+                  {
                         label: 'Getting Started',
                         collapsed: true,
                         items: [
                               'docs/users/getting-started/deposit-assets',
                               'docs/users/getting-started/connect',
                               'docs/users/getting-started/creating-an-account'
-                        ]
-                  },
-                  {
-                        label: 'Introduction',
-                        collapsed: true,
-                        items: [
-                              'docs/users/introduction/why-bitcoin-needs-banking',
-                              'docs/users/introduction/mezo-self-service-banking'
                         ]
                   },
                   {
@@ -267,6 +267,14 @@ export default defineConfig({
                                     ]
                               },
                               'docs/users/mezo-earn/vaults'
+                        ]
+                  },
+                  {
+                        label: 'Passport',
+                        collapsed: true,
+                        items: [
+                              'docs/users/passport/send-assets',
+                              'docs/users/passport/mezo-id'
                         ]
                   },
                   {

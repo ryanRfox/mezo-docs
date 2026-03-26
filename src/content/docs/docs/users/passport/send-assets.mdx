@@ -1,0 +1,45 @@
+---
+title: How to Send Assets on Mezo
+description: >-
+  Guide to sending assets to other users on Mezo using a wallet address, Bitcoin
+  address, or Mezo ID.
+topic: users
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+You can send assets to other users on Mezo directly from the Mezo Passport. Recipients can be identified by their wallet address, Bitcoin address, or Mezo ID.
+
+:::note
+Sending assets through the Passport transfers tokens on Mezo — it does not send assets on the Bitcoin network. If you want to bridge assets off Mezo, see [Bridges](/docs/users/mainnet/bridges).
+:::
+
+## Recipient types
+
+The Send form in the Mezo Passport supports three types of recipients:
+
+- **Wallet address** — Enter a standard `0x…` address on Mezo.
+- **Bitcoin address** — Enter a Bitcoin address. Mezo resolves it to the corresponding wallet on the Mezo network automatically.
+- **Mezo ID** — Enter a Mezo ID. The resolved wallet address is displayed beneath the input field so you can confirm the destination before sending.
+
+When you enter a Bitcoin address or Mezo ID, the resolved `0x…` wallet address appears below the input field as a confirmation step. Always verify this address before proceeding.
+
+## Send assets
+
+<Steps>
+1. Open the [Mezo App](https://mezo.org/overview) and sign in.
+
+2. Open the **Passport** dropdown from the top of the page.
+
+3. Click **Send** to open the send form.
+
+4. Enter the recipient's wallet address, Bitcoin address, or Mezo ID.
+
+5. If you entered a Bitcoin address or Mezo ID, verify the resolved wallet address displayed below the input field.
+
+6. Select the asset and enter the amount you want to send. The real-time USD equivalent is displayed alongside the amount.
+
+7. Review the transaction details and click **Send** to confirm.
+</Steps>
+
+After the transaction completes, you'll see a confirmation screen with a "Transaction sent" message and a link to view the transaction on the [Mezo Explorer](https://explorer.mezo.org). Click **Done** to return to the app.
