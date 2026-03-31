@@ -266,7 +266,13 @@ export default defineConfig({
                                           'docs/users/mezo-earn/pools/pools-links-and-resources'
                                     ]
                               },
-                              'docs/users/mezo-earn/vaults'
+                              {
+                                    label: 'Vaults',
+                                    collapsed: true,
+                                    items: [
+                                          'docs/users/mezo-earn/vaults/musd-savings-vault'
+                                    ]
+                              }
                         ]
                   },
                   {
