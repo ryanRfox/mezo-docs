@@ -13,6 +13,7 @@ topic: users
     * [Deposit Assets](users/getting-started/deposit-assets.md)
     * [Connect your wallet to Mezo](users/getting-started/connect.md)
     * [Create an Account](users/getting-started/creating-an-account.md)
+    * [Get Gas](users/getting-started/get-gas.mdx)
   * [mainnet](users/mainnet/index.md)
     * [Bridges](users/mainnet/bridges.md)
     * [Track Your Native Bitcoin Deposit](users/mainnet/track-your-native-bitcoin-deposit.md)
