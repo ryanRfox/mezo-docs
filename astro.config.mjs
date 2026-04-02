@@ -171,7 +171,8 @@ export default defineConfig({
                         items: [
                               'docs/users/getting-started/deposit-assets',
                               'docs/users/getting-started/connect',
-                              'docs/users/getting-started/creating-an-account'
+                              'docs/users/getting-started/creating-an-account',
+                              'docs/users/getting-started/get-gas'
                         ]
                   },
                   {
