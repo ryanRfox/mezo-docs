@@ -102,8 +102,6 @@ veMEZO max lock is 4 years (compared to 28 days for veBTC). The longer lock refl
 
 Poke is a transaction that refreshes your position's voting power to reflect its current state. Without poking, changes to your boost don't take effect.
 
-If your veBTC already had votes allocated and you then pair & boost it with veMEZO, you need to poke the position so that your existing votes are updated to reflect the new boosted voting power. The 'Poke' button is available on your veBTC's details on the [Vote page](https://mezo.org/vote).
-
 **When do I need to poke?**
 
 Poke after:
