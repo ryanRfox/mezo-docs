@@ -56,8 +56,7 @@ Every veBTC NFT has its own veBTC boost gauge. veMEZO holders vote on these gaug
 
 1. **veBTC holder creates a position** — A veBTC NFT is minted with an associated boost gauge
 2. **veMEZO holders vote** — They allocate veMEZO weight to veBTC gauges
-3. **Boost is calculated and applied** — The veBTC position's boost depends on total veMEZO votes it receives. After pairing, the veBTC owner must update the veBTC's voting power — this is the last action of the Pair & Boost stepper in the dApp.
-4. **Position is "poked" to update existing votes** — If the veBTC already had votes allocated to gauges, the owner must call the Poke function to refresh those votes so they reflect the updated (boosted) voting power. The 'Poke' button is visible on the veBTC's details on the [Vote page](https://mezo.org/vote).
+3. **Boost is calculated and applied** — The veBTC position's boost depends on total veMEZO votes it receives. The Pair & Boost stepper in the dApp handles updating the veBTC's voting power and refreshing any existing votes automatically.
 
 ### Why This Creates a Market
 

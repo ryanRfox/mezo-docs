@@ -1,14 +1,14 @@
 ---
 title: Gasless Swaps
 description: >-
-  Learn how to use the Get Gas feature to swap a small amount of MUSD for BTC
+  Learn how to use the Get Gas feature to swap a small amount of MUSD or MEZO for BTC
   gas when your balance is low.
 topic: users
 ---
 
 import { Steps } from '@astrojs/starlight/components';
 
-The **Get Gas** feature lets you acquire a small amount of BTC to cover transaction (gas) fees on Mezo — even if you have no BTC in your wallet. It works by performing a **gasless swap**, exchanging a small amount of MUSD for exactly **0.0001 BTC**, enough to cover multiple transactions on the network.
+The **Get Gas** feature lets you acquire a small amount of BTC to cover transaction (gas) fees on Mezo — even if you have no BTC in your wallet. It works by performing a **gasless swap**, exchanging a small amount of MUSD or MEZO for exactly **0.0001 BTC**, enough to cover multiple transactions on the network.
 
 Because the swap is gasless (powered by meta-transactions), you don't need any existing BTC to use it.
 
@@ -18,7 +18,7 @@ A **"Get Gas"** button automatically appears in the Mezo app when your wallet's 
 
 ## Supported Tokens
 
-Currently, **MUSD** is the supported token for Get Gas swaps. Additional tokens may be added in the future as pool liquidity grows.
+The supported tokens for Get Gas swaps are **MUSD** and **MEZO**. This means users arriving on the chain with just MEZO can get a free swap into BTC for gas without needing to bridge additional assets.
 
 ## How to Get Gas
 
@@ -30,11 +30,11 @@ Currently, **MUSD** is the supported token for Get Gas swaps. Additional tokens 
 
 2. **Select a token**
 
-   Select MUSD as your source token. The modal will display the estimated cost for the swap.
+   Select MUSD or MEZO as your source token. The modal will display the estimated cost for the swap.
 
 3. **Review the quote**
 
-   The app quotes the amount of MUSD needed to receive exactly **0.0001 BTC**. The output amount is fixed so you always get a predictable gas amount regardless of token price.
+   The app quotes the amount of MUSD or MEZO needed to receive exactly **0.0001 BTC**. The output amount is fixed so you always get a predictable gas amount regardless of token price.
 
 4. **Confirm the swap**
 
@@ -58,17 +58,17 @@ The Get Gas feature uses **meta-transactions** to execute the swap without requi
 2. **Relay**: A backend relay service submits the swap transaction on your behalf, covering the gas cost.
 3. **Swap**: The transaction executes on-chain, swapping your token for **0.0001 BTC**, which is deposited directly into your wallet.
 
-This design means you can always get gas as long as you hold MUSD — no BTC needed to get started.
+This design means you can always get gas as long as you hold MUSD or MEZO — no BTC needed to get started.
 
 ## Key Details
 
 | Detail | Value |
 |---|---|
 | **Output amount** | 0.0001 BTC (fixed) |
-| **Eligible tokens** | MUSD |
+| **Eligible tokens** | MUSD, MEZO |
 | **Gas required** | None (gasless via meta-transactions) |
 | **Trigger** | BTC balance below 0.000001 BTC |
 
 :::note
-The cost in MUSD will vary based on current pool prices. The quote shown in the modal reflects the real-time rate at the time of the swap.
+The cost in MUSD or MEZO will vary based on current pool prices. The quote shown in the modal reflects the real-time rate at the time of the swap.
 :::
