@@ -343,7 +343,7 @@ export default defineConfig({
                               'docs/developers/mezo-nodes',
                               'docs/developers/mezo-nodes/validator-kit',
                               'docs/developers/mezo-nodes/validators',
-                              'docs/developers/mezo-nodes/claiming-rewards'
+                              'docs/developers/mezo-nodes/validator-rewards'
                         ]
                   },
                   {
@@ -366,7 +366,8 @@ export default defineConfig({
                         items: [
                               'docs/developers/features/mezo-pools',
                               'docs/developers/features/mezo-earn/mezo-earn',
-                              'docs/developers/features/mezo-earn/deploying-incentives'
+                              'docs/developers/features/mezo-earn/deploying-incentives',
+                              'docs/developers/mezo-nodes/validator-rewards'
                         ]
                   },
                   {
