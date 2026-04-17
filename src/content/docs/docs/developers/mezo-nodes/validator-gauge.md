@@ -50,10 +50,10 @@ It's recommended to claim all available rewards with the current beneficiary bef
 
 Voting is essential for earning MEZO emissions — a validator gauge that receives no votes in an epoch will not receive any rewards for that epoch. Validators can vote on their own gauge to direct MEZO emissions. Validator gauge votes are **independent** from other Mezo Earn gauge votes. For example, if you already voted with 100% of your voting power on a pool gauge, you can still vote with 100% of your voting power on your validator gauge (or another validator's gauge).
 
-veBTC is the core asset used for voting. veMEZO can be used to boost your vote power.
+veBTC is the core asset used for voting. veMEZO can be used to boost your vote power. Once cast, a vote rolls over to subsequent epochs automatically unless explicitly reset.
 
 :::note[Poking Your Position]
-You may need to poke your position before voting to ensure it is up to date. See the [Poke documentation](/docs/users/mezo-earn/vote/claiming-fees-emissions/#poke) for details.
+You may need to poke your position before voting to ensure it is up to date. Poking an existing vote is also beneficial if your veBTC voting power has increased (e.g. due to a top-up), as it updates your vote weight to reflect the new power. See the [Poke documentation](/docs/users/mezo-earn/vote/claiming-fees-emissions/#poke) for details.
 :::
 
 ### How to Vote
@@ -66,7 +66,10 @@ You may need to poke your position before voting to ensure it is up to date. See
 
 ### Incentivizing Your Gauge
 
-Validators can incentivize their gauge on platforms such as [Matchbox](https://matchbox.markets/) to attract more votes. By offering incentives, other users can boost your gauge, increasing the MEZO emissions your validator receives.
+Validators can incentivize their veBTC boost gauge on platforms like [Matchbox](https://matchbox.markets/) to attract veMEZO votes that boost their veBTC voting power.
+That boosted veBTC power can then be used to direct more votes to the validator gauge, increasing MEZO emissions.
+
+Mezo Earn also includes a separate validator-gauge incentive mechanism, but that specific flow is not currently available on Matchbox.
 
 ## Claiming Rewards
 
