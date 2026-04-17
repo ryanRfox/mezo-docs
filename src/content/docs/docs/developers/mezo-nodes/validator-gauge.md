@@ -1,6 +1,8 @@
 ---
 title: Validator Gauge
-description: Guide for validators on how to manage reward beneficiaries, vote on validator gauges, and claim MEZO rewards.
+description: >-
+  Guide for validators on how to manage reward beneficiaries, vote on validator
+  gauges, and claim MEZO rewards.
 topic: developers
 ---
 

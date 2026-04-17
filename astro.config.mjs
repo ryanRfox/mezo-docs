@@ -271,6 +271,7 @@ export default defineConfig({
                                     label: 'Vaults',
                                     collapsed: true,
                                     items: [
+                                          'docs/users/mezo-earn/vaults',
                                           'docs/users/mezo-earn/vaults/musd-savings-vault'
                                     ]
                               }
@@ -342,8 +343,7 @@ export default defineConfig({
                         items: [
                               'docs/developers/mezo-nodes',
                               'docs/developers/mezo-nodes/validator-kit',
-                              'docs/developers/mezo-nodes/validators',
-                              'docs/developers/mezo-nodes/validator-rewards'
+                              'docs/developers/mezo-nodes/validators'
                         ]
                   },
                   {
@@ -367,7 +367,7 @@ export default defineConfig({
                               'docs/developers/features/mezo-pools',
                               'docs/developers/features/mezo-earn/mezo-earn',
                               'docs/developers/features/mezo-earn/deploying-incentives',
-                              'docs/developers/mezo-nodes/validator-rewards'
+                              'docs/developers/mezo-nodes/validator-gauge'
                         ]
                   },
                   {
