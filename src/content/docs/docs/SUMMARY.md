@@ -101,6 +101,7 @@ topic: users
     * [Mezo Pools (Mezo Earn)](developers/features/mezo-pools.md)
     * [Mezo Earn Development Guide](developers/features/mezo-earn/mezo-earn.md)
     * [Deploying Incentives](developers/features/mezo-earn/deploying-incentives.md)
+    * [Validator Gauge](developers/mezo-nodes/validator-gauge.md)
   * [bridge](developers/bridge/README.md)
     * [Mezo Bridge](developers/bridge/mezo-bridge.md)
     * [Wormhole MUSD Bridge](developers/bridge/wormhole-musd-bridge.md)
