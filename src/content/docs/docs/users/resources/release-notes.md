@@ -6,6 +6,27 @@ topic: users
 
 ## mezod Chain Client Releases
 
+### 2026-04-13 - mezod v9.0.0
+
+- Stable mainnet release enabling Triparty Bridge
+- Mandatory upgrade on Mezo Mainnet at block `8194500`
+- Release: [v9.0.0](https://github.com/mezo-org/mezod/releases/tag/v9.0.0)
+- Full diff: [v8.0.0...v9.0.0](https://github.com/mezo-org/mezod/compare/v8.0.0...v9.0.0)
+
+### 2026-03-25 - mezod v8.0.0
+
+- Stable mainnet release laying the foundation for the incoming Triparty feature
+- Mandatory upgrade on Mezo Mainnet at block `7739500`
+- Release: [v8.0.0](https://github.com/mezo-org/mezod/releases/tag/v8.0.0)
+- Full diff: [v7.0.0...v8.0.0](https://github.com/mezo-org/mezod/compare/v7.0.0...v8.0.0)
+
+### 2026-03-23 - mezod v7.0.0
+
+- Stable mainnet release upgrading EVM compatibility up to the Cancun fork
+- Mandatory upgrade on Mezo Mainnet at block `7691500`
+- Release: [v7.0.0](https://github.com/mezo-org/mezod/releases/tag/v7.0.0)
+- Full diff: [v6.0.1...v7.0.0](https://github.com/mezo-org/mezod/compare/v6.0.1...v7.0.0)
+
 ### 2026-02-18 - mezod v6.0.1
 
 - New stable mainnet patch release for `mezod`
