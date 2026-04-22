@@ -1,0 +1,19 @@
+sequenceDiagram
+    autonumber
+    participant C as Buyer/Client
+    participant S as Merchant/Server
+    participant F as Facilitator
+    participant B as Mezo Blockchain
+
+    C->>S: GET /paid
+    S-->>C: 402 PAYMENT-REQUIRED<br/>{ scheme: exact, network: eip155:31611,<br/>  price: "$0.01" mUSD, payTo }
+    C-->>C: Sign EIP-712 message<br/>as payment payload
+    C->>S: retry GET /paid<br/>with PAYMENT-SIGNATURE
+    S->>F: POST /verify<br/>PAYMENT-SIGNATURE + PAYMENT-REQUIRED
+    F-->>S: 200 Verification
+    S-->>S: Do work
+    S->>F: POST /settle<br/>PAYMENT-SIGNATURE + PAYMENT-REQUIRED
+    F->>B: Submit mUSD transfer tx
+    B-->>F: tx confirmed
+    F-->>S: 200 Settled, tx_hash
+    S-->>C: 200 OK<br/>PAYMENT-RESPONSE + Content

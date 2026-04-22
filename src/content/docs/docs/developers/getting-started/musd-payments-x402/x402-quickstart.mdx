@@ -1,0 +1,315 @@
+---
+title: Quickstart (x402)
+description: >-
+  Install the preview packages, stand up an MUSD-paid endpoint with
+  @x402/express, and exercise the paywall flow in a browser.
+topic: developers
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+## What you will build
+
+A minimal two-part client/server app for purchasing a `/paid` API endpoint using MUSD:
+
+- **Merchant Server**: an Express server with one protected route that returns
+  JSON only after a valid MUSD payment.
+- **Buyer Client**: a browser client that loads the bundled x402 paywall, connects
+  a wallet, pays on Mezo Testnet, and receives the protected API response.
+
+For the conceptual context of what x402 is, start with the [x402 Overview](../).
+
+## Prerequisites
+
+**Merchant Server (selling paywalled content):**
+
+- Node.js 20+ and pnpm 9+.
+- A Mezo Testnet receiving address (any EVM address) for the `PAY_TO`
+  env var. The merchant address receives MUSD on every paid request and
+  is never funded with anything.
+
+**Buyer Client (buying paid content):**
+
+- A browser wallet that supports EVM networks (MetaMask, Rabby, or any
+  wallet that exposes an EIP-1193 provider) with **Mezo Testnet** added.
+  See [Set Up Developer Environment](/docs/developers/getting-started/configure-environment)
+  for network parameters.
+- An MUSD balance on Mezo Testnet to spend. See
+  [Getting testnet MUSD to pay with](#getting-testnet-musd-to-pay-with)
+  below.
+
+<Aside type="tip" title="MUSD balance requirements">
+Strictly, only the buyer client must have a MUSD balance ($0.001). Neither the buyer client nor the
+merchant server need a BTC balance to complete x402 MUSD payments; the facilitator pays to settle
+the transaction on behalf of the client for the benefit of the server. 
+</Aside>
+
+## 1. Install x402 packages
+
+### 1a. Install
+
+```bash
+mkdir mezo-x402-server && cd mezo-x402-server
+pnpm init
+pnpm add @x402/paywall @x402/evm @x402/core @x402/express express
+pnpm add -D typescript tsx @types/express @types/node
+```
+
+This creates a new merchant server project and initializes the libraries for x402 and an express webserver.
+
+### 1b. Check whether you need the Mezo preview overrides
+
+Two `@x402/*` packages need Mezo support: **`@x402/paywall`** and
+**`@x402/evm`**. Canonical `2.11.x` ships with Mezo support built in;
+canonical `2.10.x` does not. Check what `pnpm` just installed:
+
+```bash
+pnpm list @x402/paywall
+```
+
+| Installed version | Action |
+|---|---|
+| `2.11.0` or higher | Skip 1c. Canonical paywall already supports Mezo. Continue to §2. |
+| `2.10.x` | Continue to 1c below. Add the Mezo preview overrides. |
+
+### 1c. Add the Mezo preview overrides (only if `< 2.11.0`)
+
+Open `package.json` and add this block at the top level (same nesting
+level as `dependencies`):
+
+```json
+"pnpm": {
+  "overrides": {
+    "@x402/paywall": "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-paywall-2.10.0-mezo.6.tgz",
+    "@x402/evm":     "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-evm-2.10.0-mezo.6.tgz"
+  }
+}
+```
+
+Re-install to apply the overrides:
+
+```bash
+pnpm install
+```
+
+Verify the swap took effect (should print `2.10.0-mezo.6` for both):
+
+```bash
+grep '"version"' node_modules/@x402/paywall/package.json node_modules/@x402/evm/package.json
+```
+
+If you still see plain `2.10.0`, the override didn't apply. Check that
+the `pnpm` block sits at the top level of `package.json` (alongside
+`dependencies`, not nested inside it) and re-run `pnpm install`.
+
+Both packages must be overridden together. Preview `@x402/paywall`
+imports `DEFAULT_STABLECOINS` from preview `@x402/evm`; if a transitive
+`@x402/evm` falls back to canonical, you'll get
+`does not provide an export named 'DEFAULT_STABLECOINS'` at runtime.
+
+#### Other package managers
+
+<Tabs>
+  <TabItem label="pnpm">
+
+Use the `pnpm.overrides` block above. This is the tested path.
+
+  </TabItem>
+  <TabItem label="npm">
+
+Use npm's top-level `overrides` (not under a `pnpm` key) and re-run
+`npm install`:
+
+```json
+"overrides": {
+  "@x402/paywall": "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-paywall-2.10.0-mezo.6.tgz",
+  "@x402/evm":     "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-evm-2.10.0-mezo.6.tgz"
+}
+```
+
+  </TabItem>
+  <TabItem label="yarn">
+
+Use Yarn's `resolutions` block and re-run `yarn install`:
+
+```json
+"resolutions": {
+  "@x402/paywall": "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-paywall-2.10.0-mezo.6.tgz",
+  "@x402/evm":     "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-evm-2.10.0-mezo.6.tgz"
+}
+```
+
+  </TabItem>
+</Tabs>
+
+## 2. Build the seller
+
+The seller is an Express server that uses `@x402/express` middleware to
+gate a route behind an MUSD payment. The middleware wires together three
+pieces: an `x402ResourceServer` that negotiates with a facilitator, an
+`ExactEvmScheme` registered for Mezo Testnet, and a route config that
+says what the endpoint costs.
+
+Create `server.ts`:
+
+```typescript
+import express, { type Request, type Response } from 'express';
+import { paymentMiddleware } from '@x402/express';
+import { x402ResourceServer, HTTPFacilitatorClient } from '@x402/core/server';
+import { ExactEvmScheme } from '@x402/evm/exact/server';
+import { createPaywall, evmPaywall } from '@x402/paywall';
+
+const PAY_TO          = process.env.PAY_TO;              // Your Mezo Testnet receiving address (must include 0x prefix)
+const FACILITATOR_URL = 'https://facilitator.vativ.io/'; // Mezo-capable facilitator provided by community
+
+if (!PAY_TO) throw new Error('Set PAY_TO to your Mezo Testnet receiving address.');
+
+const app = express();
+
+const facilitatorClient = new HTTPFacilitatorClient({ url: FACILITATOR_URL });
+
+// Bundled paywall UI: knows how to render MUSD at 18 decimals and connect EVM
+// wallets. Without this, the middleware falls back to a stub that defaults to
+// USDC formatting (6 decimals) and shows an "Install @x402/paywall" placeholder.
+const paywall = createPaywall()
+  .withNetwork(evmPaywall)
+  .build();
+
+app.use(
+  paymentMiddleware(
+    {
+      'GET /paid': {
+        accepts: [
+          {
+            scheme: 'exact',
+            price: '$0.001',             // charged in MUSD; resolves via DEFAULT_STABLECOINS
+            network: 'eip155:31611',     // Mezo Testnet, CAIP-2 string (not 'mezo-testnet')
+            payTo: PAY_TO,
+          },
+        ],
+        description: 'A paid endpoint on Mezo',
+        mimeType: 'application/json',
+      },
+    },
+    new x402ResourceServer(facilitatorClient).register(
+      'eip155:*',                  // EVM-family scheme handler; route config above pins the actual chain
+      new ExactEvmScheme(),
+    ),
+    undefined,    // paywallConfig (defaults are fine)
+    paywall,      // ← the actual bundled UI provider
+  ),
+);
+
+app.get('/paid', (req: Request, res: Response) => {
+  res.json({
+    message: 'Thank you for your payment.',
+    servedAt: new Date().toISOString(),
+  });
+});
+
+app.listen(3000, () => {
+  console.log('seller listening on http://localhost:3000');
+});
+```
+
+Run it by providing your Mezo Testnet `PAY_TO` address:
+
+```bash
+PAY_TO=0xYourMezoTestnetAddress \
+  pnpm exec tsx server.ts
+```
+
+This will start the merchant server running on `localhost:3000` for use by the client 
+in the next step. The seller's only environment variable is its receiving address (`PAY_TO`). 
+The merchant address is not required to have BTC nor MUSD at the start.
+Settlement for MUSD transactions to merchant server is handled by the facilitator
+and also all gas fees.
+
+The server's x402 middleware intercepts unpaid requests to `/paid`, responds with
+HTTP `402 Payment Required`, and returns a full HTML paywall page
+(including the bundled wallet connection UI) that the browser renders
+directly. No client-side code is required.
+
+## 3. Try a payment (buyer side)
+
+There is no client code to write for the in-browser flow. The paywall
+UI is served automatically by the seller middleware when a browser hits
+the protected URL without a valid payment header.
+
+<Steps>
+
+1. Ensure the server is running from the previous step:
+
+   ```bash
+   curl -i http://localhost:3000/paid
+   ```
+
+2. Open `http://localhost:3000/paid` in a browser with an EVM wallet
+   extension (MetaMask, Rabby, Coinbase Wallet, or any injected
+   EIP-1193 provider).
+
+3. The paywall loads automatically. It displays:
+
+   - A **Payment Required** heading
+   - *"please pay $0.001 MUSD"*
+   - A *"Need MUSD on Mezo Testnet?"* link
+   - A wallet-select dropdown and **Connect wallet** button
+
+4. Select your wallet, confirm **Mezo Testnet (chain ID `31611`)** in
+   the wallet's network list, click "Pay now" button, and confirm the payment 
+   signature when prompted.
+
+5. The paywall then retries the original request with the `PAYMENT-SIGNATURE` and 
+   once settled by the facilitator the JSON response for the `/paid` endpoint is rendered.
+
+</Steps>
+
+If the browser console logs `EVM Payment required initialized` with no
+thrown errors, your install and middleware wiring are correct.
+
+## Live reference deployment
+
+A working seller is deployed at
+[`https://humor.vativ.io/joke`](https://humor.vativ.io/joke). Confirm
+it is up and paywall-gated:
+
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" https://humor.vativ.io/joke
+# 402: unpaid response; open the URL in a browser to see the paywall UI
+```
+
+Opening the URL in a browser with an EVM wallet extension triggers the
+same paywall flow documented above. Use it to verify your wallet setup
+and MUSD balance are correct **before** you point client code at your
+own local seller.
+
+<Aside type="note" title="Source repository">
+Full source for the live deployment (seller middleware + reference
+`@x402/fetch` client + README with end-to-end wallet-funding walkthrough)
+lives at
+[`vativ/x402-mezo-preview/apps/humor`](https://github.com/vativ/x402-mezo-preview/tree/main/apps/humor).
+Clone and adapt when you want a richer starting point than the
+snippets on this page.
+</Aside>
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| `does not provide an export named 'DEFAULT_STABLECOINS'` | Overrides block missing; transitive `@x402/evm` came from npm | Add the `overrides` block and reinstall |
+| Paywall shows `$10000000000.00` instead of `$0.001` | Canonical (non-preview) `@x402/paywall` or `@x402/evm` resolved | Overrides missing or incomplete; confirm both preview packages (`@x402/paywall` and `@x402/evm`) are pinned to the tarballs |
+| Wallet prompts to switch network / payment never confirms | Wallet is on the wrong Mezo network | Confirm the wallet is on the chain ID the seller expects (`31611` for Testnet, `31612` for Mainnet) |
+| `402 Payment Required` returned but paywall UI never renders | `network` string is not a CAIP-2 identifier | Use `'eip155:31611'` or `'eip155:31612'` exactly; `'mezo-testnet'` and bare `31611` are both rejected |
+| Facilitator returns `unsupported network` | `FACILITATOR_URL` in `server.ts` points at `x402.org/facilitator` (no Mezo support) | Set the constant to a Mezo-capable facilitator (`https://facilitator.vativ.io/` for Testnet) |
+
+## See also
+
+- [MUSD Payments with x402](../). Conceptual overview.
+- [vativ/x402-mezo-preview/apps/humor](https://github.com/vativ/x402-mezo-preview/tree/main/apps/humor).
+  The Mezo-specific hackathon reference: server + `@x402/fetch`
+  client wired to the mezo.6 preview tarballs, paywalled `GET /joke`
+  at `0.001 MUSD`, points at `facilitator.vativ.io`, README walks
+  through wallet funding + running the demo end-to-end. Clone and
+  adapt.
+- <a href="/docs/users/musd/mint-musd/" target="_blank" rel="noopener noreferrer">Borrow and Mint MUSD ↗</a>. User-side flow for acquiring MUSD (opens in new tab).
+- [Mezo Faucet](https://faucet.test.mezo.org). Testnet BTC.
