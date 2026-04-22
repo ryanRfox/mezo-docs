@@ -24,7 +24,7 @@ For the conceptual context of what x402 is, start with the [x402 Overview](../).
 **Merchant Server (selling paywalled content):**
 
 - Node.js 20+ and pnpm 9+.
-- A Mezo Testnet receiving address (any EVM address) for the `PAY_TO`
+- A Mezo Testnet receiving address (any EVM address) for the `EVM_ADDRESS`
   env var. The merchant address receives MUSD on every paid request and
   is never funded with anything.
 
@@ -159,10 +159,10 @@ import { x402ResourceServer, HTTPFacilitatorClient } from '@x402/core/server';
 import { ExactEvmScheme } from '@x402/evm/exact/server';
 import { createPaywall, evmPaywall } from '@x402/paywall';
 
-const PAY_TO          = process.env.PAY_TO;              // Your Mezo Testnet receiving address (must include 0x prefix)
+const EVM_ADDRESS     = process.env.EVM_ADDRESS;         // Your Mezo Testnet receiving address (must include 0x prefix)
 const FACILITATOR_URL = 'https://facilitator.vativ.io/'; // Mezo-capable facilitator provided by community
 
-if (!PAY_TO) throw new Error('Set PAY_TO to your Mezo Testnet receiving address.');
+if (!EVM_ADDRESS) throw new Error('Set EVM_ADDRESS to your Mezo Testnet receiving address.');
 
 const app = express();
 
@@ -184,7 +184,7 @@ app.use(
             scheme: 'exact',
             price: '$0.001',             // charged in MUSD; resolves via DEFAULT_STABLECOINS
             network: 'eip155:31611',     // Mezo Testnet, CAIP-2 string (not 'mezo-testnet')
-            payTo: PAY_TO,
+            payTo: EVM_ADDRESS,
           },
         ],
         description: 'A paid endpoint on Mezo',
@@ -212,15 +212,15 @@ app.listen(3000, () => {
 });
 ```
 
-Run it by providing your Mezo Testnet `PAY_TO` address:
+Run it by setting `EVM_ADDRESS` to your Mezo Testnet receiving address:
 
 ```bash
-PAY_TO=0xYourMezoTestnetAddress \
+EVM_ADDRESS=0xYourMezoTestnetAddress \
   pnpm exec tsx server.ts
 ```
 
 This will start the merchant server running on `localhost:3000` for use by the client 
-in the next step. The seller's only environment variable is its receiving address (`PAY_TO`). 
+in the next step. The seller's only environment variable is its receiving address (`EVM_ADDRESS`). 
 The merchant address is not required to have BTC nor MUSD at the start.
 Settlement for MUSD transactions to merchant server is handled by the facilitator
 and also all gas fees.
