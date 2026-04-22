@@ -21,7 +21,8 @@ export default defineConfig({
 			wrap: true,
 		},
 	},
-	site: 'https://mezo.org/docs',
+	site: process.env.ASTRO_SITE || 'https://mezo.org/docs',
+	base: process.env.ASTRO_BASE || undefined,
 	integrations: [
 		starlight({
 			title: 'Mezo Documentation',
@@ -333,6 +334,14 @@ export default defineConfig({
                               'docs/developers/getting-started/dapp-requirements',
                               'docs/developers/getting-started/configure-environment',
                               'docs/developers/getting-started/configure-mezo-passport',
+                              {
+                                    label: 'MUSD Payments With X402',
+                                    collapsed: true,
+                                    items: [
+                                          'docs/developers/getting-started/musd-payments-x402',
+                                          'docs/developers/getting-started/musd-payments-x402/x402-quickstart'
+                                    ]
+                              },
                               'docs/developers/getting-started/integrations-and-partners',
                               'docs/developers/getting-started/faqs'
                         ]
@@ -399,6 +408,10 @@ export default defineConfig({
 		sitemap(),
 	],
 	redirects: {
+		'/docs/developers/getting-started/x402-hackathon-quickstart': {
+			status: 301,
+			destination: '/docs/developers/getting-started/musd-payments-x402/'
+		},
 		// Existing redirects (updated to 301 for SEO)
 		'/docs/users/stbtc-staked-bitcoin/redeeming-your-stbtc-deposits': {
 			status: 301,

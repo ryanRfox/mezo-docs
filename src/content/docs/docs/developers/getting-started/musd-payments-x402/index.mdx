@@ -1,0 +1,138 @@
+---
+title: Overview
+description: >-
+  Accept Mezo USD payments for HTTP resources with x402: how the protocol works
+  on Mezo, why it's the right fit for Bitcoin-backed payments, what you can
+  build, and how to get hands-on.
+topic: developers
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import x402MezoFlow from '../../../../../../assets/diagrams/x402-mezo-flow.svg';
+import { Image } from 'astro:assets';
+
+**[x402](https://x402.org)** is an open standard for internet native payments. 
+A server returns `HTTP 402 Payment Required` response with a
+machine-readable description of what it costs; a client attaches a signed
+payment message and retries; a facilitator settles the payment on chain and 
+the server returns a receipt along with the purchased content to the client. 
+
+On Mezo, the default settlement asset is **MUSD**. A seller names a price, such as $0.01, 
+the x402 SDK resolves that to an MUSD amount at runtime
+(18 decimals, `permit2` + EIP-2612), and the buyer's wallet signs a 
+message to authorize the transfer within a timebox. 
+
+## The payment flow at a glance
+
+<Image
+  src={x402MezoFlow}
+  alt="Sequence diagram of an x402 payment flow on Mezo: Client/Buyer, Merchant/Server, Facilitator (facilitator.vativ.io), and Mezo Blockchain (eip155:31611)."
+/>
+
+1. `Client` makes an HTTP request to a `server`.
+
+2. `Server` responds with a `402 Payment Required` status and a `PaymentRequired` b64 object return as a `PAYMENT-REQUIRED` HTTP header.
+
+3. `Client` selects one of the `PaymentRequirements` returned by the server response and creates a `PaymentPayload` based on the `scheme` & `network` of the `PaymentRequirements` they have selected.
+
+4. `Client` retries the HTTP request, now including the `PAYMENT-SIGNATURE` HTTP header containing the `PaymentPayload` to the server.
+
+5. `Server` verifies the `PaymentPayload` is valid either via local verification or by POSTing the `PaymentPayload` and `PaymentRequirements` to the `/verify` endpoint of a `facilitator`.
+
+6. `Facilitator` performs verification of the object based on the `scheme` and `network` of the `PaymentPayload` and returns a `Verification Response`.
+
+7. If the `Verification Response` is valid, the server performs the work to fulfill the request. If the `Verification Response` is invalid, the resource server returns a `402 Payment Required` status and a `Payment Required Response` JSON object in the response body.
+
+8. `Server` either settles the payment by interacting with a blockchain directly, or by POSTing the `Payment Payload` and `Payment PaymentRequirements` to the `/settle` endpoint of a `facilitator`.
+
+9. `Facilitator` submits the payment to the blockchain based on the `scheme` and `network` of the `Payment Payload`.
+
+10. `Facilitator` waits for the payment to be confirmed on the blockchain.
+
+11. `Facilitator` returns a `Payment Execution Response` to the server.
+
+12. `Server` returns a `200 OK` response to the `Client` with the resource they requested as the body of the HTTP response, and a `PAYMENT-RESPONSE` header containing the `Settlement Response` as Base64 encoded JSON if the payment was executed successfully.
+
+## How MUSD fits into x402
+
+- **Network identifier:** CAIP-2 strings are used to identify the Mezo Network.
+  Mezo Testnet is `eip155:31611`, Mezo Mainnet is
+  `eip155:31612` (x402 will not accept short names like
+  `"mezo-testnet"`).
+- **Asset resolution:** x402 prices are dollar strings (`price: "$0.01"`).
+  `@x402/evm`'s `DEFAULT_STABLECOINS` registry maps
+  `eip155:31611` → MUSD (`0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503`,
+  18 decimals). You do not hardcode an asset address in route configs.
+- **Signing:** MUSD is a `permit2` + EIP-2612 token, so payment
+  authorization is a single EIP-712 signature, with no on-chain approval
+  transaction and no gas on the buyer's side.
+- **Facilitator:** Mezo Testnet is settled by `https://facilitator.vativ.io`
+  (A mainnet facilitator URL will be
+  published when MUSD payments activate on Mezo Mainnet)
+
+## Why Mezo for x402
+
+Most chains that support x402 settle in USDC. Mezo's pitch is different:
+
+- **Bitcoin-native settlement asset.** MUSD is minted against BTC
+  collateral in the Mezo economy. Revenue denominated in MUSD stays in
+  the Bitcoin ecosystem without a round-trip through ETH or centralized
+  stablecoin issuers.
+- **18-decimal precision for true micropayments.** A $0.001 charge is a
+  first-class operation, not a rounding artifact. Metered APIs,
+  per-inference AI pricing, and per-request content access can price
+  realistically without batching.
+- **Zero gas for buyers (facilitator pays in BTC).** The Mezo
+  facilitator at `facilitator.vativ.io` sponsors every on-chain settle
+  transaction in native BTC. Buyers (including AI agents) only need
+  MUSD to spend and a private key to sign an EIP-712 permit2
+  authorization; no BTC gas top-up, no bridged gas token, no
+  pre-funding step before the first payment.
+- **Predictable chain economics.** Mezo is purpose-built around
+  Bitcoin-backed financial primitives, so MUSD supply and borrowing
+  costs follow rules anchored to the BTC collateral base rather than
+  stablecoin issuer policy.
+
+## What you can build
+
+x402 + MUSD on Mezo is a fit anywhere a seller wants HTTP-native pricing
+without managing subscriptions, API keys, or payment-processor accounts:
+
+- **Paywalled content.** Articles, streams, reports, research dumps.
+  One `402` per protected URL, priced per asset.
+- **Metered APIs.** Charge per request for weather data, crypto
+  feeds, analytics endpoints, or custom business logic. No rate-limit
+  dance, no API-key lifecycle to manage.
+- **Pay-per-inference AI services.** Wrap an LLM, image generator, STT,
+  embedding, or fine-tuned model in an x402 endpoint. Callers pay per
+  invocation at true-cost pricing enabled by 18-decimal MUSD.
+- **Machine-to-machine (M2M) payments.** AI agents equipped with an
+  `@x402/fetch` client and a private key transact autonomously:
+  discover a paid tool, read the `402` requirements, settle, consume.
+  No accounts, no credential exchange, no human-in-the-loop per
+  payment. With facilitator-sponsored gas, the agent only needs MUSD
+  and a signing key; no BTC top-up to start transacting.
+- **Paid MCP servers.** Expose agent tools via the Model Context
+  Protocol and price them per call through x402. Pairs naturally with
+  autonomous-agent consumers.
+- **Usage-based SaaS substitution.** Replace subscription billing with
+  per-use pricing for tools, dashboards, or internal services where
+  usage is bursty or uncertain.
+
+## Getting Started
+
+For a step-by-step walkthrough (install the SDK packages, build a
+seller with `@x402/express`, exercise the paywall flow with a browser
+wallet, run a programmatic `@x402/fetch` client), see the
+**[Quickstart for x402](./x402-quickstart/)** guide.
+
+## See also
+
+- [Quickstart for x402](./x402-quickstart/). The step-by-step
+  hands-on guide.
+- [Set Up Developer Environment](/docs/developers/getting-started/configure-environment).
+  Mezo RPC endpoints and network parameters.
+- [Network & RPC](/docs/developers/chains/). Chain configuration
+  details.
+- <a href="/docs/users/musd/mint-musd/" target="_blank" rel="noopener noreferrer">Borrow and Mint MUSD ↗</a>. User-side flow for acquiring MUSD (opens in new tab).
+- [x402.org](https://x402.org). Canonical x402 protocol documentation.
