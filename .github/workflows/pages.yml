@@ -30,7 +30,7 @@ jobs:
         run: |
           if [ "$REF" = "refs/heads/main" ]; then
             echo "dest=" >> "$GITHUB_OUTPUT"
-            echo "base=/mezo-hack/" >> "$GITHUB_OUTPUT"
+            echo "base=/mezo-docs/" >> "$GITHUB_OUTPUT"
           else
             BRANCH="${REF#refs/heads/}"
             # Sanitize: allow only [A-Za-z0-9_-]; replace everything else with '-'
@@ -40,7 +40,7 @@ jobs:
               exit 1
             fi
             echo "dest=preview/${SAFE}" >> "$GITHUB_OUTPUT"
-            echo "base=/mezo-hack/preview/${SAFE}/" >> "$GITHUB_OUTPUT"
+            echo "base=/mezo-docs/preview/${SAFE}/" >> "$GITHUB_OUTPUT"
           fi
 
       - uses: actions/setup-node@v4
