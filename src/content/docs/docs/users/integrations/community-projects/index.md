@@ -6,6 +6,10 @@ topic: users
 
 These community-built tools support different workflows across the Mezo ecosystem.
 
+:::caution[Warning]
+The projects listed above are community-built and maintained tools. They are not Mezo projects and are not endorsed by the Mezo team. Users assume all risks when interacting with these projects.
+:::
+
 ## Mezo Tools
 
 [Mezo Tools](https://mezotools.cc/) is an analytics and monitoring dashboard for MUSD and collateral positions.
@@ -36,6 +40,12 @@ URL: [https://vezo.exchange/](https://vezo.exchange/)
 - Buy or sell veMEZO and veBTC positions through a dedicated marketplace interface.
 - Use it when you want a secondary market workflow for veNFT positions.
 
-:::caution[Warning]
-The projects listed above are community-built and maintained tools. They are not Mezo projects and are not endorsed by the Mezo team. Users assume all risks when interacting with these projects.
-:::
+## Antwyr
+
+[Antwyr](https://antwyr.com/) is a collection of browser-based blockchain tools for Mezo.
+
+URL: [https://antwyr.com/](https://antwyr.com/)
+
+- Export blockchain data, including blocks and transactions, from the Mezo network with CSV and TXT download support for analysis or record-keeping.
+- Decode raw transaction calldata so you can inspect function names, parameters, and token amounts before signing.
+- Generate a live heatmap that visualizes currency volumes transacted per block on the Mezo network in real time.
