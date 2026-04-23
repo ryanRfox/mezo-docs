@@ -384,15 +384,15 @@ export default defineConfig({
                         collapsed: true,
                         items: [
                               'docs/developers/musd',
-                              'docs/developers/musd/musd-redemptions',
-                              {
-                                    label: 'MUSD Payments With X402',
-                                    collapsed: true,
-                                    items: [
-                                          'docs/developers/getting-started/musd-payments-x402',
-                                          'docs/developers/getting-started/musd-payments-x402/x402-quickstart'
-                                    ]
-                              }
+                              'docs/developers/musd/musd-redemptions'
+                        ]
+                  },
+                  {
+                        label: 'MUSD Payments With X402',
+                        collapsed: true,
+                        items: [
+                              'docs/developers/getting-started/musd-payments-x402',
+                              'docs/developers/getting-started/musd-payments-x402/x402-quickstart'
                         ]
                   },
                   {
