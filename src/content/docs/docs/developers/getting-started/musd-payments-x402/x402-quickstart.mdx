@@ -125,7 +125,7 @@ The MUSD token page itself looks like this — useful if you want to
 cross-check the canonical contract address, decimals (18), or scan
 recent transfers:
 
-## Step 3: Smoke test your wallet against the live x402 demo
+## Step 3: Smoke test your wallet config
 
 Before installing any packages or writing any code, confirm that your
 wallet, network, and MUSD balance are all ready by paying a live x402
@@ -282,11 +282,17 @@ app.listen(3000, () => {
 });
 ```
 
-## Step 6: Apply the Mezo preview overrides (if needed)
+## Step 6: Apply library overrides
 
+<Aside type="caution" title="Required overrides prior to x402 release v2.11.0">
 `@x402/paywall` and `@x402/evm` need Mezo support to format MUSD and
 settle via `facilitator.vativ.io`. Canonical `2.11.0+` includes that
-support; canonical `2.10.x` does not. Check what Step 4 resolved:
+support; prior versions do not. Mezo community provides a patched version 
+`v2.10.0-mezo.6` with support.
+
+Check your version now:
+</Aside>
+
 
 ```bash
 pnpm list @x402/paywall
@@ -298,7 +304,7 @@ step and go to Step 7.
 If it is `2.10.x`, apply the overrides below before running the
 server.
 
-### Add the overrides
+### 6b. Add the overrides
 
 Open `package.json` (inside `mezo-x402-server/`) and add this block
 at the top level, alongside `dependencies`:
@@ -360,7 +366,7 @@ yarn install
   </TabItem>
 </Tabs>
 
-### Verify
+### 6c. Verify
 
 Both packages should now report `2.10.0-mezo.6`:
 
@@ -477,17 +483,17 @@ is required.
 
 {/* SCREENSHOT-TODO: explorer.test.mezo.org for Account B after payment, showing the 0.001 MUSD inbound transfer from Account A. (One side of the A→B transfer is enough; the prose above already points at both tabs.) */}
 
+<Aside type="note" title="Viewing Token Transfers">
+The default view within the Mezo Explorer is for **Transactions**, so you must
+click the **Token transfers** tab to find your x402 payment details by clicking
+the Txn hash for the most recent token transfer for each account.
+</Aside>
+
 That's the full loop: you've just served a paywalled HTTP resource on
 Mezo Testnet, paid for it from Account A, and watched the MUSD land
 in Account B on chain.
 
-<Aside type="note" title="Source of the live demo">
-The seller running at `humor.vativ.io` (used in Step 3) is a richer
-reference — it also includes a non-browser `@x402/fetch` client and a
-README covering end-to-end wallet funding. Source at
-[`vativ/mezo-hack/apps/humor`](https://github.com/vativ/mezo-hack/tree/main/apps/humor).
-Clone and adapt when you want to go beyond the snippets on this page.
-</Aside>
+
 
 ## Troubleshooting
 
