@@ -1,28 +1,27 @@
 ---
-title: Quickstart (x402)
+title: Quickstart for x402
 description: >-
   End-to-end walkthrough. Prepare a wallet with testnet MUSD, pay a live demo
-  endpoint, then stand up your own MUSD-paid Express route with @x402/express.
+  endpoint, then stand up your own MUSD-paid Express route using the @x402/* SDKs.
 topic: developers
 ---
 
 import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 This quickstart runs top to bottom. By the end, you will have paid
-`$0.001` in MUSD on Mezo Testnet against a live demo seller, then against
-your own local seller — reaching the **Pay now** button successfully in
-both cases.
+$0.001 in MUSD on Mezo Testnet against your local Express seller server using the
+`@x402/paywall` SDK.
+
+For the conceptual context of what x402 is, start with the [x402 Overview](../).
 
 ## What you will build
 
 A minimal two-part client/server app for purchasing a `/paid` API endpoint using MUSD:
 
 - **Merchant Server**: an Express server with one protected route that returns
-  JSON only after a valid MUSD payment.
-- **Buyer Client**: a browser client that loads the bundled x402 paywall, connects
+  JSON only after a valid MUSD payment settles.
+- **Buyer Client**: a browser client that loads the bundled x402 `paywall`, connects
   a wallet, pays on Mezo Testnet, and receives the protected API response.
-
-For the conceptual context of what x402 is, start with the [x402 Overview](../).
 
 ## Prerequisites
 
@@ -37,12 +36,13 @@ For the conceptual context of what x402 is, start with the [x402 Overview](../).
 The quickstart uses **two distinct accounts** in the same wallet:
 
 - **Account A — Buyer.** Holds MUSD, pays for API requests.
-- **Account B — Merchant.** Receives payments. Never needs a balance.
+- **Account B — Merchant.** Receives payments.
 
 Using two accounts makes every payment visible in the explorer as a
 transfer from A to B, which is the simplest way to confirm your setup
 end-to-end. Neither account needs a BTC balance for x402 MUSD
-payments — the facilitator pays gas on behalf of both parties.
+payments — the facilitator pays gas on behalf of both parties (although 
+you will need BTC to perform the MUSD borrow flow).
 </Aside>
 
 ## Step 1: Set up your wallet
@@ -50,12 +50,9 @@ payments — the facilitator pays gas on behalf of both parties.
 ### 1a. Create two accounts
 
 Open your wallet's account switcher. Your first account is **Account
-A (Buyer)**. Add a second account — **Account B (Merchant)** — with
-whatever name helps you tell them apart.
-
-In MetaMask: account menu → *"Add account or hardware wallet"* →
-*"Add a new Ethereum account"*. Other EVM wallets have equivalent
-flows.
+A (Buyer)**. Add a second account is **Account B (Merchant)** using
+whatever name helps you tell them apart. Ensure Account A (Buyer) is 
+selected/active. 
 
 {/* SCREENSHOT-TODO: MetaMask account switcher showing Account A (Buyer) and Account B (Merchant). */}
 
@@ -75,14 +72,11 @@ and add a custom network with these parameters:
 For mainnet parameters and alternative RPC providers, see
 [Set Up Developer Environment](/docs/developers/getting-started/configure-environment).
 
-Both accounts share the network — you only add Mezo Testnet once per
-wallet, and both A and B will see it.
-
 {/* SCREENSHOT-TODO: MetaMask "Add a network manually" form filled with the Mezo Testnet values above. */}
 
 ## Step 2: Get testnet MUSD to pay with
 
-MUSD on testnet is **minted, not faucet-dispensed** — you borrow it
+MUSD on testnet is **minted, not faucet-dispensed**, you borrow it
 against testnet BTC.
 
 <Aside type="caution" title="One-time minimum borrow">
@@ -93,8 +87,8 @@ you borrow once and reuse the balance across many paid requests. At
 payments.
 </Aside>
 
-Select **Account A (Buyer)** in your wallet before starting — all of
-Step 2 funds Account A. Account B (Merchant) stays empty throughout.
+Select **Account A (Buyer)** in your wallet before starting allowing all of
+Step 2 funds going to Account A. Account B (Merchant) stays empty throughout.
 
 <Steps>
 
@@ -131,23 +125,16 @@ Step 2 funds Account A. Account B (Merchant) stays empty throughout.
 Before installing any packages or writing any code, confirm that your
 wallet, network, and MUSD balance are all ready by paying a live x402
 seller. This isolates "did I set up my wallet correctly?" from "did I
-wire my own server correctly?" — any trouble you hit here is a wallet
+wire my own server correctly?" Any trouble you hit here is a wallet
 or MUSD issue, not a code issue.
 
 <Steps>
 
-1. Confirm the demo seller is up and paywall-gated:
-
-   ```bash
-   curl -s -o /dev/null -w "%{http_code}\n" https://humor.vativ.io/joke
-   # Expect: 402
-   ```
-
-2. Open [`https://humor.vativ.io/joke`](https://humor.vativ.io/joke) in
+1. Open [`https://humor.vativ.io/joke`](https://humor.vativ.io/joke) in
    the same browser that holds your Mezo Testnet wallet. **Switch to
    Account A (Buyer)** before connecting — A has the MUSD.
 
-3. The paywall loads. You should see:
+2. The paywall loads. You should see:
 
    - A **Payment Required** heading
    - `please pay $0.001 Mezo USD`
@@ -155,21 +142,22 @@ or MUSD issue, not a code issue.
 
    {/* SCREENSHOT-TODO: humor.vativ.io paywall UI at initial load (Connect wallet state). */}
 
-4. Select your wallet and connect it from Account A. Confirm you are
+3. Select your wallet and connect it from Account A. Confirm you are
    on **Mezo Testnet (chain ID `31611`)** when the wallet prompts.
 
-5. Click **Pay now**, then sign the payment authorization in your
+4. Click **Pay now**, then sign the payment authorization in your
    wallet when prompted.
 
    {/* SCREENSHOT-TODO: MetaMask signature-request popup for the x402 payment authorization (sign typed data). */}
 
-6. The paywall retries the request with your payment. Once the
+5. The paywall retries the request with your payment. Once the
    facilitator settles on chain, the joke renders in the browser.
 
-7. Verify the payment on chain. Open
+6. Verify the payment on chain. Open
    `https://explorer.test.mezo.org/address/<account-A-address>`
    — you should see a fresh MUSD transfer out of Account A for
-   `0.001 MUSD` to the `humor.vativ.io` seller's receiving address.
+   `0.001 MUSD` to the `humor.vativ.io` seller's receiving address 
+   (your account B's balance will not change).
 
 </Steps>
 
@@ -185,7 +173,7 @@ identical to a broken server at Step 6; sort it out now.
 
 ## Step 4: Install x402 packages
 
-Create a fresh project for your own seller:
+Create a fresh project for your own merchant server:
 
 ```bash
 mkdir mezo-x402-server && cd mezo-x402-server
