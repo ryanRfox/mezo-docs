@@ -33,16 +33,36 @@ For the conceptual context of what x402 is, start with the [x402 Overview](../).
   borrow transaction; run those early (Steps 1–2) and they'll be ready
   by the time you need them.
 
-<Aside type="tip" title="Gas on Mezo with x402">
-Neither the buyer nor the merchant needs a BTC balance to complete
-x402 MUSD payments. The facilitator pays gas on behalf of both parties
-and settles the transfer on chain. Only the buyer needs MUSD.
+<Aside type="tip" title="You will use two accounts: Buyer and Merchant">
+The quickstart uses **two distinct accounts** in the same wallet:
+
+- **Account A — Buyer.** Holds MUSD, pays for API requests.
+- **Account B — Merchant.** Receives payments. Never needs a balance.
+
+Using two accounts makes every payment visible in the explorer as a
+transfer from A to B, which is the simplest way to confirm your setup
+end-to-end. Neither account needs a BTC balance for x402 MUSD
+payments — the facilitator pays gas on behalf of both parties.
 </Aside>
 
-## Step 1: Add Mezo Testnet to your wallet
+## Step 1: Set up your wallet
 
-Open your wallet's networks settings and add a custom network with
-these parameters:
+### 1a. Create two accounts
+
+Open your wallet's account switcher. Your first account is **Account
+A (Buyer)**. Add a second account — **Account B (Merchant)** — with
+whatever name helps you tell them apart.
+
+In MetaMask: account menu → *"Add account or hardware wallet"* →
+*"Add a new Ethereum account"*. Other EVM wallets have equivalent
+flows.
+
+{/* SCREENSHOT-TODO: MetaMask account switcher showing Account A (Buyer) and Account B (Merchant). */}
+
+### 1b. Add Mezo Testnet as a network
+
+With either account selected, open your wallet's networks settings
+and add a custom network with these parameters:
 
 | Field | Value |
 |---|---|
@@ -54,6 +74,11 @@ these parameters:
 
 For mainnet parameters and alternative RPC providers, see
 [Set Up Developer Environment](/docs/developers/getting-started/configure-environment).
+
+Both accounts share the network — you only add Mezo Testnet once per
+wallet, and both A and B will see it.
+
+{/* SCREENSHOT-TODO: MetaMask "Add a network manually" form filled with the Mezo Testnet values above. */}
 
 ## Step 2: Get testnet MUSD to pay with
 
@@ -68,24 +93,38 @@ you borrow once and reuse the balance across many paid requests. At
 payments.
 </Aside>
 
+Select **Account A (Buyer)** in your wallet before starting — all of
+Step 2 funds Account A. Account B (Merchant) stays empty throughout.
+
 <Steps>
 
-1. Request testnet BTC from the [Mezo Faucet](https://faucet.test.mezo.org)
-   or the `#testnet` channel in [Mezo Discord](https://discord.com/invite/mezo).
-   Wait for the drip to land in your wallet.
+1. Request testnet BTC **to Account A** from the
+   [Mezo Faucet](https://faucet.test.mezo.org) or the `#testnet`
+   channel in [Mezo Discord](https://discord.com/invite/mezo). Wait
+   for the drip to land in A's wallet.
 
 2. Borrow MUSD at [mezo.org/feature/borrow](https://mezo.org/feature/borrow)
-   with your wallet on Mezo Testnet. Full walkthrough with screenshots:
-   [Borrow and Mint MUSD](/docs/users/musd/mint-musd/).
+   with Account A connected on Mezo Testnet. Full walkthrough with
+   screenshots: [Borrow and Mint MUSD](/docs/users/musd/mint-musd/).
 
-3. Confirm your MUSD balance. The testnet MUSD token contract is
-   [`0x1189…Ac503`](https://explorer.test.mezo.org/token/0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503).
-   Either paste your wallet address into that explorer page's search
-   bar, or add `0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503` as a
-   custom token in your wallet. Either way you should see at least
-   1,800 MUSD (the principal from the previous step).
+3. Confirm Account A's MUSD balance. The testnet MUSD token contract
+   is [`0x1189…Ac503`](https://explorer.test.mezo.org/token/0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503).
+   You have two ways to check:
+
+   - **Explorer:** open
+     `https://explorer.test.mezo.org/address/<account-A-address>`
+     (paste Account A's `0x…` into the URL). You should see MUSD
+     listed with ≥ 1,800 balance.
+   - **Wallet:** add `0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503` as a
+     custom token. Account A will then show an MUSD line item.
+
+4. Confirm Account B shows **zero** MUSD — it shouldn't have any, and
+   won't until Step 6. Check at
+   `https://explorer.test.mezo.org/address/<account-B-address>`.
 
 </Steps>
+
+{/* SCREENSHOT-TODO: explorer.test.mezo.org for Account A showing MUSD balance (~1,800) after borrow. */}
 
 ## Step 3: Smoke-test your wallet against the live x402 demo
 
@@ -105,7 +144,8 @@ or MUSD issue, not a code issue.
    ```
 
 2. Open [`https://humor.vativ.io/joke`](https://humor.vativ.io/joke) in
-   the same browser that holds your Mezo Testnet wallet.
+   the same browser that holds your Mezo Testnet wallet. **Switch to
+   Account A (Buyer)** before connecting — A has the MUSD.
 
 3. The paywall loads. You should see:
 
@@ -113,18 +153,30 @@ or MUSD issue, not a code issue.
    - `please pay $0.001 Mezo USD`
    - A wallet-select dropdown and **Connect wallet** button
 
-4. Select your wallet and connect it. Confirm you are on
-   **Mezo Testnet (chain ID `31611`)** when the wallet prompts.
+   {/* SCREENSHOT-TODO: humor.vativ.io paywall UI at initial load (Connect wallet state). */}
+
+4. Select your wallet and connect it from Account A. Confirm you are
+   on **Mezo Testnet (chain ID `31611`)** when the wallet prompts.
 
 5. Click **Pay now**, then sign the payment authorization in your
    wallet when prompted.
 
+   {/* SCREENSHOT-TODO: MetaMask signature-request popup for the x402 payment authorization (sign typed data). */}
+
 6. The paywall retries the request with your payment. Once the
    facilitator settles on chain, the joke renders in the browser.
 
+7. Verify the payment on chain. Open
+   `https://explorer.test.mezo.org/address/<account-A-address>`
+   — you should see a fresh MUSD transfer out of Account A for
+   `0.001 MUSD` to the `humor.vativ.io` seller's receiving address.
+
 </Steps>
 
-If the joke appears, your wallet setup is proven. Proceed to Step 4.
+{/* SCREENSHOT-TODO: explorer.test.mezo.org token-transfers tab for Account A showing the 0.001 MUSD outbound transfer after the smoke-test payment. */}
+
+If the joke appears and the explorer shows the transfer, your wallet
+setup is proven. Proceed to Step 4.
 
 If you don't reach the joke, stop here and fix the wallet side before
 writing any server code — see [Troubleshooting](#troubleshooting) for
@@ -165,11 +217,14 @@ pieces: an `x402ResourceServer` that negotiates with a facilitator, an
 `ExactEvmScheme` registered for Mezo Testnet, and a route config that
 says what the endpoint costs.
 
-You'll need a Mezo Testnet **receiving address** — any EVM address you
-control (e.g., copy your MetaMask account address). It can be the
-same wallet you used to borrow MUSD in Step 2, or a different one;
-the merchant address never needs to hold BTC or MUSD, it only
-receives payments.
+Use **Account B (Merchant)** as the receiving address. Switch to
+Account B in your wallet and copy its `0x…` address — that goes into
+`EVM_ADDRESS` below. Account B never needs a balance; it only receives.
+
+(Technically you could reuse Account A, but then a successful payment
+is invisible on chain: MUSD leaves A and lands in A, so the token
+balance doesn't change. Two accounts give you a clean before/after
+signal in the explorer.)
 
 Still inside `mezo-x402-server/` (from Step 4), create `server.ts`:
 
@@ -258,10 +313,12 @@ Alternatively, change `app.listen(3000, …)` in `server.ts` to a free
 port.
 </Aside>
 
-Start the server with your receiving address:
+Start the server with Account B's address as the receiving address.
+Substitute the 40-hex-character address you copied from Account B
+(the literal value below will fail the format guard in `server.ts`):
 
 ```bash
-EVM_ADDRESS=0xYourMezoTestnetAddress \
+EVM_ADDRESS=0xBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB \
   pnpm exec tsx server.ts
 ```
 
@@ -285,13 +342,16 @@ client-side code is required.
    page is only served to browser `Accept: text/html` requests.)
 
 2. Open `http://localhost:3000/paid` in the same browser you used for
-   the live-demo smoke test in Step 3.
+   the live-demo smoke test in Step 3. **Switch to Account A (Buyer)**
+   before connecting — that's the account with MUSD.
 
 3. The paywall loads — same UI as Step 3, but now served by your own
    code.
 
-4. Connect your wallet, confirm **Mezo Testnet (chain ID `31611`)**,
-   click **Pay now**, and sign the authorization.
+   {/* SCREENSHOT-TODO: local seller paywall at localhost:3000/paid with Connect wallet state. */}
+
+4. Connect Account A, confirm **Mezo Testnet (chain ID `31611`)**,
+   click **Pay now**, and sign the authorization in your wallet.
 
 5. The paywall retries the request. Once the facilitator settles on
    chain, the JSON response body renders:
@@ -303,14 +363,31 @@ client-side code is required.
    }
    ```
 
+   {/* SCREENSHOT-TODO: browser showing the rendered JSON response after a successful payment on the local seller. */}
+
+6. Verify the A → B transfer on chain. Open both explorer tabs:
+
+   - Account A (debit):
+     `https://explorer.test.mezo.org/address/<account-A-address>`
+   - Account B (credit):
+     `https://explorer.test.mezo.org/address/<account-B-address>`
+
+   You should see a single MUSD transfer of `0.001 MUSD` leaving A
+   and arriving at B at the timestamp of your payment. Click the
+   transaction hash on either side to see the settlement details,
+   including the facilitator address that paid gas.
+
 </Steps>
+
+{/* SCREENSHOT-TODO: explorer.test.mezo.org for Account B after payment, showing the 0.001 MUSD inbound transfer from Account A. (One side of the A→B transfer is enough; the prose above already points at both tabs.) */}
 
 If the browser console (DevTools → Console, usually **F12** or
 **⌘⌥J** on macOS) logs `EVM Payment required initialized` with no
 thrown errors, your install and middleware wiring are correct.
 
 That's the full loop: you've just served a paywalled HTTP resource on
-Mezo Testnet and paid for it from a wallet you control.
+Mezo Testnet, paid for it from Account A, and watched the MUSD land
+in Account B on chain.
 
 <Aside type="note" title="Source of the live demo">
 The seller running at `humor.vativ.io` (used in Step 3) is a richer
