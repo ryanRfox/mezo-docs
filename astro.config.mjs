@@ -334,14 +334,6 @@ export default defineConfig({
                               'docs/developers/getting-started/dapp-requirements',
                               'docs/developers/getting-started/configure-environment',
                               'docs/developers/getting-started/configure-mezo-passport',
-                              {
-                                    label: 'MUSD Payments With X402',
-                                    collapsed: true,
-                                    items: [
-                                          'docs/developers/getting-started/musd-payments-x402',
-                                          'docs/developers/getting-started/musd-payments-x402/x402-quickstart'
-                                    ]
-                              },
                               'docs/developers/getting-started/integrations-and-partners',
                               'docs/developers/getting-started/faqs'
                         ]
@@ -392,7 +384,15 @@ export default defineConfig({
                         collapsed: true,
                         items: [
                               'docs/developers/musd',
-                              'docs/developers/musd/musd-redemptions'
+                              'docs/developers/musd/musd-redemptions',
+                              {
+                                    label: 'MUSD Payments With X402',
+                                    collapsed: true,
+                                    items: [
+                                          'docs/developers/getting-started/musd-payments-x402',
+                                          'docs/developers/getting-started/musd-payments-x402/x402-quickstart'
+                                    ]
+                              }
                         ]
                   },
                   {
