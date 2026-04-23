@@ -113,14 +113,14 @@ Step 2 funds going to Account A. Account B (Merchant) stays empty throughout.
      custom token. Account A will then show an MUSD line item.
 
 4. Confirm Account B shows **zero** MUSD — it shouldn't have any, and
-   won't until Step 6. Check at
+   won't until Step 7. Check at
    `https://explorer.test.mezo.org/address/<account-B-address>`.
 
 </Steps>
 
 {/* SCREENSHOT-TODO: explorer.test.mezo.org for Account A showing MUSD balance (~1,800) after borrow. */}
 
-## Step 3: Smoke-test your wallet against the live x402 demo
+## Step 3: Smoke test your wallet against the live x402 demo
 
 Before installing any packages or writing any code, confirm that your
 wallet, network, and MUSD balance are all ready by paying a live x402
@@ -161,7 +161,7 @@ or MUSD issue, not a code issue.
 
 </Steps>
 
-{/* SCREENSHOT-TODO: explorer.test.mezo.org token-transfers tab for Account A showing the 0.001 MUSD outbound transfer after the smoke-test payment. */}
+{/* SCREENSHOT-TODO: explorer.test.mezo.org token transfers tab for Account A showing the 0.001 MUSD outbound transfer after the smoke test payment. */}
 
 If the joke appears and the explorer shows the transfer, your wallet
 setup is proven. Proceed to Step 4.
@@ -169,7 +169,7 @@ setup is proven. Proceed to Step 4.
 If you don't reach the joke, stop here and fix the wallet side before
 writing any server code — see [Troubleshooting](#troubleshooting) for
 common wallet/MUSD symptoms. A broken wallet at this step will look
-identical to a broken server at Step 6; sort it out now.
+identical to a broken server at Step 7; sort it out now.
 
 ## Step 4: Install x402 packages
 
@@ -279,7 +279,105 @@ app.listen(3000, () => {
 });
 ```
 
-## Step 6: Run your seller and pay it yourself
+## Step 6: Apply the Mezo preview overrides (if needed)
+
+`@x402/paywall` and `@x402/evm` need Mezo support to format MUSD and
+settle via `facilitator.vativ.io`. Canonical `2.11.0+` includes that
+support; canonical `2.10.x` does not. Check what Step 4 resolved:
+
+```bash
+pnpm list @x402/paywall
+```
+
+If the version is `2.11.0` or later, you can skip the rest of this
+step and go to Step 7.
+
+If it is `2.10.x`, apply the overrides below before running the
+server.
+
+### Add the overrides
+
+Open `package.json` (inside `mezo-x402-server/`) and add this block
+at the top level, alongside `dependencies`:
+
+<Tabs>
+  <TabItem label="pnpm">
+
+```json
+"pnpm": {
+  "overrides": {
+    "@x402/paywall": "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-paywall-2.10.0-mezo.6.tgz",
+    "@x402/evm":     "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-evm-2.10.0-mezo.6.tgz"
+  }
+}
+```
+
+Then reinstall:
+
+```bash
+pnpm install
+```
+
+  </TabItem>
+  <TabItem label="npm">
+
+Use npm's top-level `overrides` (not under a `pnpm` key):
+
+```json
+"overrides": {
+  "@x402/paywall": "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-paywall-2.10.0-mezo.6.tgz",
+  "@x402/evm":     "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-evm-2.10.0-mezo.6.tgz"
+}
+```
+
+Then reinstall:
+
+```bash
+npm install
+```
+
+  </TabItem>
+  <TabItem label="yarn">
+
+Use Yarn's `resolutions` block:
+
+```json
+"resolutions": {
+  "@x402/paywall": "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-paywall-2.10.0-mezo.6.tgz",
+  "@x402/evm":     "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-evm-2.10.0-mezo.6.tgz"
+}
+```
+
+Then reinstall:
+
+```bash
+yarn install
+```
+
+  </TabItem>
+</Tabs>
+
+### Verify
+
+Both packages should now report `2.10.0-mezo.6`:
+
+```bash
+grep '"version"' node_modules/@x402/paywall/package.json node_modules/@x402/evm/package.json
+```
+
+If either still reads plain `2.10.0`, the override did not apply.
+Check that the overrides block sits at the top level of
+`package.json` (alongside `dependencies`, not nested inside it) and
+rerun the install command for your package manager.
+
+<Aside type="caution" title="Override both packages together">
+Preview `@x402/paywall` imports `DEFAULT_STABLECOINS` from preview
+`@x402/evm`. If only one is overridden, the transitive canonical
+`@x402/evm` surfaces as `does not provide an export named
+'DEFAULT_STABLECOINS'` at runtime.
+</Aside>
+
+## Step 7: Run your seller and pay it yourself
 
 <Aside type="caution" title="Check for a stale seller on :3000 first">
 If any process is already bound to `localhost:3000` — a previous
@@ -317,7 +415,7 @@ client-side code is required.
 
 <Steps>
 
-1. Sanity-check that the server responds `402`:
+1. Sanity check that the server responds `402`:
 
    ```bash
    curl -s -o /dev/null -w "%{http_code}\n" http://localhost:3000/paid
@@ -389,10 +487,10 @@ Clone and adapt when you want to go beyond the snippets on this page.
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
-| `does not provide an export named 'DEFAULT_STABLECOINS'` at runtime | Installed `@x402/paywall`/`@x402/evm` are canonical `2.10.x`, which lacks Mezo support | Apply the [Mezo preview overrides](#mezo-preview-overrides) |
-| Paywall shows `$10000000000.00` instead of `$0.001` | Same as above — canonical 2.10.x is formatting MUSD as 6-decimal USDC | Apply the [Mezo preview overrides](#mezo-preview-overrides) |
+| `does not provide an export named 'DEFAULT_STABLECOINS'` at runtime | Installed `@x402/paywall`/`@x402/evm` are canonical `2.10.x`, which lacks Mezo support | Apply the [Mezo preview overrides](#step-6-apply-the-mezo-preview-overrides-if-needed) |
+| Paywall shows `$10000000000.00` instead of `$0.001` | Same as above — canonical 2.10.x is formatting MUSD as 6-decimal USDC | Apply the [Mezo preview overrides](#step-6-apply-the-mezo-preview-overrides-if-needed) |
 | `EADDRINUSE: address already in use :::3000` | Another process is bound to port 3000 | Run `lsof -i :3000` to find the holder, or change `app.listen(3000, …)` to a free port |
-| `tsx: command not found` | `tsx` dev dep didn't install, or command is being run outside the project directory | Re-run `pnpm add -D tsx` inside the project; invoke as `pnpm exec tsx server.ts` |
+| `tsx: command not found` | `tsx` dev dep didn't install, or command is being run outside the project directory | Rerun `pnpm add -D tsx` inside the project; invoke as `pnpm exec tsx server.ts` |
 | `SyntaxError` on `import` / TS syntax errors from Node | Using Node.js &lt; 20 | Upgrade to Node.js 20+ (`node --version` to check) |
 | Wallet prompts to switch network / payment never confirms | Wallet is on the wrong Mezo network | Confirm the wallet is on the chain ID the seller expects (`31611` for Testnet, `31612` for Mainnet) |
 | `402 Payment Required` returned but paywall UI never renders | `network` string is not a CAIP-2 identifier | Use `'eip155:31611'` or `'eip155:31612'` exactly; `'mezo-testnet'` and bare `31611` are both rejected |
@@ -401,103 +499,6 @@ Clone and adapt when you want to go beyond the snippets on this page.
 | Facilitator returns `unsupported network` | `FACILITATOR_URL` in `server.ts` points at `x402.org/facilitator` (no Mezo support) | Set the constant to a Mezo-capable facilitator (`https://facilitator.vativ.io/` for Testnet) |
 | Paywall loads but **Pay now** never settles, no error | Wallet has no MUSD, or MUSD is on the wrong network | Revisit Step 2; confirm the testnet MUSD token contract shows a balance |
 | Step 3 demo (humor.vativ.io) never settles | Same wallet/MUSD/network issue — isolate here before proceeding to Step 4 | Do not skip the Step 3 smoke test; fix the wallet side before writing server code |
-
-## Mezo preview overrides
-
-You only need this section if `pnpm` / `npm` / `yarn` resolved
-`@x402/paywall` at `2.10.x`. Canonical `2.11.0+` includes Mezo support
-and works without any overrides.
-
-Check what got installed:
-
-```bash
-pnpm list @x402/paywall
-```
-
-If the version is `2.11.0` or later: you can ignore this section. If it
-is `2.10.x`: apply the overrides below.
-
-### Add the overrides
-
-Open `package.json` and add this block at the top level (same nesting
-level as `dependencies`):
-
-<Tabs>
-  <TabItem label="pnpm">
-
-```json
-"pnpm": {
-  "overrides": {
-    "@x402/paywall": "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-paywall-2.10.0-mezo.6.tgz",
-    "@x402/evm":     "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-evm-2.10.0-mezo.6.tgz"
-  }
-}
-```
-
-Then re-install:
-
-```bash
-pnpm install
-```
-
-  </TabItem>
-  <TabItem label="npm">
-
-Use npm's top-level `overrides` (not under a `pnpm` key):
-
-```json
-"overrides": {
-  "@x402/paywall": "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-paywall-2.10.0-mezo.6.tgz",
-  "@x402/evm":     "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-evm-2.10.0-mezo.6.tgz"
-}
-```
-
-Then re-install:
-
-```bash
-npm install
-```
-
-  </TabItem>
-  <TabItem label="yarn">
-
-Use Yarn's `resolutions` block:
-
-```json
-"resolutions": {
-  "@x402/paywall": "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-paywall-2.10.0-mezo.6.tgz",
-  "@x402/evm":     "https://github.com/vativ/x402-mezo-preview/releases/download/v2.10.0-mezo.6/x402-evm-2.10.0-mezo.6.tgz"
-}
-```
-
-Then re-install:
-
-```bash
-yarn install
-```
-
-  </TabItem>
-</Tabs>
-
-### Verify
-
-Both packages should now report `2.10.0-mezo.6`:
-
-```bash
-grep '"version"' node_modules/@x402/paywall/package.json node_modules/@x402/evm/package.json
-```
-
-If either still reads plain `2.10.0`, the override didn't apply. Check
-that the overrides block sits at the top level of `package.json`
-(alongside `dependencies`, not nested inside it) and re-run the install
-command for your package manager.
-
-<Aside type="caution" title="Override both packages together">
-Preview `@x402/paywall` imports `DEFAULT_STABLECOINS` from preview
-`@x402/evm`. If only one is overridden, the transitive canonical
-`@x402/evm` surfaces as `does not provide an export named
-'DEFAULT_STABLECOINS'` at runtime.
-</Aside>
 
 ## See also
 
