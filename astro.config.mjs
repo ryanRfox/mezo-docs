@@ -21,7 +21,8 @@ export default defineConfig({
 			wrap: true,
 		},
 	},
-	site: 'https://mezo.org/docs',
+	site: process.env.ASTRO_SITE || 'https://mezo.org/docs',
+	base: process.env.ASTRO_BASE || undefined,
 	integrations: [
 		starlight({
 			title: 'Mezo Documentation',
