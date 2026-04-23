@@ -1,12 +1,18 @@
 ---
 title: Quickstart (x402)
 description: >-
-  Install the preview packages, stand up an MUSD-paid endpoint with
-  @x402/express, and exercise the paywall flow in a browser.
+  End-to-end walkthrough. Prepare a wallet with testnet MUSD, pay a live
+  demo endpoint, then stand up your own MUSD-paid Express route with
+  @x402/express.
 topic: developers
 ---
 
 import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+This quickstart runs top to bottom. By the end, you will have paid
+`$0.001` in MUSD on Mezo Testnet against a live demo seller, then against
+your own local seller — reaching the **Pay Here** button successfully in
+both cases.
 
 ## What you will build
 
@@ -21,42 +27,111 @@ For the conceptual context of what x402 is, start with the [x402 Overview](../).
 
 ## Prerequisites
 
-**Merchant Server (selling paywalled content):**
+- **Node.js 20+** and **pnpm 9+** on your machine.
+- A browser wallet extension that supports EVM networks (MetaMask, Rabby,
+  Coinbase Wallet, or any wallet that exposes an EIP-1193 provider).
+- **~20–30 minutes.** Getting testnet MUSD involves a faucet drip + a
+  borrow transaction; run those early (Steps 1–2) and they'll be ready
+  by the time you need them.
 
-- Node.js 20+ and pnpm 9+.
-- A Mezo Testnet receiving address (any EVM address) for the `EVM_ADDRESS`
-  env var. The merchant address receives MUSD on every paid request and
-  is never funded with anything.
-
-**Buyer Client (buying paid content):**
-
-- A browser wallet that supports EVM networks (MetaMask, Rabby, Coinbase
-  Wallet, or any wallet that exposes an EIP-1193 provider).
-- **Mezo Testnet added to your wallet.** Use these network parameters:
-
-  | Field | Value |
-  |---|---|
-  | Network name | Mezo Testnet |
-  | Chain ID | `31611` |
-  | RPC URL | `https://rpc.test.mezo.org` |
-  | Block explorer | `https://explorer.test.mezo.org` |
-  | Currency symbol | BTC |
-
-  For mainnet parameters and alternative RPC providers, see
-  [Set Up Developer Environment](/docs/developers/getting-started/configure-environment).
-
-- An MUSD balance on Mezo Testnet to pay with. See
-  [Getting testnet MUSD to pay with](#getting-testnet-musd-to-pay-with)
-  below.
-
-<Aside type="tip" title="MUSD balance requirements">
-Only the buyer client needs an MUSD balance. Neither the buyer nor the
-merchant needs a BTC balance to complete x402 MUSD payments — the
-facilitator pays gas on behalf of both parties and settles the transfer
-on chain.
+<Aside type="tip" title="Gas on Mezo with x402">
+Neither the buyer nor the merchant needs a BTC balance to complete
+x402 MUSD payments. The facilitator pays gas on behalf of both parties
+and settles the transfer on chain. Only the buyer needs MUSD.
 </Aside>
 
-## 1. Install x402 packages
+## Step 1: Add Mezo Testnet to your wallet
+
+Open your wallet's networks settings and add a custom network with
+these parameters:
+
+| Field | Value |
+|---|---|
+| Network name | Mezo Testnet |
+| Chain ID | `31611` |
+| RPC URL | `https://rpc.test.mezo.org` |
+| Block explorer | `https://explorer.test.mezo.org` |
+| Currency symbol | BTC |
+
+For mainnet parameters and alternative RPC providers, see
+[Set Up Developer Environment](/docs/developers/getting-started/configure-environment).
+
+## Step 2: Get testnet MUSD to pay with
+
+MUSD on testnet is **minted, not faucet-dispensed** — you borrow it
+against testnet BTC.
+
+<Aside type="caution" title="One-time minimum borrow">
+Borrow opens require a minimum debt of **2,000 MUSD** (1,800 principal +
+200 MUSD gas deposit). This is a protocol floor, not a per-test cost —
+you borrow once and reuse the balance across many paid requests. At
+`$0.001` per call, a single borrow covers about two million test
+payments.
+</Aside>
+
+<Steps>
+
+1. Request testnet BTC from the [Mezo Faucet](https://faucet.test.mezo.org)
+   or the `#testnet` channel in [Mezo Discord](https://discord.com/invite/mezo).
+   Wait for the drip to land in your wallet.
+
+2. Borrow MUSD at [mezo.org/feature/borrow](https://mezo.org/feature/borrow)
+   with your wallet on Mezo Testnet. Full walkthrough with screenshots:
+   [Borrow and Mint MUSD](/docs/users/musd/mint-musd/).
+
+3. Confirm your MUSD balance against the testnet MUSD token contract at
+   [`0x1189…Ac503`](https://explorer.test.mezo.org/token/0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503).
+   You should see at least 1,800 MUSD (the principal from Step 2).
+
+</Steps>
+
+## Step 3: Smoke-test your wallet against the live x402 demo
+
+Before installing any packages or writing any code, confirm that your
+wallet, network, and MUSD balance are all ready by paying a live x402
+seller. This isolates "did I set up my wallet correctly?" from "did I
+wire my own server correctly?" — any trouble you hit here is a wallet
+or MUSD issue, not a code issue.
+
+<Steps>
+
+1. Confirm the demo seller is up and paywall-gated:
+
+   ```bash
+   curl -s -o /dev/null -w "%{http_code}\n" https://humor.vativ.io/joke
+   # Expect: 402
+   ```
+
+2. Open [`https://humor.vativ.io/joke`](https://humor.vativ.io/joke) in
+   the same browser that holds your Mezo Testnet wallet.
+
+3. The paywall loads. You should see:
+
+   - A **Payment Required** heading
+   - `please pay $0.001 Mezo USD`
+   - A wallet-select dropdown and **Connect wallet** button
+
+4. Select your wallet and connect it. Confirm you are on
+   **Mezo Testnet (chain ID `31611`)** when the wallet prompts.
+
+5. Click **Pay Here**, then sign the payment authorization in your
+   wallet when prompted.
+
+6. The paywall retries the request with your payment. Once the
+   facilitator settles on chain, the joke renders in the browser.
+
+</Steps>
+
+If the joke appears, your wallet setup is proven. Proceed to Step 4.
+
+If you don't reach the joke, stop here and fix the wallet side before
+writing any server code — see [Troubleshooting](#troubleshooting) for
+common wallet/MUSD symptoms. A broken wallet at this step will look
+identical to a broken server at Step 6; sort it out now.
+
+## Step 4: Install x402 packages
+
+Create a fresh project for your own seller:
 
 ```bash
 mkdir mezo-x402-server && cd mezo-x402-server
@@ -65,22 +140,24 @@ pnpm add @x402/paywall @x402/evm @x402/core @x402/express express
 pnpm add -D typescript tsx @types/express @types/node
 ```
 
-This creates a new merchant server project and installs the x402 libraries
-plus Express.
-
 <Aside type="note" title="About pnpm init's defaults">
 `pnpm init` generates a `package.json` with `"main": "index.js"` and no
 `"type": "module"`. Neither matters here — you will run `server.ts` via
 `tsx`, which handles ESM and CommonJS without configuration.
 </Aside>
 
-## 2. Build the seller
+## Step 5: Build your own seller
 
 The seller is an Express server that uses `@x402/express` middleware to
 gate a route behind an MUSD payment. The middleware wires together three
 pieces: an `x402ResourceServer` that negotiates with a facilitator, an
 `ExactEvmScheme` registered for Mezo Testnet, and a route config that
 says what the endpoint costs.
+
+You'll need a Mezo Testnet **receiving address** — any EVM address you
+control. It can be the same wallet you used to borrow MUSD in Step 2,
+or a different one; the merchant address never needs to hold BTC or
+MUSD, it only receives payments.
 
 Create `server.ts`:
 
@@ -144,56 +221,23 @@ app.listen(3000, () => {
 });
 ```
 
-Run it by setting `EVM_ADDRESS` to your Mezo Testnet receiving address:
+## Step 6: Run your seller and pay it yourself
+
+Start the server with your receiving address:
 
 ```bash
 EVM_ADDRESS=0xYourMezoTestnetAddress \
   pnpm exec tsx server.ts
 ```
 
-The merchant server listens on `localhost:3000`. Its x402 middleware
-intercepts unpaid requests to `/paid`, responds with HTTP `402 Payment
-Required`, and returns a full HTML paywall page (including the bundled
-wallet connection UI) that the browser renders directly. No client-side
-code is required.
-
-## Getting testnet MUSD to pay with
-
-Before the buyer client can pay, you need a small MUSD balance on Mezo
-Testnet. **MUSD is minted, not faucet-dispensed** — you borrow it against
-testnet BTC.
-
-<Aside type="caution" title="One-time minimum borrow">
-Borrow opens require a minimum debt of **2,000 MUSD** (1,800 principal +
-200 MUSD gas deposit). This is a protocol floor, not a per-test cost —
-you borrow once and reuse the balance across many paid requests. At
-`$0.001` per call, a single borrow covers about two million test
-payments.
-</Aside>
+You should see `seller listening on http://localhost:3000`. The
+middleware will now intercept unpaid requests to `/paid`, respond with
+HTTP `402 Payment Required`, and return a full HTML paywall page. No
+client-side code is required.
 
 <Steps>
 
-1. Request testnet BTC from the [Mezo Faucet](https://faucet.test.mezo.org)
-   or the `#testnet` channel in [Mezo Discord](https://discord.com/invite/mezo).
-
-2. Borrow MUSD at [mezo.org/feature/borrow](https://mezo.org/feature/borrow)
-   with your wallet on Mezo Testnet. Full walkthrough:
-   [Borrow and Mint MUSD](/docs/users/musd/mint-musd/).
-
-3. Confirm your balance against the testnet MUSD token contract at
-   [`0x1189…Ac503`](https://explorer.test.mezo.org/token/0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503).
-
-</Steps>
-
-## 3. Try a payment (buyer side)
-
-There is no client code to write for the in-browser flow. The paywall
-UI is served automatically by the seller middleware when a browser hits
-the protected URL without a valid payment header.
-
-<Steps>
-
-1. Ensure the server is running from the previous step:
+1. Sanity-check that the server responds `402`:
 
    ```bash
    curl -i http://localhost:3000/paid
@@ -202,52 +246,39 @@ the protected URL without a valid payment header.
    You should see `HTTP/1.1 402 Payment Required` and an HTML paywall
    body.
 
-2. Open `http://localhost:3000/paid` in a browser with an EVM wallet
-   extension (MetaMask, Rabby, Coinbase Wallet, or any injected
-   EIP-1193 provider).
+2. Open `http://localhost:3000/paid` in the same browser you used for
+   the live-demo smoke test in Step 3.
 
-3. The paywall loads automatically. It displays:
+3. The paywall loads — same UI as Step 3, but now served by your own
+   code.
 
-   - A **Payment Required** heading
-   - `please pay $0.001 Mezo USD`
-   - A wallet-select dropdown and **Connect wallet** button
+4. Connect your wallet, confirm **Mezo Testnet (chain ID `31611`)**,
+   click **Pay Here**, and sign the authorization.
 
-4. Select your wallet, confirm **Mezo Testnet (chain ID `31611`)** in
-   the wallet's network list, click **Pay now**, and confirm the payment
-   signature when prompted.
+5. The paywall retries the request. Once the facilitator settles on
+   chain, the JSON response body renders:
 
-5. The paywall retries the original request with the `PAYMENT-SIGNATURE`
-   header. Once the facilitator settles on chain, the JSON response for
-   `/paid` renders in the browser.
+   ```json
+   {
+     "message": "Thank you for your payment.",
+     "servedAt": "2026-..."
+   }
+   ```
 
 </Steps>
 
 If the browser console logs `EVM Payment required initialized` with no
 thrown errors, your install and middleware wiring are correct.
 
-## Live reference deployment
+That's the full loop: you've just served a paywalled HTTP resource on
+Mezo Testnet and paid for it from a wallet you control.
 
-A working seller is deployed at
-[`https://humor.vativ.io/joke`](https://humor.vativ.io/joke). Confirm
-it is up and paywall-gated:
-
-```bash
-curl -s -o /dev/null -w "%{http_code}\n" https://humor.vativ.io/joke
-# 402: unpaid response; open the URL in a browser to see the paywall UI
-```
-
-Opening the URL in a browser with an EVM wallet extension triggers the
-same paywall flow documented above. Use it to verify your wallet setup
-and MUSD balance are correct **before** you point client code at your
-own local seller.
-
-<Aside type="note" title="Source repository">
-Full source for the live deployment (seller middleware + reference
-`@x402/fetch` client + README with end-to-end wallet-funding walkthrough)
-lives at
+<Aside type="note" title="Source of the live demo">
+The seller running at `humor.vativ.io` (used in Step 3) is a richer
+reference — it also includes a non-browser `@x402/fetch` client and a
+README covering end-to-end wallet funding. Source at
 [`vativ/mezo-hack/apps/humor`](https://github.com/vativ/mezo-hack/tree/main/apps/humor).
-Clone and adapt when you want a richer starting point than the
-snippets on this page.
+Clone and adapt when you want to go beyond the snippets on this page.
 </Aside>
 
 ## Troubleshooting
@@ -262,6 +293,8 @@ snippets on this page.
 | Wallet prompts to switch network / payment never confirms | Wallet is on the wrong Mezo network | Confirm the wallet is on the chain ID the seller expects (`31611` for Testnet, `31612` for Mainnet) |
 | `402 Payment Required` returned but paywall UI never renders | `network` string is not a CAIP-2 identifier | Use `'eip155:31611'` or `'eip155:31612'` exactly; `'mezo-testnet'` and bare `31611` are both rejected |
 | Facilitator returns `unsupported network` | `FACILITATOR_URL` in `server.ts` points at `x402.org/facilitator` (no Mezo support) | Set the constant to a Mezo-capable facilitator (`https://facilitator.vativ.io/` for Testnet) |
+| Paywall loads but **Pay Here** never settles, no error | Wallet has no MUSD, or MUSD is on the wrong network | Revisit Step 2; confirm the testnet MUSD token contract shows a balance |
+| Step 3 demo (humor.vativ.io) never settles | Same wallet/MUSD/network issue — isolate here before proceeding to Step 4 | Do not skip the Step 3 smoke test; fix the wallet side before writing server code |
 
 ## Mezo preview overrides
 
