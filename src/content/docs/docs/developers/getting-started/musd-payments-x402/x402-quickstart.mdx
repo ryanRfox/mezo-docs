@@ -223,7 +223,7 @@ import { x402ResourceServer, HTTPFacilitatorClient } from '@x402/core/server';
 import { ExactEvmScheme } from '@x402/evm/exact/server';
 import { createPaywall, evmPaywall } from '@x402/paywall';
 
-const EVM_ADDRESS     = process.env.EVM_ADDRESS;         // Your Mezo Testnet receiving address (must include 0x prefix)
+const EVM_ADDRESS     = process.env.EVM_ADDRESS;         // Your Mezo Testnet receiving address (0x + 40 hex chars)
 const FACILITATOR_URL = 'https://facilitator.vativ.io/'; // Mezo-capable facilitator provided by community
 
 if (!EVM_ADDRESS) throw new Error('Set EVM_ADDRESS to your Mezo Testnet receiving address.');
@@ -400,18 +400,25 @@ port.
 </Aside>
 
 Start the server with Account B's address as the receiving address.
-Substitute the 40-hex-character address you copied from Account B
-(the literal value below will fail the format guard in `server.ts`):
+Substitute the 40-hex-character address you copied from Account B;
+the literal placeholder below is not a valid hex address, so the
+format guard in `server.ts` will reject it and make the typo obvious
+instead of letting the server start with a nonsense `payTo`:
 
 ```bash
-EVM_ADDRESS=0xBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB \
+EVM_ADDRESS=0xYOUR_ACCOUNT_B_ADDRESS_HERE \
   pnpm exec tsx server.ts
 ```
 
 You should see `seller listening on http://localhost:3000`. The
-middleware will now intercept unpaid requests to `/paid`, respond with
-HTTP `402 Payment Required`, and return a full HTML paywall page. No
-client-side code is required.
+middleware will now intercept unpaid requests to `/paid` and respond
+with HTTP `402 Payment Required`. The **response body** depends on
+the client's `Accept` header: a browser (`Accept: text/html`) receives
+a full HTML paywall page that renders the wallet-connect UI; other
+clients (plain `curl`, `fetch` with no `Accept`, `httpie`, etc.)
+receive a compact JSON body with the payment requirements in a
+`PAYMENT-REQUIRED` response header. Either way, no client-side code
+is required.
 
 <Steps>
 
