@@ -9,10 +9,7 @@ topic: developers
 
 import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 import { Image } from 'astro:assets';
-import paywallHumorInitial from '../../../../../../assets/screenshots/x402/paywall-humor-initial.png';
 import paywallLocalInitial from '../../../../../../assets/screenshots/x402/paywall-local-initial.png';
-import explorerAddressWithMusd from '../../../../../../assets/screenshots/x402/explorer-address-with-musd.png';
-import explorerMusdToken from '../../../../../../assets/screenshots/x402/explorer-musd-token.png';
 
 This quickstart runs top to bottom. By the end, you will have paid
 $0.001 in MUSD on Mezo Testnet against your local Express seller server using the
@@ -118,8 +115,6 @@ Step 2 funds going to Account A. Account B (Merchant) stays empty throughout.
    - **Wallet:** add `0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503` as a
      custom token. Account A will then show an MUSD line item.
 
-   <Image src={explorerAddressWithMusd} alt="BlockScout address page on explorer.test.mezo.org showing Address details, Balance, Tokens count, Transfers count, and tabs for Transactions, Token transfers, Tokens, Internal txns, and Coin balance history." />
-
 4. Confirm Account B shows **zero** MUSD — it shouldn't have any, and
    won't until Step 7. Check at
    `https://explorer.test.mezo.org/address/<account-B-address>`.
@@ -129,8 +124,6 @@ Step 2 funds going to Account A. Account B (Merchant) stays empty throughout.
 The MUSD token page itself looks like this — useful if you want to
 cross-check the canonical contract address, decimals (18), or scan
 recent transfers:
-
-<Image src={explorerMusdToken} alt="explorer.test.mezo.org token page for Mezo USD (MUSD), ERC-20 at 0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503, showing Max total supply, Holders, Transfers count, and a Token transfers table with recent 0.001 MUSD transfers." />
 
 ## Step 3: Smoke test your wallet against the live x402 demo
 
@@ -151,8 +144,6 @@ or MUSD issue, not a code issue.
    - A **Payment Required** heading
    - `please pay $0.001 Mezo USD`
    - A wallet-select dropdown and **Connect wallet** button
-
-   <Image src={paywallHumorInitial} alt="The x402 paywall UI at humor.vativ.io/joke before any wallet is connected: a 'Payment Required' heading, the text 'Unlock a Bitcoin joke. To access this content, please pay $0.001 Mezo USD.', a 'Need Mezo USD on Mezo Testnet? Get some here.' link, and a wallet-select dropdown next to a blue Connect wallet button." />
 
 3. Select your wallet and connect it from Account A. Confirm you are
    on **Mezo Testnet (chain ID `31611`)** when the wallet prompts.
@@ -455,8 +446,6 @@ is required.
    comes from your `server.ts` route config rather than the
    `humor.vativ.io` demo's copy):
 
-   <Image src={paywallLocalInitial} alt="The x402 paywall UI at localhost:3000/paid before any wallet is connected: a 'Payment Required' heading, the text 'A paid endpoint on Mezo. To access this content, please pay $0.001 Mezo USD.', a 'Need Mezo USD on Mezo Testnet? Get some here.' link, and a wallet-select dropdown next to a blue Connect wallet button." />
-
 4. Connect Account A, confirm **Mezo Testnet (chain ID `31611`)**,
    click **Pay now**, and sign the authorization in your wallet.
 
@@ -528,3 +517,7 @@ Clone and adapt when you want to go beyond the snippets on this page.
   adapt.
 - <a href="/docs/users/musd/mint-musd/" target="_blank" rel="noopener noreferrer">Borrow and Mint MUSD ↗</a>. User-side flow for acquiring MUSD (opens in new tab).
 - [Mezo Faucet](https://faucet.test.mezo.org). Testnet BTC.
+
+{/* Screenshot placeholder template — replicate this block for each screenshot you insert throughout the quickstart. The `paywall-local-initial.png` below is the one remaining reference image; treat it as the example pattern and add more `import` + `<Image>` pairs as needed. */}
+
+<Image src={paywallLocalInitial} alt="The x402 paywall UI at localhost:3000/paid before any wallet is connected: a 'Payment Required' heading, the text 'A paid endpoint on Mezo. To access this content, please pay $0.001 Mezo USD.', a 'Need Mezo USD on Mezo Testnet? Get some here.' link, and a wallet-select dropdown next to a blue Connect wallet button." />
