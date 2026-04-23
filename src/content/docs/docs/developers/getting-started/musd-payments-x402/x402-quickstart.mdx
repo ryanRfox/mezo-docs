@@ -10,7 +10,7 @@ import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 This quickstart runs top to bottom. By the end, you will have paid
 $0.001 in MUSD on Mezo Testnet against your local Express seller server using the
-`@x402/paywall` SDK.
+`@x402/*` SDKs.
 
 For the conceptual context of what x402 is, start with the [x402 Overview](../).
 
@@ -20,8 +20,8 @@ A minimal two-part client/server app for purchasing a `/paid` API endpoint using
 
 - **Merchant Server**: an Express server with one protected route that returns
   JSON only after a valid MUSD payment settles.
-- **Buyer Client**: a browser client that loads the bundled x402 `paywall`, connects
-  a wallet, pays on Mezo Testnet, and receives the protected API response.
+- **Buyer Client**: a browser client that loads the bundled x402 `paywall` UI, connects
+  a wallet, pays $0.001 MUSD on Mezo Testnet, and receives the protected API response.
 
 ## Prerequisites
 
@@ -41,8 +41,8 @@ The quickstart uses **two distinct accounts** in the same wallet:
 Using two accounts makes every payment visible in the explorer as a
 transfer from A to B, which is the simplest way to confirm your setup
 end-to-end. Neither account needs a BTC balance for x402 MUSD
-payments — the facilitator pays gas on behalf of both parties (although 
-you will need BTC to perform the MUSD borrow flow).
+payments, as the facilitator pays gas on behalf of both parties (although 
+you will need BTC to perform the optional MUSD borrow flow below).
 </Aside>
 
 ## Step 1: Set up your wallet
@@ -379,9 +379,9 @@ Preview `@x402/paywall` imports `DEFAULT_STABLECOINS` from preview
 
 ## Step 7: Run your seller and pay it yourself
 
-<Aside type="caution" title="Check for a stale seller on :3000 first">
-If any process is already bound to `localhost:3000` — a previous
-`tsx server.ts` you forgot to stop, or anything else — the checks below
+<Aside type="caution" title="Check for a stale seller on port 3000 first">
+If any process is already bound to `localhost:3000` such as a previous
+`tsx server.ts` you forgot to stop, or anything else, the checks below
 will pass because the **other** process answered, not yours. Payments
 made in the browser then route to whatever `EVM_ADDRESS` that stale
 server was configured with, not what you just set. This failure mode
@@ -395,8 +395,8 @@ lsof -i :3000          # No output = port is free, skip the kill
 kill $(lsof -ti :3000) # If the command above printed anything, run this
 ```
 
-Alternatively, change `app.listen(3000, …)` in `server.ts` to a free
-port.
+Alternatively, change `app.listen(3000, …)` in `server.ts` to assign a different
+port of your choosing.
 </Aside>
 
 Start the server with Account B's address as the receiving address.
@@ -473,10 +473,6 @@ is required.
 </Steps>
 
 {/* SCREENSHOT-TODO: explorer.test.mezo.org for Account B after payment, showing the 0.001 MUSD inbound transfer from Account A. (One side of the A→B transfer is enough; the prose above already points at both tabs.) */}
-
-If the browser console (DevTools → Console, usually **F12** or
-**⌘⌥J** on macOS) logs `EVM Payment required initialized` with no
-thrown errors, your install and middleware wiring are correct.
 
 That's the full loop: you've just served a paywalled HTTP resource on
 Mezo Testnet, paid for it from Account A, and watched the MUSD land
