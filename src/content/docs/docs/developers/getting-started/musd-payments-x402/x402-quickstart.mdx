@@ -184,6 +184,9 @@ const EVM_ADDRESS     = process.env.EVM_ADDRESS;         // Your Mezo Testnet re
 const FACILITATOR_URL = 'https://facilitator.vativ.io/'; // Mezo-capable facilitator provided by community
 
 if (!EVM_ADDRESS) throw new Error('Set EVM_ADDRESS to your Mezo Testnet receiving address.');
+if (!/^0x[0-9a-fA-F]{40}$/.test(EVM_ADDRESS)) {
+  throw new Error(`EVM_ADDRESS must be a 0x-prefixed 40-hex-character address, got: ${EVM_ADDRESS}`);
+}
 
 const app = express();
 
@@ -276,9 +279,10 @@ client-side code is required.
    # Expect: 402
    ```
 
-   (If you want to inspect the paywall HTML, open the URL in a browser
-   — the next step. `curl -i` works but prints the full paywall page
-   to the terminal, which is a lot.)
+   (The paywall **UI** only renders in a browser — that's the next
+   step. `curl -i` on the same URL shows the `402` headers plus a
+   compact JSON body with the payment requirements; the full HTML
+   page is only served to browser `Accept: text/html` requests.)
 
 2. Open `http://localhost:3000/paid` in the same browser you used for
    the live-demo smoke test in Step 3.
@@ -327,6 +331,8 @@ Clone and adapt when you want to go beyond the snippets on this page.
 | `SyntaxError` on `import` / TS syntax errors from Node | Using Node.js &lt; 20 | Upgrade to Node.js 20+ (`node --version` to check) |
 | Wallet prompts to switch network / payment never confirms | Wallet is on the wrong Mezo network | Confirm the wallet is on the chain ID the seller expects (`31611` for Testnet, `31612` for Mainnet) |
 | `402 Payment Required` returned but paywall UI never renders | `network` string is not a CAIP-2 identifier | Use `'eip155:31611'` or `'eip155:31612'` exactly; `'mezo-testnet'` and bare `31611` are both rejected |
+| Wallet refuses to add "Mezo Testnet" — or adds it but balances / transactions look wrong | Chain ID entered in hex (e.g. `0x7A5B`) when the wallet field expects decimal, or Mainnet chain ID (`31612`) used when you wanted Testnet | Enter the chain ID as decimal **`31611`** for Testnet (`31612` for Mainnet). The RPC URL must also point at testnet (`https://rpc.test.mezo.org`) — a testnet chain ID against a mainnet RPC silently produces a network that looks real but holds nothing |
+| Server errors immediately with `EVM_ADDRESS must be a 0x-prefixed 40-hex-character address` | Env var was not set, was missing the `0x` prefix, contained non-hex characters, or wasn't the right length | Copy the receiving address directly from your wallet (MetaMask's address field always has the correct form); set it as `EVM_ADDRESS=0x…`. Do not wrap the value in quotes on the command line |
 | Facilitator returns `unsupported network` | `FACILITATOR_URL` in `server.ts` points at `x402.org/facilitator` (no Mezo support) | Set the constant to a Mezo-capable facilitator (`https://facilitator.vativ.io/` for Testnet) |
 | Paywall loads but **Pay now** never settles, no error | Wallet has no MUSD, or MUSD is on the wrong network | Revisit Step 2; confirm the testnet MUSD token contract shows a balance |
 | Step 3 demo (humor.vativ.io) never settles | Same wallet/MUSD/network issue — isolate here before proceeding to Step 4 | Do not skip the Step 3 smoke test; fix the wallet side before writing server code |
