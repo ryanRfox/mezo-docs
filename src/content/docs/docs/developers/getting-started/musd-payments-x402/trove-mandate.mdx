@@ -243,12 +243,16 @@ lives or dies on. Verify independently:
 
 <Steps>
 
-1. Before the run, note Account A's MUSD balance on chain:
+1. Before the run, load the canonical env vars from `.env` and note
+   Account A's MUSD balance on chain:
 
    ```bash
-   cast call 0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503 \
-     "balanceOf(address)(uint256)" <account-A-address> \
-     --rpc-url https://rpc.test.mezo.org
+   set -a; source .env; set +a
+   CLIENT_ADDRESS=$(cast wallet address --private-key "$CLIENT_PRIVATE_KEY")
+
+   cast call $MUSD_ADDRESS \
+     "balanceOf(address)(uint256)" $CLIENT_ADDRESS \
+     --rpc-url $RPC_URL
    ```
 
 2. Run `pnpm agent`.
