@@ -1,0 +1,330 @@
+---
+title: Demo 3 — Trove mandate (spend-policy layer)
+description: >-
+  Demo 2's multi-merchant agent with guardrails. An
+  onBeforePaymentCreation hook runs every outbound x402 payment
+  through a plain-JS spend policy — merchant allowlist, per-call and
+  per-merchant caps, session total, rate limit — before any MUSD
+  moves on chain.
+topic: developers
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+[Demo 2](./trove-advisor/) showed a Claude tool-use agent paying three
+distinct merchants at per-request dynamic prices. It gave the agent
+real spending power without asking the agent, the model, or the
+reader to reason about **how much** the agent is allowed to spend.
+
+Demo 3 adds exactly that. The server, endpoints, merchants, prices,
+and agent prompt are unchanged from Demo 2. The one addition: a
+**single hook on the x402 client** — `onBeforePaymentCreation` — that
+runs every outbound payment through a plain-JS spend policy before
+`@x402/core` creates a signature. If the policy denies the payment,
+no permit2 signature is produced, **no MUSD moves on chain**, and the
+agent sees a structured tool error it can react to.
+
+The headline for readers: *add guardrails to an agentic buyer in one
+well-defined place.*
+
+## What you will build
+
+You will run the reference server + agent that ship in
+[`vativ/mezo-hack/apps/trove-advisor-mandate`](https://github.com/vativ/mezo-hack/tree/feat/agentic-3-trove-mandate/apps/trove-advisor-mandate)
+(currently on branch `feat/agentic-3-trove-mandate`).
+
+Same three paywalled endpoints as Demo 2 (`GET /oracle/btc`,
+`POST /risk/trove-assessment`, `GET /liquidations/queue`) with the
+same merchants and dynamic pricing. The new piece is one line on the
+x402 client:
+
+```typescript
+// apps/trove-advisor-mandate/src/agent.ts
+const xClient = new x402Client()
+  .register('eip155:*', new ExactEvmScheme(signer))
+  .onBeforePaymentCreation(policy.asHook());
+```
+
+The hook receives `{ paymentRequired, selectedRequirements }` — the
+full 402 response and the single `accepts[]` entry the client chose
+to sign. It runs the policy, then returns either `undefined` (approve)
+or `{ abort: true, reason }` (deny). An aborted payment stops at the
+client — no signature, no on-chain transaction, no facilitator round
+trip.
+
+<Aside type="tip" title="Why this matters">
+Agentic payments put signing authority behind an LLM loop. The
+model's reasoning can drift, its tools can be misused, its inputs
+can be adversarial. The policy layer is where a human-authored
+budget turns the spending surface from "whatever the model asks
+for" into "whatever the model asks for, within these rules."
+</Aside>
+
+## The default policy
+
+`src/policy.ts` defines `SpendPolicy` with six checks applied in
+order. The default instance wired into the demo:
+
+```typescript
+new SpendPolicy({
+  maxPerCall: {
+    oracle:       0.001,  // 2× actual 0.0005 — normal calls pass
+    risk:         0.005,  // up to ~6 stress scenarios
+    liquidations: 0.002,  // DELIBERATELY TIGHT — a limit=5 call (0.0025) is denied
+  },
+  maxPerMerchant: {
+    [ORACLE_PAYTO]:  0.005,
+    [RISK_PAYTO]:    0.02,
+    [HUNTER_PAYTO]:  0.01,
+  },
+  maxTotal: 0.05,                               // 0.05 MUSD session cap
+  merchantAllowlist: [ORACLE_PAYTO, RISK_PAYTO, HUNTER_PAYTO],
+  timeWindow: 5 * 60_000,                       // 5-minute rolling window
+  rateLimit: {
+    liquidations: { max: 2, perMs: 60_000 },    // ≤ 2 liquidations calls per minute
+  },
+});
+```
+
+Applied to every outbound payment, in order:
+
+1. **`merchantAllowlist`** — hard reject if `payTo` is not in the
+   allowlist.
+2. **`maxPerCall[endpoint]`** — reject if this single call's amount
+   exceeds the per-endpoint cap. The endpoint is inferred from
+   `resource.url`: `/oracle/…` → `oracle`, `/risk/…` → `risk`,
+   `/liquidations/…` → `liquidations`.
+3. **`maxPerMerchant[payTo]`** — reject if the running cumulative
+   spend to that merchant would exceed its cap.
+4. **`maxTotal`** — reject if the running session total would exceed
+   the session cap.
+5. **`rateLimit[endpoint]`** — sliding window per endpoint; reject if
+   recent-call count would exceed the limit.
+6. **`timeWindow`** — session counters auto-reset if the agent has
+   been idle past the window.
+
+If all pass, the hook commits the spend intent (increments the
+cumulative counters + appends a timestamp) and returns `undefined`
+to approve.
+
+The `liquidations` per-call cap is deliberately tight: the default
+prompt asks for the top 5 troves, which costs `0.0005 × 5 = 0.0025`
+MUSD — over the `0.002` cap. That's what makes the policy fire
+visibly when you run the demo.
+
+## Prerequisites
+
+- **Node.js 20+** and **pnpm 9+**. Same as Demo 2.
+- **git**.
+- **Account A (Buyer) from the [Quickstart](./x402-quickstart/)** —
+  funded with ≥ `0.003` MUSD to cover the default run (2 paid tool
+  calls totalling `0.0029` MUSD). A 1,800 MUSD borrow from Quickstart
+  Step 2 covers far more runs than you'll do.
+- **Permit2 approved for MUSD** on Account A. Already done if you
+  completed [Demo 1 Step 1](./agentic-joke-buyer/#step-1-one-time-permit2-approval)
+  or Demo 2.
+- **Account A's private key.**
+- **An Anthropic API key** for the Claude tool-use loop.
+
+## Step 1: Clone the demo and install
+
+```bash
+# Fresh clone:
+git clone https://github.com/vativ/mezo-hack.git
+cd mezo-hack
+git checkout feat/agentic-3-trove-mandate
+cd apps/trove-advisor-mandate
+pnpm install
+```
+
+```bash
+# Or, reuse the existing clone from Demo 1 or Demo 2:
+cd path/to/mezo-hack
+git fetch && git checkout feat/agentic-3-trove-mandate
+cd apps/trove-advisor-mandate
+pnpm install
+```
+
+<Aside type="note" title="Directory naming">
+The **branch slug** in the bead is `demo-3-trove-mandate` and the
+page URL follows that. The **app directory** inside the repo is
+`apps/trove-advisor-mandate/` — reflecting that Demo 3 is Demo 2's
+advisor with a mandate layer added. Use the path above verbatim.
+</Aside>
+
+Demo 3's `package.json` pins `@x402/evm 2.10.0-mezo.7` through
+`pnpm.overrides` — same tarball as Demo 2 (the `onBeforePaymentCreation`
+hook is part of `@x402/core`, not the EVM scheme). Only `@x402/evm`
+needs the override.
+
+## Step 2: Configure `.env`
+
+```bash
+cp .env.example .env
+```
+
+Fill in the two secrets at the bottom:
+
+```bash
+CLIENT_PRIVATE_KEY=0xYOUR_ACCOUNT_A_PRIVATE_KEY_HERE
+ANTHROPIC_API_KEY=sk-ant-YOUR_KEY_HERE
+```
+
+Everything else in `.env.example` is pre-filled for Mezo Testnet —
+the RPC, MUSD contract, facilitator, and the same three merchant
+addresses as Demo 2 (`ORACLE_PAYTO`, `RISK_PAYTO`, `HUNTER_PAYTO`).
+
+<Aside type="caution" title="Create a .gitignore before any commit">
+`vativ/mezo-hack` has no root `.gitignore`. The Demo 3 app ships its
+own `.gitignore`, but if you plan to commit anything at the repo
+level, confirm `.env` is covered:
+
+```bash
+cat apps/trove-advisor-mandate/.gitignore   # verify .env is listed
+# or, at the repo root:
+echo ".env" > .gitignore
+```
+</Aside>
+
+## Step 3: Start the server (Terminal 1)
+
+```bash
+pnpm server
+```
+
+Demo 3's server is a byte-for-byte copy of Demo 2's server — same
+three endpoints, same prices, same merchants, same port (`4402`),
+same startup banner. Copied into the app so Demo 3 stands alone
+without cross-app imports; see
+[Demo 2](./trove-advisor/#step-3-start-the-server-terminal-1) for
+the server-side explainer.
+
+## Step 4: Run the agent (Terminal 2) and watch the policy fire
+
+```bash
+pnpm agent
+```
+
+Expected output (condensed):
+
+```
+[tool] get_btc_price({})
+  [paid] get_btc_price → tx 0xca055b…9baf     (0.0005 MUSD → Merchant A)
+
+[tool] assess_trove_risk({"collateralBtc":0.5,"debtMusd":20000,"scenarios":[10,20,30]})
+  [paid] assess_trove_risk → tx 0x285ebc…fb08  (0.0024 MUSD → Merchant B)
+
+[tool] get_liquidation_queue({"limit":5})
+  [denied] get_liquidation_queue — policy blocked:
+           Payment creation aborted: per_call_cap_exceeded:
+           {"endpoint":"liquidations","amountMusd":0.0025,"capMusd":0.002}
+
+=== Summary ===
+Paid tool calls:   2
+Denied tool calls: 1
+Policy spend:      0.0029 MUSD total
+```
+
+Two on-chain transactions settle (Merchant A + Merchant B). The
+third call — `get_liquidation_queue({ limit: 5 })` — is denied by
+the policy **before** any permit2 signature is created, so there is
+**no third transaction** on chain. The agent's running spend stops
+at `0.0029` MUSD.
+
+Claude sees the denial as a structured tool error and typically
+reports what it got from the two approved tools, often suggesting a
+workaround within budget — e.g. retry `get_liquidation_queue` with
+`limit=4` for a `0.002` MUSD call that the policy would approve.
+
+## Verifying the policy actually blocks on chain
+
+The "no MUSD moves for the denied call" claim is what this demo
+lives or dies on. Verify independently:
+
+<Steps>
+
+1. Before the run, note Account A's MUSD balance on chain:
+
+   ```bash
+   cast call 0x118917a40FAF1CD7a13dB0Ef56C86De7973Ac503 \
+     "balanceOf(address)(uint256)" <account-A-address> \
+     --rpc-url https://rpc.test.mezo.org
+   ```
+
+2. Run `pnpm agent`.
+
+3. Re-check the balance. The delta should be **exactly** `0.0029`
+   MUSD (= `1000000000000000` oracle + `2400000000000000` risk = `2.9e15`
+   wei) — **not** `0.0054` MUSD, which is what you'd see if the
+   denied call had also settled.
+
+4. The two printed tx hashes should both resolve on
+   [`explorer.test.mezo.org`](https://explorer.test.mezo.org) with
+   MUSD `Transfer` logs pointing at Merchants A and B. Search
+   Account A's address on the explorer; you should see **no third
+   Transfer** from Account A corresponding to the denied call —
+   because no transaction was ever submitted.
+
+</Steps>
+
+## Extending the policy
+
+`SpendPolicy` is plain data. Add new checks by dropping them into
+`SpendPolicy.check(…)` in the same shape as the existing six.
+Examples that fit naturally:
+
+- **Time-of-day windows.** Deny agentic spending between `00:00–06:00`
+  UTC.
+- **Per-merchant velocity.** Slow an endpoint down after a spike.
+- **Per-resource cost caps.** No more than `$0.01` per unique URL per
+  session.
+- **External allowlist lookup.** Call an in-house service to
+  verify the merchant is still approved; cache with TTL.
+- **Escalation to a human.** Raise an approval prompt (Slack, email,
+  CLI) if the projected running total would cross a threshold.
+
+All of these wire into the same single seam — the
+`onBeforePaymentCreation` hook. The signing pipeline, the facilitator,
+the on-chain settlement don't change.
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| `Payment creation aborted: not_on_allowlist` | Server's `accepts[].payTo` isn't in your `merchantAllowlist` | Expected for a merchant you explicitly didn't approve. If unexpected, double-check `.env` matches `policy.ts`'s address list (case-sensitive hex) |
+| `Payment creation aborted: per_call_cap_exceeded` | This single call's amount > the endpoint's `maxPerCall` | If intended (like the default `liquidations` block), no action — that's the demo story. If unintended, raise the cap in `policy.ts` or ask the agent for a smaller `limit`/`scenarios.length` |
+| `Payment creation aborted: merchant_cap_exceeded` | Running cumulative spend to one merchant crossed `maxPerMerchant` | Raise that merchant's cap, or let `timeWindow` (5 min) reset the counters |
+| `Payment creation aborted: session_total_exceeded` | Running session total crossed `maxTotal` | Raise `maxTotal`, wait out `timeWindow`, or restart the agent process to reset counters |
+| `Payment creation aborted: rate_limit_exceeded` | More than `max` calls to an endpoint within `perMs` | Back off; the sliding window releases the lock naturally |
+| `CLIENT_PRIVATE_KEY environment variable is required` | `.env` missing or in the wrong directory | `cp .env.example .env` inside `apps/trove-advisor-mandate/` |
+| `WARNING: mUSD not approved for Permit2` | Account A hasn't granted Permit2 allowance | Apply [Demo 1 Step 1](./agentic-joke-buyer/#step-1-one-time-permit2-approval) |
+| `does not provide an export named 'DEFAULT_STABLECOINS'` | `pnpm.overrides` not forcing `@x402/evm` through the preview tarball | Confirm the overrides block pins `@x402/evm@2.10.0-mezo.7`; rerun `pnpm install` |
+| Two paid txs in Summary but three on the explorer | The denied call somehow still settled | Something is bypassing the hook. Confirm `onBeforePaymentCreation(policy.asHook())` is chained on the `x402Client` you actually pass to `wrapFetchWithPayment`, not on a second client instance |
+
+## Security
+
+- **Throwaway testnet key only.** The policy enforces a spending
+  ceiling but the key itself is still a signing key — rotate it if
+  the clone ends up on a shared machine.
+- **The policy is not a sandbox.** It runs in the same process as
+  the agent and the signer. Anyone with code execution on that host
+  can bypass it. Use OS-level guards (separate user, container,
+  VM) for anything beyond a local demo.
+- **Policy changes are authoritative.** Edits to `policy.ts` take
+  effect on the next agent start with no audit trail. For
+  production, load the policy from a signed config, a KMS-guarded
+  store, or a remote approval service instead of a local `.ts` file.
+- **Anthropic API key.** Treat it like any paid API credential.
+
+## See also
+
+- [Demo 2 — Trove advisor](./trove-advisor/). Same server + agent,
+  **without** the policy hook. Start here if you want to see the
+  full spend happen first.
+- [Demo 1 — Agentic joke buyer](./agentic-joke-buyer/). Single
+  merchant, flat price, no LLM.
+- [Quickstart](./x402-quickstart/). Account A setup + MUSD minting.
+- [`vativ/mezo-hack/apps/trove-advisor-mandate`](https://github.com/vativ/mezo-hack/tree/feat/agentic-3-trove-mandate/apps/trove-advisor-mandate).
+  Full source — server, agent, policy, ABIs, `.env.example`.
+- [Uniswap Permit2](https://github.com/Uniswap/permit2). The
+  allowance contract the EVM x402 scheme uses for MUSD transfers.

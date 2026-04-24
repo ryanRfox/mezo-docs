@@ -116,5 +116,6 @@ topic: users
     * [x402 Quickstart](developers/getting-started/musd-payments-x402/x402-quickstart.mdx)
     * [Demo 1 — Agentic joke buyer](developers/getting-started/musd-payments-x402/agentic-joke-buyer.mdx)
     * [Demo 2 — Trove advisor](developers/getting-started/musd-payments-x402/trove-advisor.mdx)
+    * [Demo 3 — Trove mandate](developers/getting-started/musd-payments-x402/trove-mandate.mdx)
   * [chains](developers/chains/index.md)
   * [subgraphs](developers/subgraphs/index.md)
