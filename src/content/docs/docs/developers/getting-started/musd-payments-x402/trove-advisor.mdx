@@ -1,0 +1,331 @@
+---
+title: Demo 2 — Trove advisor (multi-merchant, dynamic pricing)
+description: >-
+  A Claude tool-use agent that pays three Mezo-native data services
+  over x402 to stress-test a Mezo trove — one on-chain MUSD settlement
+  per tool call, three distinct merchant addresses, per-request
+  dynamic pricing.
+topic: developers
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+[Demo 1](./agentic-joke-buyer/) showed a headless Node client buying
+**one** resource from **one** seller at a **flat** price — a single
+paid `GET /joke` in a loop.
+
+Demo 2 turns all three of those knobs at once:
+
+- **Multi-merchant.** Three paywalled endpoints, each routing MUSD to
+  a **distinct `payTo` address**.
+- **Dynamic pricing.** Two of the endpoints compute their price per
+  request — by scenario count or by number of rows returned — and the
+  402 challenge the server emits already reflects the request-specific
+  amount, so the agent signs exactly that amount and retries with no
+  separate negotiation round trip.
+- **Agentic decision-making.** A Claude tool-use loop picks which of
+  the three services to call in response to a plain-English prompt
+  ("stress-test a Mezo trove at `$BTC` with `X` BTC of collateral and
+  `Y` MUSD of debt"), and pays for each tool call as it goes.
+
+Same substrate as Demo 1: same facilitator (`facilitator.vativ.io`),
+same asset (MUSD), same signer shape (permit2 over the Mezo Testnet
+EVM chain). What changes is the shape of the seller and the shape of
+the buyer.
+
+## What you will build
+
+You will run the reference server + agent that ship in
+[`vativ/mezo-hack/apps/trove-advisor`](https://github.com/vativ/mezo-hack/tree/feat/agentic-2-trove-advisor/apps/trove-advisor)
+(currently on branch `feat/agentic-2-trove-advisor`).
+
+The **server** listens on port `4402` and exposes three paywalled
+routes, each reading real Mezo testnet contracts:
+
+| Route | Merchant (`payTo` env) | Price | What it reads on chain |
+|---|---|---|---|
+| `GET /oracle/btc` | `ORACLE_PAYTO` | `0.0005` MUSD flat (30 s cache) | Skip oracle's Chainlink-compatible `latestRoundData()` |
+| `POST /risk/trove-assessment` | `RISK_PAYTO` | `0.0008` MUSD **× `scenarios.length`** | Skip oracle + local math |
+| `GET /liquidations/queue?limit=N` | `HUNTER_PAYTO` | `0.0005` MUSD **× rows returned** | `SortedTroves` + `TroveManager` |
+
+The **agent** is a Claude tool-use loop wired to those three
+endpoints as tools. The default prompt asks it to stress-test a
+hypothetical trove; it decides on its own to price-check BTC, run
+three risk scenarios, and peek at the liquidation queue — settling
+each call as a separate on-chain MUSD transfer.
+
+For the default prompt (3 scenarios + 5 liquidation rows), the agent
+spends **0.0054 MUSD across 3 transactions**.
+
+<Aside type="caution" title="You will paste a private key AND an Anthropic API key into .env">
+The agent signs Permit2 authorizations with a raw private key and
+also calls the Anthropic API (you pay Anthropic for the Claude tool
+loop). Use a **testnet-only, throwaway** crypto key. Treat the
+Anthropic key the same way you'd treat any paid API key — if the
+clone ends up on a shared machine, scrub it.
+</Aside>
+
+## Prerequisites
+
+- **Node.js 20+** and **pnpm 9+**. Same as Demo 1.
+- **git**.
+- **Account A (Buyer) from the [Quickstart](./x402-quickstart/)** —
+  funded with ≥ 0.0054 MUSD to cover the default run, plus a small
+  buffer. A 1,800 MUSD borrow from Quickstart Step 2 covers millions
+  of Demo 2 runs.
+- **Permit2 approved for MUSD** on Account A. Already done if you
+  completed [Demo 1 Step 1](./agentic-joke-buyer/#step-1-one-time-permit2-approval);
+  otherwise apply that step first.
+- **Account A's private key** (same one you used for Demo 1).
+- **An Anthropic API key** for the Claude tool-use loop.
+  [console.anthropic.com](https://console.anthropic.com) → API Keys.
+
+## Step 1: Clone the demo and install
+
+The Demo 2 code currently lives on the `feat/agentic-2-trove-advisor`
+branch of `vativ/mezo-hack`. If you already cloned the repo for
+Demo 1, you can reuse that checkout — just switch branches and jump
+into the new app:
+
+```bash
+# Fresh clone:
+git clone https://github.com/vativ/mezo-hack.git
+cd mezo-hack
+git checkout feat/agentic-2-trove-advisor
+cd apps/trove-advisor
+pnpm install
+```
+
+```bash
+# Or, if you already have mezo-hack/ from Demo 1:
+cd path/to/mezo-hack
+git fetch && git checkout feat/agentic-2-trove-advisor
+cd apps/trove-advisor
+pnpm install
+```
+
+The `package.json` pulls `@x402/core`, `@x402/evm`, `@x402/express`,
+`@x402/fetch`, `@anthropic-ai/sdk`, `express`, `viem`, `dotenv`, and
+a `pnpm.overrides` entry that pins `@x402/evm` to the Mezo preview
+tarball (`mezo.7` — a newer tarball than Demo 1 ships, with the
+dynamic-price hooks). Only `@x402/evm` needs the override — same
+principle as Demo 1.
+
+## Step 2: Configure `.env`
+
+```bash
+cp .env.example .env
+```
+
+The template sits at the root of the trove-advisor app (not in a
+subdir). Open `.env` and fill in the two secrets at the bottom:
+
+```bash
+CLIENT_PRIVATE_KEY=0xYOUR_ACCOUNT_A_PRIVATE_KEY_HERE
+ANTHROPIC_API_KEY=sk-ant-YOUR_KEY_HERE
+```
+
+Every other value in `.env.example` is already pre-filled for Mezo
+Testnet (chain `31611`, RPC `rpc.test.mezo.org`, MUSD contract,
+facilitator, the three merchant `payTo` addresses, the Skip oracle +
+SortedTroves + TroveManager contract addresses).
+
+The three merchant addresses in `.env.example`
+(`ORACLE_PAYTO`, `RISK_PAYTO`, `HUNTER_PAYTO`) are burn-style test
+addresses — no one controls their keys. That's fine: receivers don't
+need keys to accept permit2 transfers. Override them in your `.env`
+if you want payments to land in wallets you control.
+
+<Aside type="caution" title="The repo does not ship a .gitignore">
+`vativ/mezo-hack` currently has no `.gitignore` at any level. Create
+one before any `git add` to protect your `.env`:
+
+```bash
+echo ".env" > .gitignore
+```
+</Aside>
+
+## Step 3: Start the server (Terminal 1)
+
+```bash
+pnpm server
+```
+
+Expected startup banner:
+
+```
+Mezo x402 Trove Advisor on port 4402
+  Endpoints:
+    GET  /oracle/btc              0.0005 MUSD flat          → 0xca66…
+    POST /risk/trove-assessment   0.0008 MUSD / scenario    → 0x7f6a…
+    GET  /liquidations/queue      0.0005 MUSD / row         → 0x92cc…
+```
+
+The server is pure data + math — it reads Mezo contracts, quotes a
+price, gates on payment, returns JSON. No LLM on the server side;
+the only LLM is the agent.
+
+### Sanity-check without the agent
+
+Before running the agent (which spends real MUSD), you can poke the
+server from a second terminal to confirm each endpoint emits a valid
+402 challenge and that dynamic pricing actually varies:
+
+```bash
+# /health is not paywalled
+curl -s http://localhost:4402/health
+
+# /oracle/btc returns 402 with a real PAYMENT-REQUIRED challenge
+curl -s -i http://localhost:4402/oracle/btc | head -12
+
+# Dynamic risk price: 3 scenarios -> 3 × 0.0008 = 0.0024 MUSD
+curl -s -i -X POST -H 'Content-Type: application/json' \
+  -d '{"collateralBtc":0.5,"debtMusd":20000,"scenarios":[10,20,30]}' \
+  http://localhost:4402/risk/trove-assessment \
+  | grep -i payment-required | sed 's/payment-required: //i' \
+  | tr -d '\r' | base64 -d | python3 -m json.tool
+# → accepts[0].amount == "2400000000000000" (0.0024 MUSD at 18 decimals)
+
+# Dynamic queue price: limit=5 -> 5 × 0.0005 = 0.0025 MUSD
+curl -s -i "http://localhost:4402/liquidations/queue?limit=5" \
+  | grep -i payment-required | sed 's/payment-required: //i' \
+  | tr -d '\r' | base64 -d | python3 -m json.tool
+# → accepts[0].amount == "2500000000000000" (0.0025 MUSD)
+```
+
+If all three respond as shown, the server is correctly emitting
+per-request amounts and the agent can pay them.
+
+## Step 4: Run the agent (Terminal 2)
+
+```bash
+pnpm agent
+```
+
+Expected output (condensed):
+
+```
+Prompt: Stress-test a Mezo trove with 0.5 BTC collateral and 20,000 MUSD debt against drop scenarios of -10%, -20%, -30%.
+
+[tool] get_btc_price
+  → paying 0.0005 MUSD to ORACLE_PAYTO
+  → tx 0x<oracle-tx-hash>   https://explorer.test.mezo.org/tx/0x<…>
+  → BTC = $93,421.17
+
+[tool] assess_trove_risk { collateralBtc: 0.5, debtMusd: 20000, scenarios: [10,20,30] }
+  → paying 0.0024 MUSD to RISK_PAYTO   (0.0008 × 3 scenarios)
+  → tx 0x<risk-tx-hash>     https://explorer.test.mezo.org/tx/0x<…>
+  → collateral-ratio at −10% / −20% / −30% drops: 210% / 187% / 163%
+
+[tool] get_liquidation_queue { limit: 5 }
+  → paying 0.0025 MUSD to HUNTER_PAYTO (0.0005 × 5 rows)
+  → tx 0x<hunter-tx-hash>   https://explorer.test.mezo.org/tx/0x<…>
+  → 5 troves at or below 165% collateral ratio
+
+Total spent: 0.0054 MUSD across 3 on-chain txs.
+
+Recommendation: …
+```
+
+The three `tx` hashes are real Mezo Testnet transactions — open each
+in [explorer.test.mezo.org](https://explorer.test.mezo.org) and you
+will see:
+
+- the Oracle tx's ERC-20 `Transfer` destination = `ORACLE_PAYTO`
+- the Risk tx's destination = `RISK_PAYTO`
+- the Hunter tx's destination = `HUNTER_PAYTO`
+
+Three distinct merchants, one buyer, one agent run.
+
+## How dynamic pricing works
+
+Flat pricing (like Demo 1's `0.001 MUSD / call`) is the easy case:
+the server announces a constant amount in its `accepts` list and the
+client signs it. Dynamic pricing lets the server compute the amount
+per request. `@x402/core`'s `PaymentOption.price` accepts a function
+(`DynamicPrice`) that runs before the 402 is emitted:
+
+```typescript
+// apps/trove-advisor/src/server.ts
+'POST /risk/trove-assessment': {
+  accepts: {
+    payTo: RISK_PAYTO,
+    price: async (ctx) => {
+      const body = ctx.adapter.getBody?.() as { scenarios?: unknown } | undefined;
+      const n = Array.isArray(body?.scenarios) ? body!.scenarios!.length : 1;
+      return musdPrice(RISK_PER_SCENARIO_WEI * BigInt(Math.max(1, n)));
+    },
+    // …
+  },
+  // …
+},
+```
+
+The 402 response emitted to the client already reflects the
+request-specific amount, so `@x402/fetch` on the agent side signs
+exactly that and retries. No separate negotiation round trip, no
+second inspect step — the handshake is still one round of
+`402 → sign → retry → 200`.
+
+For `/liquidations/queue`, the client pays upfront based on
+`?limit=N`, but if the on-chain `SortedTroves` list has fewer troves
+than `limit`, the handler returns fewer rows and sets the
+`Settlement-Overrides` response header so the middleware settles only
+for the rows actually returned. The buyer never over-pays for data
+that doesn't exist.
+
+## Multi-merchant settlement
+
+Each of the three endpoints declares a different `payTo`:
+
+```typescript
+// apps/trove-advisor/src/server.ts (simplified)
+'GET /oracle/btc':             { accepts: { payTo: ORACLE_PAYTO, /* … */ } },
+'POST /risk/trove-assessment': { accepts: { payTo: RISK_PAYTO,   /* … */ } },
+'GET /liquidations/queue':     { accepts: { payTo: HUNTER_PAYTO, /* … */ } },
+```
+
+The facilitator settles each payment to the corresponding address.
+One server, three merchants, zero accounting plumbing on the server's
+side — the MUSD lands where the `accepts` entry says it should.
+
+This is the shape you'd use if a single server hosted several
+independently-owned data products. Each product's revenue flows
+directly to its operator's wallet; the host just runs the routing.
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| `CLIENT_PRIVATE_KEY environment variable is required` | `.env` not created or pasted in the wrong directory | `cp .env.example .env` inside `apps/trove-advisor/`; fill in both `CLIENT_PRIVATE_KEY` and `ANTHROPIC_API_KEY` |
+| `invalid_transaction_state` in the `PAYMENT-RESPONSE` header | Transient Mezo testnet facilitator flake (Permit2 warmup on the first call per fresh signer session) | The agent retries up to 4 times with backoff. If it still fails, check `curl https://facilitator.vativ.io/health` and rerun |
+| `WARNING: mUSD not approved for Permit2` | Account A has not granted Permit2 allowance on MUSD | Apply [Demo 1 Step 1](./agentic-joke-buyer/#step-1-one-time-permit2-approval) |
+| `does not provide an export named 'DEFAULT_STABLECOINS'` | `pnpm.overrides` is not forcing `@x402/evm` through the preview tarball | Confirm the `pnpm.overrides` block is present and points at `2.10.0-mezo.7` (Demo 2's tarball is one patch ahead of Demo 1's `mezo.6`); then `pnpm install` |
+| `Error: Unsupported chain ID: 31611` | `viem` doesn't know Mezo Testnet | Upgrade `viem` to `2.47.10+` (the lock file pins `2.47.12`; a stale lockfile elsewhere can pull an old copy) |
+| `401` from Anthropic in the agent log | `ANTHROPIC_API_KEY` missing, invalid, or out of credit | Regenerate at [console.anthropic.com](https://console.anthropic.com); confirm the `sk-ant-…` prefix |
+| Agent calls `get_liquidation_queue` with `limit: 5` and server returns 2 rows | On-chain `SortedTroves` currently has fewer than `limit` troves | Expected — settlement is reduced via `Settlement-Overrides`; no error |
+| Only two of the three txs show up in the explorer | Third call reverted; check the agent's console — the tool-use loop prints the failing tx hash | Open that tx on the explorer; if the error is `TRANSFER_FROM_FAILED`, your wallet's MUSD balance dropped below the total you needed |
+
+## Security
+
+- **Throwaway testnet key only.** A key that holds only borrowed
+  testnet MUSD + faucet BTC is fine for this demo. Real-funds keys
+  go in a KMS/HSM/MPC signer — the `toClientEvmSigner` interface is
+  the same either way.
+- **Anthropic API key.** Treat it like any paid API credential. If
+  your `.env` is on a shared machine, rotate it after the demo.
+- **`.gitignore` first.** Create `.gitignore` with at minimum a
+  `.env` entry before any `git add`; see the caution in Step 2.
+
+## See also
+
+- [Demo 1 — Agentic joke buyer](./agentic-joke-buyer/). Single
+  merchant, flat price, no LLM. Start here if you haven't done it.
+- [Quickstart](./x402-quickstart/). Browser-wallet buyer + local
+  Express seller. Covers Account A setup and MUSD minting.
+- [`vativ/mezo-hack/apps/trove-advisor`](https://github.com/vativ/mezo-hack/tree/feat/agentic-2-trove-advisor/apps/trove-advisor).
+  Full source for this demo — server, agent, ABIs, `.env.example`.
+- [Anthropic tool use](https://docs.anthropic.com/en/docs/build-with-claude/tool-use).
+  How the agent loop is constructed.
+- [Uniswap Permit2](https://github.com/Uniswap/permit2). The
+  allowance contract the EVM x402 scheme uses for MUSD transfers.

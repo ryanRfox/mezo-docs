@@ -388,12 +388,13 @@ export default defineConfig({
                         ]
                   },
                   {
-                        label: 'MUSD Payments with x402',
+                        label: 'MUSD Payments With X402',
                         collapsed: true,
                         items: [
                               'docs/developers/getting-started/musd-payments-x402',
                               'docs/developers/getting-started/musd-payments-x402/x402-quickstart',
-                              'docs/developers/getting-started/musd-payments-x402/agentic-joke-buyer'
+                              'docs/developers/getting-started/musd-payments-x402/agentic-joke-buyer',
+                              'docs/developers/getting-started/musd-payments-x402/trove-advisor'
                         ]
                   },
                   {
