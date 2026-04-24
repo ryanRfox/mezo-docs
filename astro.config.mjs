@@ -400,7 +400,8 @@ export default defineConfig({
                         items: [
                               'docs/developers/getting-started/musd-payments-x402',
                               'docs/developers/getting-started/musd-payments-x402/x402-quickstart',
-                              'docs/developers/getting-started/musd-payments-x402/agentic-joke-buyer'
+                              'docs/developers/getting-started/musd-payments-x402/agentic-joke-buyer',
+                              'docs/developers/getting-started/musd-payments-x402/trove-advisor'
                         ]
                   },
                   {
