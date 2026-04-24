@@ -387,6 +387,14 @@ export default defineConfig({
                         ]
                   },
                   {
+                        label: 'MUSD Payments with x402',
+                        collapsed: true,
+                        items: [
+                              'docs/developers/getting-started/musd-payments-x402',
+                              'docs/developers/getting-started/musd-payments-x402/x402-quickstart'
+                        ]
+                  },
+                  {
                         slug: 'docs/developers/chains',
                         label: 'Network & RPC'
                   },
@@ -399,6 +407,10 @@ export default defineConfig({
 		sitemap(),
 	],
 	redirects: {
+		'/docs/developers/getting-started/x402-hackathon-quickstart': {
+			status: 301,
+			destination: '/docs/developers/getting-started/musd-payments-x402/'
+		},
 		// Existing redirects (updated to 301 for SEO)
 		'/docs/users/stbtc-staked-bitcoin/redeeming-your-stbtc-deposits': {
 			status: 301,
