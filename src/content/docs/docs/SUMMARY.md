@@ -111,5 +111,6 @@ topic: users
   * [MUSD Payments with x402](developers/getting-started/musd-payments-x402/index.mdx)
     * [Overview](developers/getting-started/musd-payments-x402/index.mdx)
     * [x402 Quickstart](developers/getting-started/musd-payments-x402/x402-quickstart.mdx)
+    * [Demo 1 — Agentic joke buyer](developers/getting-started/musd-payments-x402/agentic-joke-buyer.mdx)
   * [chains](developers/chains/index.md)
   * [subgraphs](developers/subgraphs/index.md)
