@@ -1,9 +1,9 @@
 ---
 title: Demo 1 — Agentic joke buyer
 description: >-
-  A headless Node client that pays the Mezo x402 joke paywall
-  autonomously using @x402/fetch and a funded testnet wallet — no
-  browser, no Connect wallet button, no human click.
+  A headless Node client that pays the Mezo x402 joke paywall autonomously using
+  @x402/fetch and a funded testnet wallet — no browser, no Connect wallet
+  button, no human click.
 topic: developers
 ---
 
@@ -126,10 +126,13 @@ the override can be deleted without any other changes.
 
 ## Step 3: Configure `.env`
 
-Copy the template and fill in your values:
+The `.env.example` template lives one directory up from the client —
+at `apps/humor/.env.example`, shared between the server and the
+client. Copy it into the client directory you're currently in and
+rename to `.env`:
 
 ```bash
-cp .env.example .env
+cp ../.env.example .env
 ```
 
 Open `.env` and set:
@@ -140,12 +143,23 @@ CLIENT_PRIVATE_KEY=0xYOUR_ACCOUNT_A_PRIVATE_KEY_HERE
 
 # Target URL. Pick one:
 # RESOURCE_URL=http://localhost:3000/paid        # your local seller from the Quickstart
-# RESOURCE_URL=https://demo.vativ.io/joke       # the live demo
+# RESOURCE_URL=https://demo.vativ.io/joke        # the live demo
 RESOURCE_URL=https://demo.vativ.io/joke
 ```
 
-`.env` is already in the repo's `.gitignore`. Keep it that way —
-private-key leakage via committed `.env` is how test wallets drain.
+<Aside type="caution" title="The repo does not ship a .gitignore">
+`vativ/mezo-hack` currently has **no** `.gitignore` at any level.
+If you plan to commit anything from your clone, create one first so
+your `.env` (and therefore your private key) cannot slip into a
+commit:
+
+```bash
+echo ".env" > .gitignore
+```
+
+Private-key leakage via a committed `.env` is how test wallets
+drain. Do this before your next `git add`.
+</Aside>
 
 ## Step 4: Run the agent
 
@@ -239,9 +253,10 @@ Everything else is inside the library.
   holds only borrowed MUSD and faucet BTC is fine for this demo.
   Anything else goes in a hardware signer or MPC wallet. Rotate the
   testnet key after the demo if you shared the repo anywhere.
-- **`.env` must stay in `.gitignore`.** The cloned repo ships with
-  `.env` already excluded, but verify if you fork or copy files
-  elsewhere.
+- **Add `.env` to `.gitignore` before any commit.** The cloned
+  `vativ/mezo-hack` repo does not ship a `.gitignore`; if you plan
+  to commit anything from your clone, run
+  `echo ".env" > .gitignore` first (see the caution in Step 3).
 - The `toClientEvmSigner` interface is swappable — production agentic
   flows replace it with a signer backed by a KMS, HSM, or threshold
   wallet. The rest of the pipeline (`wrapFetchWithPayment`, the x402
