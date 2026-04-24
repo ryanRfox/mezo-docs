@@ -1,10 +1,9 @@
 ---
-title: Demo 2 — Trove advisor (multi-merchant, dynamic pricing)
+title: 'Demo 2 — Trove advisor (multi-merchant, dynamic pricing)'
 description: >-
-  A Claude tool-use agent that pays three Mezo-native data services
-  over x402 to stress-test a Mezo trove — one on-chain MUSD settlement
-  per tool call, three distinct merchant addresses, per-request
-  dynamic pricing.
+  A Claude tool-use agent that pays three Mezo-native data services over x402 to
+  stress-test a Mezo trove — one on-chain MUSD settlement per tool call, three
+  distinct merchant addresses, per-request dynamic pricing.
 topic: developers
 ---
 
@@ -136,14 +135,8 @@ addresses — no one controls their keys. That's fine: receivers don't
 need keys to accept permit2 transfers. Override them in your `.env`
 if you want payments to land in wallets you control.
 
-<Aside type="caution" title="The repo does not ship a .gitignore">
-`vativ/mezo-hack` currently has no `.gitignore` at any level. Create
-one before any `git add` to protect your `.env`:
-
-```bash
-echo ".env" > .gitignore
-```
-</Aside>
+The repo's `.gitignore` already excludes `.env`, so the secrets you
+pasted above won't accidentally land in a commit.
 
 ## Step 3: Start the server (Terminal 1)
 
@@ -314,8 +307,9 @@ directly to its operator's wallet; the host just runs the routing.
   the same either way.
 - **Anthropic API key.** Treat it like any paid API credential. If
   your `.env` is on a shared machine, rotate it after the demo.
-- **`.gitignore` first.** Create `.gitignore` with at minimum a
-  `.env` entry before any `git add`; see the caution in Step 2.
+- **`.env` stays out of git.** The repo's `.gitignore` excludes
+  `.env` by default. If you copy the file elsewhere or into another
+  repo, re-confirm it's ignored before any `git add`.
 
 ## See also
 

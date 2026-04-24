@@ -1,11 +1,10 @@
 ---
 title: Demo 3 — Trove mandate (spend-policy layer)
 description: >-
-  Demo 2's multi-merchant agent with guardrails. An
-  onBeforePaymentCreation hook runs every outbound x402 payment
-  through a plain-JS spend policy — merchant allowlist, per-call and
-  per-merchant caps, session total, rate limit — before any MUSD
-  moves on chain.
+  Demo 2's multi-merchant agent with guardrails. An onBeforePaymentCreation hook
+  runs every outbound x402 payment through a plain-JS spend policy — merchant
+  allowlist, per-call and per-merchant caps, session total, rate limit — before
+  any MUSD moves on chain.
 topic: developers
 ---
 
@@ -174,17 +173,8 @@ Everything else in `.env.example` is pre-filled for Mezo Testnet —
 the RPC, MUSD contract, facilitator, and the same three merchant
 addresses as Demo 2 (`ORACLE_PAYTO`, `RISK_PAYTO`, `HUNTER_PAYTO`).
 
-<Aside type="caution" title="Create a .gitignore before any commit">
-`vativ/mezo-hack` has no root `.gitignore`. The Demo 3 app ships its
-own `.gitignore`, but if you plan to commit anything at the repo
-level, confirm `.env` is covered:
-
-```bash
-cat apps/trove-advisor-mandate/.gitignore   # verify .env is listed
-# or, at the repo root:
-echo ".env" > .gitignore
-```
-</Aside>
+The repo's `.gitignore` already excludes `.env`, so the secrets you
+pasted above won't accidentally land in a commit.
 
 ## Step 3: Start the server (Terminal 1)
 

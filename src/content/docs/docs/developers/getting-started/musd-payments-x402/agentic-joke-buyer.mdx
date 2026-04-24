@@ -110,19 +110,8 @@ Every other value (`NETWORK`, `RPC_URL`, `EXPLORER_URL`,
 pre-filled for Mezo Testnet in `.env.example` — Step 3 pulls those
 straight from the environment.
 
-<Aside type="caution" title="The repo does not ship a .gitignore">
-`vativ/mezo-hack` currently has **no** `.gitignore` at any level.
-If you plan to commit anything from your clone, create one first so
-your `.env` (and therefore your private key) cannot slip into a
-commit:
-
-```bash
-echo ".env" > .gitignore
-```
-
-Private-key leakage via a committed `.env` is how test wallets
-drain. Do this before your next `git add`.
-</Aside>
+The repo ships a `.gitignore` that already excludes `.env`, so the
+private key you paste above won't accidentally land in a commit.
 
 ## Step 3: One-time Permit2 approval
 
@@ -267,10 +256,9 @@ Everything else is inside the library.
   holds only borrowed MUSD and faucet BTC is fine for this demo.
   Anything else goes in a hardware signer or MPC wallet. Rotate the
   testnet key after the demo if you shared the repo anywhere.
-- **Add `.env` to `.gitignore` before any commit.** The cloned
-  `vativ/mezo-hack` repo does not ship a `.gitignore`; if you plan
-  to commit anything from your clone, run
-  `echo ".env" > .gitignore` first (see the caution in Step 2).
+- **`.env` stays out of git.** The repo's `.gitignore` excludes
+  `.env` by default. If you copy the file elsewhere or into another
+  repo, re-confirm it's ignored before any `git add`.
 - The `toClientEvmSigner` interface is swappable — production agentic
   flows replace it with a signer backed by a KMS, HSM, or threshold
   wallet. The rest of the pipeline (`wrapFetchWithPayment`, the x402
