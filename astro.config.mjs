@@ -388,7 +388,7 @@ export default defineConfig({
                         ]
                   },
                   {
-                        label: 'MUSD Payments With X402',
+                        label: 'MUSD Payments with x402',
                         collapsed: true,
                         items: [
                               'docs/developers/getting-started/musd-payments-x402',
