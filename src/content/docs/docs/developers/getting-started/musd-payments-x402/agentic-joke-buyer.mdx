@@ -190,13 +190,26 @@ PAYMENT-RESPONSE received (payment receipt from resource server):
   success:     true
   transaction: 0x<tx-hash>
   network:     eip155:31611
-mUSD deducted: 1000000000000000 (0.0010 mUSD)
+  payer:       0x<account-A>
+Tx hash: 0x<tx-hash>
+Network: eip155:31611
+
+mUSD balance after:  1799999000000000000000 (1799.9990 mUSD)
+mUSD balance before: 1800000000000000000000 (1800.0000 mUSD)
+mUSD deducted:       1000000000000000 (0.0010 mUSD)
 ```
+
+A few lines above you'll see a one-time
+`WARNING: mUSD not approved for Permit2. Run deploy-local.sh or approve manually.`
+if Account A hasn't granted the Permit2 allowance yet — Step 3 is how
+you clear that.
 
 The `transaction` hash is a real Mezo Testnet transaction — look it up
 on [`explorer.test.mezo.org`](https://explorer.test.mezo.org) to see
 the MUSD flow from Account A (the buyer) to the seller's `payTo`
-address, with gas paid by the facilitator.
+address, with gas paid by the facilitator. The balance-before /
+balance-after / deducted trio underneath gives you the same thing
+off chain: the on-chain delta and what exactly got spent.
 
 ## How the auto-payment works
 
