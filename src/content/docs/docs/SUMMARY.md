@@ -111,5 +111,8 @@ topic: users
   * [musd](developers/musd/README.md)
     * [MUSD Development Guide](developers/musd/index.md)
     * [MUSD Redemptions](developers/musd/musd-redemptions/index.md)
+  * [MUSD Payments with x402](developers/getting-started/musd-payments-x402/index.mdx)
+    * [Overview](developers/getting-started/musd-payments-x402/index.mdx)
+    * [x402 Quickstart](developers/getting-started/musd-payments-x402/x402-quickstart.mdx)
   * [chains](developers/chains/index.md)
   * [subgraphs](developers/subgraphs/index.md)
