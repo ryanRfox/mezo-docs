@@ -31,7 +31,7 @@ The client is a single `client.ts` that:
 1. Loads **Account A**'s private key (the account funded with MUSD in
    the [Quickstart](./x402-quickstart/#step-2-get-testnet-musd-to-pay-with)).
 2. Wraps global `fetch` with `wrapFetchWithPayment` from `@x402/fetch`.
-3. Calls a paywalled URL — either the live `humor.vativ.io/joke` or
+3. Calls a paywalled URL — either the live `demo.vativ.io/joke` or
    your own seller from Step 7 of the Quickstart.
 4. Prints the joke to the terminal plus the on-chain settlement
    transaction hash it paid.
@@ -60,7 +60,7 @@ signer (see the x402 specs for the signer interface).
 - A running x402 seller to call. Either:
   - Your local seller from Quickstart Step 7 (`localhost:3000/paid`),
     or
-  - The live demo at `https://humor.vativ.io/joke` (no setup needed).
+  - The live demo at `https://demo.vativ.io/joke` (no setup needed).
 
 ## Step 1: One-time Permit2 approval
 
@@ -140,8 +140,8 @@ CLIENT_PRIVATE_KEY=0xYOUR_ACCOUNT_A_PRIVATE_KEY_HERE
 
 # Target URL. Pick one:
 # RESOURCE_URL=http://localhost:3000/paid        # your local seller from the Quickstart
-# RESOURCE_URL=https://humor.vativ.io/joke       # the live demo
-RESOURCE_URL=https://humor.vativ.io/joke
+# RESOURCE_URL=https://demo.vativ.io/joke       # the live demo
+RESOURCE_URL=https://demo.vativ.io/joke
 ```
 
 `.env` is already in the repo's `.gitignore`. Keep it that way —
@@ -161,7 +161,7 @@ Network: eip155:31611
 RPC: https://rpc.test.mezo.org
 mUSD balance: 1800000000000000000000 (1800.0000 mUSD)
 
-Requesting: https://humor.vativ.io/joke
+Requesting: https://demo.vativ.io/joke
 
 === Payment Successful ===
 Data: {
@@ -252,7 +252,7 @@ Everything else is inside the library.
 - [Quickstart](./x402-quickstart/). Build the seller side of this flow
   and pay it with a browser wallet before pointing the agent at it.
 - [`vativ/mezo-hack/apps/humor`](https://github.com/vativ/mezo-hack/tree/main/apps/humor).
-  Full source for the `humor.vativ.io` live demo — server + client
+  Full source for the `demo.vativ.io` live demo — server + client
   both. This page's client is the `apps/humor/client/client.ts` in
   that repo.
 - [Uniswap Permit2](https://github.com/Uniswap/permit2). The allowance
