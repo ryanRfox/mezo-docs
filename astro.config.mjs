@@ -299,7 +299,8 @@ export default defineConfig({
                                           'docs/users/integrations/lolli/using-mezo',
                                           'docs/users/integrations/lolli/faqs'
                                     ]
-                              }
+                              },
+                              'docs/users/integrations/community-projects'
                         ]
                   },
                   {
