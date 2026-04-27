@@ -307,13 +307,7 @@ export default defineConfig({
                                           'docs/users/integrations/lolli/faqs'
                                     ]
                               },
-                              {
-                                    label: 'Community Projects',
-                                    collapsed: true,
-                                    items: [
-                                          'docs/users/integrations/community-projects'
-                                    ]
-                              }
+                              'docs/users/integrations/community-projects'
                         ]
                   },
                   {
