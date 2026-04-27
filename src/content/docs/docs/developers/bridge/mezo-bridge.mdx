@@ -81,6 +81,18 @@ From Mezo → Ethereum
 5. On success, destination executes mint/release and records completion.
 </Steps>
 
+### Enclave Deposits
+
+Mezo Enclaves are an institutional feature that allows institutions with
+regulatory custody requirements to still use their BTC on Mezo without
+depositing into explicit bridges. Enclaves are given special capabilities
+associated with legal agreements that describe bridge amounts and usage
+limitations. All deposits into enclaves are still backed by UTXOs on the
+Bitcoin chain, which are captured in the triparty bridge deposit transaction
+and maintained in chain state. Enclaves are allowlisted by the Mezo governance
+multisig individually. More on the underlying triparty bridge implementation
+is available in [`mezod` RFC-6](https://github.com/mezo-org/mezod/blob/main/docs/rfc/rfc-6.md).
+
 ### Contracts
 
 Mainnet:
@@ -101,6 +113,7 @@ Please see the [Audits](https://github.com/mezo-org/audits) page for the latest 
 
 For full technical details, message formats, and security rationale, see the following RFCs:
 
-- [RFC-2: Mezo Bridge](https://github.com/mezo-org/mezod/blob/main/docs/rfc/rfc-2.md)
-- [RFC-4: Mezo Bridge](https://github.com/mezo-org/mezod/blob/main/docs/rfc/rfc-4.md)
-- [RFC-5: Mezo Bridge](https://github.com/mezo-org/mezod/blob/main/docs/rfc/rfc-5.md)
+- [RFC-2: Bridging Bitcoin to Mezo](https://github.com/mezo-org/mezod/blob/main/docs/rfc/rfc-2.md)
+- [RFC-4: Native non-Bitcoin asset Bridge](https://github.com/mezo-org/mezod/blob/main/docs/rfc/rfc-4.md)
+- [RFC-5: Bridging assets out of Mezo](https://github.com/mezo-org/mezod/blob/main/docs/rfc/rfc-5.md)
+- [RFC-6: Triparty BTC bridging](https://github.com/mezo-org/mezod/blob/main/docs/rfc/rfc-6.md)
