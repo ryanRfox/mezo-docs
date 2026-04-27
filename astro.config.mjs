@@ -176,11 +176,12 @@ export default defineConfig({
                         ]
                   },
                   {
-                        label: 'Mainnet',
+                        label: 'Deposits',
                         collapsed: true,
                         items: [
                               'docs/users/mainnet/bridges',
-                              'docs/users/mainnet/track-your-native-bitcoin-deposit'
+                              'docs/users/mainnet/track-your-native-bitcoin-deposit',
+                              'docs/users/mainnet/enclaves'
                         ]
                   },
                   {
@@ -289,7 +290,13 @@ export default defineConfig({
                         label: 'Integrations',
                         collapsed: true,
                         items: [
-                              'docs/users/integrations/safe',
+                              {
+                                    label: 'Safe',
+                                    collapsed: true,
+                                    items: [
+                                          'docs/users/integrations/safe'
+                                    ]
+                              },
                               {
                                     label: 'Lolli',
                                     collapsed: true,
@@ -388,7 +395,7 @@ export default defineConfig({
                         ]
                   },
                   {
-                        label: 'MUSD Payments with x402',
+                        label: 'MUSD Payments With X402',
                         collapsed: true,
                         items: [
                               'docs/developers/getting-started/musd-payments-x402',
