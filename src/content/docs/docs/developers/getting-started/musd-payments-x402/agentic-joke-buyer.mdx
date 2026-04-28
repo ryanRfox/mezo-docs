@@ -112,17 +112,17 @@ cd mezo-hack/apps/humor/client
 pnpm install
 ```
 
-The client's `package.json` pulls `@x402/fetch`, `@x402/evm`, `viem`,
-and `dotenv` for you, plus a single `pnpm.overrides` entry that pins
-`@x402/evm` to the Mezo preview tarball so MUSD formatting and
-Mezo-specific constants resolve correctly. `@x402/fetch` does **not**
-need an override — it's the same package on every chain; Mezo support
-comes in through the `@x402/evm` scheme plugin you register at runtime.
+The client's `package.json` pulls `@x402/fetch`, `@x402/evm` (`^2.11.0`),
+`viem`, and `dotenv` for you. Canonical `@x402/evm 2.11.0+` ships with
+built-in Mezo support, so MUSD formatting and Mezo-specific constants
+resolve correctly with no overrides. `@x402/fetch` is the same package
+on every chain; Mezo support comes in through the `@x402/evm` scheme
+plugin you register at runtime.
 
-The Mezo-preview override reasoning from Quickstart Step 6 applies
-here too: the override line is only needed until canonical
-`@x402/evm 2.11.0+` ships with built-in Mezo support. When it does,
-the override can be deleted without any other changes.
+If `pnpm install` resolved `@x402/evm` to a `2.10.x` version through a
+transitive dependency, apply the `^2.11.0` pin from
+[Quickstart Step 6](./x402-quickstart/#step-6-apply-library-overrides)
+before continuing.
 
 ## Step 3: Configure `.env`
 
