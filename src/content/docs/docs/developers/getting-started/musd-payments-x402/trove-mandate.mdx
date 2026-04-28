@@ -152,10 +152,13 @@ page URL follows that. The **app directory** inside the repo is
 advisor with a mandate layer added. Use the path above verbatim.
 </Aside>
 
-Demo 3's `package.json` pins `@x402/evm 2.10.0-mezo.7` through
-`pnpm.overrides` — same tarball as Demo 2 (the `onBeforePaymentCreation`
-hook is part of `@x402/core`, not the EVM scheme). Only `@x402/evm`
-needs the override.
+Demo 3's `package.json` pins `@x402/evm` and `@x402/paywall` to
+canonical `^2.11.0` (which ships Mezo support natively — the
+`onBeforePaymentCreation` hook is part of `@x402/core`, not the EVM
+scheme, and the EVM scheme's Mezo handling is in 2.11.0+). No
+`pnpm.overrides` block is needed; if a transitive dep pins `@x402/evm`
+to `2.10.x`, see [Quickstart Step 6](../x402-quickstart/#step-6-apply-library-overrides)
+for a fallback override pattern.
 
 ## Step 2: Configure `.env`
 
@@ -298,7 +301,7 @@ the on-chain settlement don't change.
 | `Payment creation aborted: rate_limit_exceeded` | More than `max` calls to an endpoint within `perMs` | Back off; the sliding window releases the lock naturally |
 | `CLIENT_PRIVATE_KEY environment variable is required` | `.env` missing or in the wrong directory | `cp .env.example .env` inside `apps/trove-advisor-mandate/` |
 | `WARNING: mUSD not approved for Permit2` | Account A hasn't granted Permit2 allowance | Apply [Demo 1 Step 1](./agentic-joke-buyer/#step-1-one-time-permit2-approval) |
-| `does not provide an export named 'DEFAULT_STABLECOINS'` | `pnpm.overrides` not forcing `@x402/evm` through the preview tarball | Confirm the overrides block pins `@x402/evm@2.10.0-mezo.7`; rerun `pnpm install` |
+| `does not provide an export named 'DEFAULT_STABLECOINS'` | Installed `@x402/evm` is `2.10.x`, which lacks Mezo support | Pin `@x402/evm` to `^2.11.0` (and `@x402/paywall` if you also use it); rerun `pnpm install`. See [Quickstart Step 6](../x402-quickstart/#step-6-apply-library-overrides) if a transitive dep is forcing `2.10.x` |
 | Two paid txs in Summary but three on the explorer | The denied call somehow still settled | Something is bypassing the hook. Confirm `onBeforePaymentCreation(policy.asHook())` is chained on the `x402Client` you actually pass to `wrapFetchWithPayment`, not on a second client instance |
 
 ## Security
