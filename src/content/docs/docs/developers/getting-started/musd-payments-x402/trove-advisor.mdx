@@ -117,11 +117,6 @@ resolve correctly with no overrides. `@x402/core`, `@x402/express`,
 and `@x402/fetch` are the same packages on every chain; Mezo support
 comes in through the `@x402/evm` scheme plugin you register at runtime.
 
-If `pnpm install` resolved `@x402/evm` to a `2.10.x` version through a
-transitive dependency, apply the `^2.11.0` pin from
-[Quickstart Step 6](./x402-quickstart/#step-6-apply-library-overrides)
-before continuing.
-
 ## Step 2: Configure `.env`
 
 ```bash
@@ -311,7 +306,7 @@ directly to its operator's wallet; the host just runs the routing.
 | `CLIENT_PRIVATE_KEY environment variable is required` | `.env` not created or pasted in the wrong directory | `cp .env.example .env` inside `apps/trove-advisor/`; fill in both `CLIENT_PRIVATE_KEY` and `ANTHROPIC_API_KEY` |
 | `invalid_transaction_state` in the `PAYMENT-RESPONSE` header | Transient Mezo testnet facilitator flake (Permit2 warmup on the first call per fresh signer session) | The agent retries up to 4 times with backoff. If it still fails, check `curl https://facilitator.vativ.io/health` and rerun |
 | `WARNING: mUSD not approved for Permit2` | Account A has not granted Permit2 allowance on MUSD | Apply [Demo 1 Step 1](./agentic-joke-buyer/#step-1-one-time-permit2-approval) |
-| `does not provide an export named 'DEFAULT_STABLECOINS'` | `@x402/evm` resolved to a pre-`2.11.0` version through a transitive dependency | Apply the `^2.11.0` pin from [Quickstart Step 6](./x402-quickstart/#step-6-apply-library-overrides); then `pnpm install` |
+| `does not provide an export named 'DEFAULT_STABLECOINS'` | `@x402/evm` resolved to a pre-`2.11.0` version through a transitive dependency | Pin `@x402/evm` to `^2.11.0` in `package.json`; rerun `pnpm install` |
 | `Error: Unsupported chain ID: 31611` | `viem` doesn't know Mezo Testnet | Upgrade `viem` to `2.47.10+` (the lock file pins `2.47.12`; a stale lockfile elsewhere can pull an old copy) |
 | `401` from Anthropic in the agent log | `ANTHROPIC_API_KEY` missing, invalid, or out of credit | Regenerate at [console.anthropic.com](https://console.anthropic.com); confirm the `sk-ant-…` prefix |
 | Agent calls `get_liquidation_queue` with `limit: 5` and server returns 2 rows | On-chain `SortedTroves` currently has fewer than `limit` troves | Expected — settlement is reduced via `Settlement-Overrides`; no error |
