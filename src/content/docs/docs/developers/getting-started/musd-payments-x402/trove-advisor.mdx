@@ -1,10 +1,9 @@
 ---
-title: Demo 2 — Trove advisor (multi-merchant, dynamic pricing)
+title: 'Demo 2 — Trove advisor (multi-merchant, dynamic pricing)'
 description: >-
-  A Claude tool-use agent that pays three Mezo-native data services
-  over x402 to stress-test a Mezo trove — one on-chain MUSD settlement
-  per tool call, three distinct merchant addresses, per-request
-  dynamic pricing.
+  A Claude tool-use agent that pays three Mezo-native data services over x402 to
+  stress-test a Mezo trove — one on-chain MUSD settlement per tool call, three
+  distinct merchant addresses, per-request dynamic pricing.
 topic: developers
 ---
 
@@ -82,24 +81,29 @@ clone ends up on a shared machine, scrub it.
 
 ## Step 1: Clone the demo and install
 
-The Demo 2 code currently lives on the `feat/agentic-2-trove-advisor`
-branch of `vativ/mezo-hack`. If you already cloned the repo for
-Demo 1, you can reuse that checkout — just switch branches and jump
-into the new app:
+The Demo 2 code currently lives on the
+`feat/agentic-2-trove-advisor-x402-2.11.0-canonical` branch of
+`vativ/mezo-hack` — the canonical-`^2.11.0` sibling of
+`feat/agentic-2-trove-advisor`. `main` of `vativ/mezo-hack` still
+references the `v2.10.0-mezo.7` preview tarball overrides, so cloning
+`main` alone will not match the dependency setup these docs describe.
+If you already cloned the repo for Demo 1, you can reuse that
+checkout — just switch branches and jump into the new app:
 
 ```bash
 # Fresh clone:
-git clone https://github.com/vativ/mezo-hack.git
-cd mezo-hack
-git checkout feat/agentic-2-trove-advisor
-cd apps/trove-advisor
+git clone \
+  --branch feat/agentic-2-trove-advisor-x402-2.11.0-canonical \
+  https://github.com/vativ/mezo-hack.git
+cd mezo-hack/apps/trove-advisor
 pnpm install
 ```
 
 ```bash
 # Or, if you already have mezo-hack/ from Demo 1:
 cd path/to/mezo-hack
-git fetch && git checkout feat/agentic-2-trove-advisor
+git fetch && \
+  git checkout feat/agentic-2-trove-advisor-x402-2.11.0-canonical
 cd apps/trove-advisor
 pnpm install
 ```

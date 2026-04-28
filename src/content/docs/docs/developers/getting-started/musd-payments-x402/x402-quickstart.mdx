@@ -26,6 +26,22 @@ A minimal two-part client/server app for purchasing a `/paid` API endpoint using
 - **Buyer Client**: a browser client that loads the bundled x402 `paywall` UI, connects
   a wallet, pays $0.001 MUSD on Mezo Testnet, and receives the protected API response.
 
+<Aside type="note" title="Slim quickstart vs. production demo">
+This quickstart builds a minimal humor server using the **default
+`@x402/paywall` UI**. A working slim reference of the same shape (server
++ client side-by-side) lives at
+[`vativ/mezo-hack/apps/humor`](https://github.com/vativ/mezo-hack/tree/feat/quickstart-humor-x402-2.11.0-canonical/apps/humor)
+on the `feat/quickstart-humor-x402-2.11.0-canonical` branch — copy-paste
+from this guide produces something equivalent.
+
+The **production deployment at
+[humor.vativ.io](https://humor.vativ.io/joke)** is a richer codebase
+([`ryanRfox/gt-mezo-x402`](https://github.com/ryanRfox/gt-mezo-x402))
+with a custom UI on top of x402. That's a separate, more complex
+example — useful when you want to see what's possible beyond the
+default paywall, but not what this guide builds.
+</Aside>
+
 ## Prerequisites
 
 - **Node.js 20+** and **pnpm 9+** on your machine.

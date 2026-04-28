@@ -1,9 +1,9 @@
 ---
 title: Demo 1 — Agentic joke buyer
 description: >-
-  A headless Node client that pays the Mezo x402 joke paywall
-  autonomously using @x402/fetch and a funded testnet wallet — no
-  browser, no Connect wallet button, no human click.
+  A headless Node client that pays the Mezo x402 joke paywall autonomously using
+  @x402/fetch and a funded testnet wallet — no browser, no Connect wallet
+  button, no human click.
 topic: developers
 ---
 
@@ -58,7 +58,7 @@ signer (see the x402 specs for the signer interface).
   your MetaMask password. Copy the `0x…` private key somewhere you
   will delete after this demo.
 - A running x402 seller to call. Either:
-  - Your local seller from Quickstart Step 7 (`localhost:3000/paid`),
+  - Your local seller from Quickstart Step 7 (`localhost:3000/joke`),
     or
   - The live demo at `https://humor.vativ.io/joke` (no setup needed).
 
@@ -106,8 +106,17 @@ sending a token approval transaction to Permit2.
 
 ## Step 2: Clone the demo and install
 
+The canonical `^2.11.0` pin lives on the
+`feat/quickstart-humor-x402-2.11.0-canonical` branch — `main` of
+`vativ/mezo-hack` still references the `v2.10.0-mezo.6` preview
+tarball overrides, so cloning `main` alone will not match the
+dependency setup these docs describe. Clone the feat branch
+directly:
+
 ```bash
-git clone https://github.com/vativ/mezo-hack.git
+git clone \
+  --branch feat/quickstart-humor-x402-2.11.0-canonical \
+  https://github.com/vativ/mezo-hack.git
 cd mezo-hack/apps/humor/client
 pnpm install
 ```
@@ -139,7 +148,7 @@ Open `.env` and set:
 CLIENT_PRIVATE_KEY=0xYOUR_ACCOUNT_A_PRIVATE_KEY_HERE
 
 # Target URL. Pick one:
-# RESOURCE_URL=http://localhost:3000/paid        # your local seller from the Quickstart
+# RESOURCE_URL=http://localhost:3000/joke        # your local seller from the Quickstart
 # RESOURCE_URL=https://humor.vativ.io/joke       # the live demo
 RESOURCE_URL=https://humor.vativ.io/joke
 ```

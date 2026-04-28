@@ -1,11 +1,10 @@
 ---
 title: Demo 3 — Trove mandate (spend-policy layer)
 description: >-
-  Demo 2's multi-merchant agent with guardrails. An
-  onBeforePaymentCreation hook runs every outbound x402 payment
-  through a plain-JS spend policy — merchant allowlist, per-call and
-  per-merchant caps, session total, rate limit — before any MUSD
-  moves on chain.
+  Demo 2's multi-merchant agent with guardrails. An onBeforePaymentCreation hook
+  runs every outbound x402 payment through a plain-JS spend policy — merchant
+  allowlist, per-call and per-merchant caps, session total, rate limit — before
+  any MUSD moves on chain.
 topic: developers
 ---
 
@@ -128,19 +127,27 @@ visibly when you run the demo.
 
 ## Step 1: Clone the demo and install
 
+The Demo 3 code currently lives on the
+`feat/agentic-3-trove-mandate-x402-2.11.0-canonical` branch of
+`vativ/mezo-hack` — the canonical-`^2.11.0` sibling of
+`feat/agentic-3-trove-mandate`. `main` of `vativ/mezo-hack` still
+references the `v2.10.0-mezo.7` preview tarball overrides, so cloning
+`main` alone will not match the dependency setup these docs describe.
+
 ```bash
 # Fresh clone:
-git clone https://github.com/vativ/mezo-hack.git
-cd mezo-hack
-git checkout feat/agentic-3-trove-mandate
-cd apps/trove-advisor-mandate
+git clone \
+  --branch feat/agentic-3-trove-mandate-x402-2.11.0-canonical \
+  https://github.com/vativ/mezo-hack.git
+cd mezo-hack/apps/trove-advisor-mandate
 pnpm install
 ```
 
 ```bash
 # Or, reuse the existing clone from Demo 1 or Demo 2:
 cd path/to/mezo-hack
-git fetch && git checkout feat/agentic-3-trove-mandate
+git fetch && \
+  git checkout feat/agentic-3-trove-mandate-x402-2.11.0-canonical
 cd apps/trove-advisor-mandate
 pnpm install
 ```
